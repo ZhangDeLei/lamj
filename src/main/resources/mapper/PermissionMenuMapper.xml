@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coderfamily.lamj.dao.PermissionMenuMapper">
+  <resultMap id="BaseResultMap" type="com.coderfamily.lamj.model.PermissionMenuEntity">
+    <result column="PermissionMenuEntity" jdbcType="INTEGER" property="permissionId" />
+    <result column="MenuId" jdbcType="INTEGER" property="menuId" />
+  </resultMap>
+
+  <select id="existsRelat" parameterType="Map" resultType="boolean">
+    SELECT EXISTS(SELECT 1 FROM MT_PermissionMenu WHERE MenuId=#{menuId} AND PermissionId=#{permissionId})
+  </select>
+
+  <select id="checkDeleteByMenuId" parameterType="int" resultType="boolean">
+    SELECT EXISTS(SELECT 1 FROM MT_PermissionMenu WHERE MenuId=#{menuId})
+  </select>
+
+  <insert id="insert" parameterType="com.coderfamily.lamj.model.PermissionMenuEntity">
+    INSERT INTO MT_PermissionMenu(MenuId,PermissionId) VALUES(#{menuId},#{permissionId})
+  </insert>
+
+  <delete id="delete" parameterType="Map">
+    DELETE FROM MT_PermissionMenu WHERE MenuId=#{menuId} AND PermissionId=#{permissionId}
+  </delete>
+
+  <delete id="deleteByMenuId" parameterType="int">
+    DELETE FROM MT_PermissionMenu WHERE MenuId=#{menuId}
+  </delete>
+</mapper>

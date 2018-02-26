@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coderfamily.lamj.dao.PermissionMapper">
+    <resultMap id="PermissionEntity" type="com.coderfamily.lamj.model.PermissionEntity">
+        <result column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="Name" jdbcType="VARCHAR" property="name"/>
+        <result column="Code" jdbcType="VARCHAR" property="code"/>
+        <result column="Status" jdbcType="INTEGER" property="status"/>
+        <result column="Description" jdbcType="VARCHAR" property="description"/>
+    </resultMap>
+    <select id="selectPermissionByUserId" parameterType="int" resultMap="PermissionEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_Permission
+        LEFT JOIN MT_UserPermission ON MT_UserPermission.PermissionId=MT_Permission.Id
+        WHERE MT_UserPermission.UserId=#{userId}
+    </select>
+    <select id="selectPermissionByGroupId" parameterType="int" resultMap="PermissionEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_Permission
+        LEFT JOIN MT_GroupPermission ON MT_GroupPermission.PermissionId=MT_Permission.Id
+        WHERE MT_GroupPermission.GroupId=#{groupId}
+    </select>
+    <select id="selectPermissionByCondition" parameterType="com.coderfamily.lamj.model.PermissionEntity" resultMap="PermissionEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_Permission
+        <where>
+            <include refid="sql_where"></include>
+        </where>
+    </select>
+    <select id="existsPermissionByName" parameterType="String" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM MT_Permission WHERE Name=#{name})
+    </select>
+    <insert id="insert" parameterType="com.coderfamily.lamj.model.PermissionEntity" useGeneratedKeys="true" keyProperty="Id">
+        INSERT INTO MT_Permission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">Id,</if>
+            <if test="name!=null AND name.length()!=0">Name,</if>
+            <if test="code!=null AND code.length()!=0">Code,</if>
+            <if test="status!=null">Status,</if>
+            <if test="description!=null AND description.length()!=0">Description,</if>
+        </trim>
+        <trim prefix=" VALUES ( " suffix=")" suffixOverrides=",">
+            <if test="id!=null">#{id},</if>
+            <if test="name!=null AND name.length()!=0">#{name},</if>
+            <if test="code!=null AND code.length()!=0">#{code},</if>
+            <if test="status!=null">#{status},</if>
+            <if test="description!=null AND description.length()!=0">#{description},</if>
+        </trim>
+    </insert>
+    <insert id="insertUserRelation" parameterType="Map">
+        INSERT INTO MT_UserPermission(PermissionId,UserId) VALUES (#{permissionId},#{userId})
+    </insert>
+    <insert id="insertGroupRelation" parameterType="Map">
+        INSERT INTO MT_GroupPermission(PermissionId,GroupId) VALUES (#{permissionId},#{groupId})
+    </insert>
+    <update id="update" parameterType="com.coderfamily.lamj.model.PermissionEntity">
+        UPDATE MT_Permission
+        <set>
+            <if test="id!=null">Id=#{id},</if>
+            <if test="name!=null AND name.length()!=0">Name=#{name},</if>
+            <if test="code!=null AND code.length()!=0">Code=#{code},</if>
+            <if test="status!=null">Status=#{status},</if>
+            <if test="description!=null AND description.length()!=0">Description=#{description},</if>
+        </set>
+        WHERE Id=#{id}
+    </update>
+    <delete id="delete" parameterType="int">
+        DELETE FROM MT_Permission WHERE Id=#{id}
+    </delete>
+    <delete id="deleteUserRelation" parameterType="Map">
+        DELETE FROM MT_UserPermission WHERE PermissionId=#{permissionId} AND UserId=#{userId}
+    </delete>
+    <delete id="deleteGroupRelation" parameterType="Map">
+        DELETE FROM MT_GroupPermission WHERE PermissionId=#{permissionId} AND GroupId=#{groupId}
+    </delete>
+    <sql id="sql_column">Id,Name,Code,Status,Description</sql>
+    <sql id="sql_where">
+        <if test="id!=null">AND Id=#{id}</if>
+        <if test="name!=null AND name.length()!=0">AND Name=#{name}</if>
+        <if test="code!=null AND code.length()!=0">AND Code=#{code}</if>
+        <if test="status!=null">AND Status=#{status}</if>
+        <if test="description!=null AND description.length()!=0">AND Description=#{description}</if>
+    </sql>
+</mapper>

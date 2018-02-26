@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coderfamily.lamj.dao.UserMapper">
+    <resultMap id="UserEntity" type="com.coderfamily.lamj.model.UserEntity">
+        <result column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="UserAccount" jdbcType="VARCHAR" property="userAccount"/>
+        <result column="Password" jdbcType="VARCHAR" property="password"/>
+        <result column="NickName" jdbcType="VARCHAR" property="nickName"/>
+        <result column="Tel" jdbcType="VARCHAR" property="tel"/>
+        <result column="Sex" jdbcType="INTEGER" property="sex"/>
+        <result column="PhotoUrl" jdbcType="VARCHAR" property="photoUrl"/>
+        <result column="Status" jdbcType="INTEGER" property="status"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.coderfamily.lamj.model.UserEntity" useGeneratedKeys="true" keyProperty="Id">
+        INSERT INTO MT_User
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">Id,</if>
+            <if test="userAccount!=null and userAccount.length()!=0">UserAccount,</if>
+            <if test="password!=null and password.length()!=0">Password,</if>
+            <if test="nickName!=null and nickName.length()!=0">NickName,</if>
+            <if test="tel!=null and tel.length()!=0">Tel,</if>
+            <if test="sex!=null">Sex,</if>
+            <if test="photoUrl!=null and photoUrl.length()!=0">PhotoUrl,</if>
+            <if test="status!=null">Status,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">#{id},</if>
+            <if test="userAccount!=null and userAccount.length()!=0">#{userAccount},</if>
+            <if test="password!=null and password.length()!=0">#{password},</if>
+            <if test="nickName!=null and nickName.length()!=0">#{nickName},</if>
+            <if test="tel!=null and tel.length()!=0">#{tel},</if>
+            <if test="sex!=null">#{sex},</if>
+            <if test="photoUrl!=null and photoUrl.length()!=0">#{photoUrl},</if>
+            <if test="status!=null">#{Status},</if>
+        </trim>
+    </insert>
+
+    <insert id="insertGroupRelation" parameterType="Map">
+        INSERT INTO MT_UserGroup(UserId,GroupId) VALUES(#{userId},#{groupId})
+    </insert>
+
+    <insert id="insertPermissionRelation" parameterType="Map">
+        INSERT INTO MT_UserPermission(UserId,PermissionId) VALUES (#{userId},#{permissionId})
+    </insert>
+
+    <update id="update" parameterType="com.coderfamily.lamj.model.UserEntity">
+        UPDATE MT_User
+        <set>
+            <if test="id!=null">Id=#{id},</if>
+            <if test="userAccount!=null AND userAccount.length()!=0">UserAccount=#{userAccount},</if>
+            <if test="password!=null AND password.length()!=0">Password=#{password},</if>
+            <if test="nickName!=null AND nickName.length()!=0">NickName=#{nickName},</if>
+            <if test="tel!=null AND tel.length()!=0">Tel=#{tel},</if>
+            <if test="sex!=null AND sex.length()!=0">Sex=#{sex},</if>
+            <if test="photoUrl!=null AND photoUrl.length()!=0">PhotoUrl=#{photoUrl},</if>
+            <if test="status!=null">Status=#{status},</if>
+        </set>
+        WHERE Id=#{Id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM MT_User WHERE Id=#{id}
+    </delete>
+
+    <delete id="deleteGroupRelation" parameterType="Map">
+        DELETE FROM MT_UserGroup WHERE UserId=#{userId} AND GroupId=#{groupId}
+    </delete>
+
+    <delete id="deletePermissionRelation" parameterType="Map">
+        DELETE FROM MT_UserPermission WHERE UserId=#{userId} AND PermissionId=#{permissionId}
+    </delete>
+
+    <select id="selectUserByUserAccount" parameterType="String" resultMap="UserEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_User WHERE UserAccount=#{userAccount}
+    </select>
+
+    <select id="login" parameterType="String" resultMap="UserEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_User WHERE userAccount=#{userAccount}
+    </select>
+
+    <select id="existsUserByUserAccount" parameterType="String" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM MT_User WHERE UserAccount=#{userAccount})
+    </select>
+
+    <select id="existsUserRelationGroup" parameterType="Map" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM MT_UserGroup WHERE UserId=#{userId} AND GroupId=#{groupId})
+    </select>
+
+    <select id="existsUserRelationPermission" parameterType="Map" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM MT_UserPermission WHERE UserId=#{userId} AND PermissionId=#{permissionId})
+    </select>
+
+    <sql id="sql_column">Id,UserAccount,Password,NickName,Tel,Sex,PhotoUrl,Status</sql>
+    <sql id="sql_where">
+        <if test="id!=null">AND Id=#{id}</if>
+        <if test="userAccount!=null and userAccount.length()!=0">AND UserAccount=#{userAccount}</if>
+        <if test="password!=null and password.length()!=0">AND Password=#{password}</if>
+        <if test="nickName!=null and nickName.length()!=0">AND NickName=#{nickName}</if>
+        <if test="tel!=null and tel.length()!=0">AND Tel=#{tel}</if>
+        <if test="sex!=null">AND Sex=#{sex}</if>
+        <if test="photoUrl!=null and photoUrl.length()!=0">AND PhotoUrl=#{photoUrl}</if>
+        <if test="status!=null">#{Status},</if>
+    </sql>
+</mapper>

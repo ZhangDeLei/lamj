@@ -1,0 +1,2 @@
+2018-02-05 16:42:43.195 INFO  org.springframework.web.context.support.XmlWebApplicationContext.doClose(989) - Closing WebApplicationContext for namespace 'SpringMVC-servlet': startup date [Sat Feb 03 15:48:38 CST 2018]; parent: Root WebApplicationContext
+2018-02-05 16:42:43.370 INFO  org.springframework.context.support.DefaultLifecycleProcessor.stop(368) - Stopping beans in phase 2147483647
