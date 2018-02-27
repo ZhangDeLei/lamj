@@ -3,6 +3,8 @@ package com.coderfamily.lamj.service;
 import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.model.PermissionMenuEntity;
 
+import java.util.List;
+
 /**
  * @author ZhangDL
  * @date 2018/2/3 14:37
@@ -11,10 +13,10 @@ public interface IPermissionMenuService {
     /**
      * 新增权限与菜单的关联关系
      *
-     * @param permissionMenuEntity
+     * @param permis
      * @return
      */
-    Result insert(PermissionMenuEntity permissionMenuEntity);
+    Result insert(List<PermissionMenuEntity> permis);
 
     /**
      * 删除权限与菜单的关联关系

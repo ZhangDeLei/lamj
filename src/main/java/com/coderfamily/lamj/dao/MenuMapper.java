@@ -64,6 +64,13 @@ public interface MenuMapper {
     String selectMenuCodeToMaxByParentId(@Param("parentId") int ParentId);
 
     /**
+     * 判断是否存在子菜单
+     * @param Id
+     * @return
+     */
+    boolean selectHasChildMenu(@Param("Id")int Id);
+
+    /**
      * 判断是否已经存在该菜单名称
      *
      * @param Name

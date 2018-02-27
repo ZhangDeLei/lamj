@@ -3,7 +3,6 @@ package com.coderfamily.lamj.service;
 import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.domain.MenuInfo;
 import com.coderfamily.lamj.model.MenuEntity;
-import com.coderfamily.lamj.model.PermissionMenuEntity;
 
 import java.util.List;
 
@@ -49,7 +48,19 @@ public interface IMenuService {
      */
     List<MenuEntity> selectMenuByParentId(int ParentId);
 
+    /**
+     * 判断是否存在子菜单
+     * @param Id
+     * @return
+     */
+    boolean selectHasChildMenu(int Id);
 
+    /**
+     * 根据id获取菜单详细信息
+     * @param Id
+     * @return
+     */
+    MenuEntity selectMenubyId(int Id);
     /**
      * 新增菜单
      *
@@ -57,14 +68,6 @@ public interface IMenuService {
      * @return
      */
     Result insert(MenuEntity menuEntity);
-
-    /**
-     * 新增权限菜单关联关系
-     *
-     * @param permissionMenuEntity
-     * @return
-     */
-    Result insertPermissionRelation(PermissionMenuEntity permissionMenuEntity);
 
     /**
      * 更新菜单

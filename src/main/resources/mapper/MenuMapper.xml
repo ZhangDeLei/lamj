@@ -85,25 +85,29 @@
         SELECT MAX(Code) AS Code FROM MT_Menu WHERE ParentId=#{parentId}
     </select>
 
+    <select id="selectHasChildMenu" parameterType="int" resultType="boolean">
+        SELECT EXISTS(SELECT 1 FROM MT_Menu WHERE ParentId=#{Id})
+    </select>
+
     <insert id="insert" parameterType="com.coderfamily.lamj.model.MenuEntity" useGeneratedKeys="true" keyProperty="Id">
         INSERT INTO MT_Menu
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id!=null">Id,</if>
-            <if test="name!=null AND name.length()!=0">Name,</if>
-            <if test="code!=null AND code.length()!=0">Code,</if>
-            <if test="icon!=null AND icon.length()!=0">Icon,</if>
+            <if test="name!=null and name.length()!=0">Name,</if>
+            <if test="code!=null and code.length()!=0">Code,</if>
+            <if test="icon!=null and icon.length()!=0">Icon,</if>
             <if test="level!=null">Level,</if>
-            <if test="path!=null AND path.length()!=0">Path,</if>
+            <if test="path!=null and path.length()!=0">Path,</if>
             <if test="parentId!=null">ParentId,</if>
             <if test="status!=null">Status,</if>
         </trim>
         <trim prefix=" VALUES (" suffix=")" suffixOverrides=",">
             <if test="id!=null">#{id},</if>
-            <if test="name!=null AND name.length()!=0">#{name},</if>
-            <if test="code!=null AND code.length()!=0">#{code},</if>
-            <if test="icon!=null AND icon.length()!=0">#{icon},</if>
+            <if test="name!=null and name.length()!=0">#{name},</if>
+            <if test="code!=null and code.length()!=0">#{code},</if>
+            <if test="icon!=null and icon.length()!=0">#{icon},</if>
             <if test="level!=null">#{level},</if>
-            <if test="path!=null AND path.length()!=0">#{path},</if>
+            <if test="path!=null and path.length()!=0">#{path},</if>
             <if test="parentId!=null">#{parentId},</if>
             <if test="status!=null">#{status},</if>
         </trim>
@@ -112,15 +116,15 @@
     <update id="update" parameterType="com.coderfamily.lamj.model.MenuEntity">
         UPDATE MT_Menu
         <set>
-            <if test="id!=null">Id=#{id},</if>
-            <if test="name!=null AND name.length()!=0">Name=#{name},</if>
-            <if test="code!=null AND code.length()!=0">Code=#{code},</if>
-            <if test="icon!=null AND icon.length()!=0">Icon=#{icon},</if>
+            <if test="name!=null">Name=#{name},</if>
+            <if test="code!=null">Code=#{code},</if>
+            <if test="icon!=null">Icon=#{icon},</if>
             <if test="level!=null">Level=#{level},</if>
-            <if test="path!=null AND path.length()!=0">Path=#{path},</if>
+            <if test="path!=null">Path=#{path},</if>
             <if test="parentId!=null">ParentId=#{parentId},</if>
             <if test="status!=null">Status=#{status},</if>
         </set>
+        WHERE Id=#{id}
     </update>
 
     <delete id="delete" parameterType="int">

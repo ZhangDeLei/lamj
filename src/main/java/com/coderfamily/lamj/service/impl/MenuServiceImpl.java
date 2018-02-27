@@ -53,6 +53,16 @@ public class MenuServiceImpl implements IMenuService {
     }
 
     @Override
+    public boolean selectHasChildMenu(int Id) {
+        return menuMapper.selectHasChildMenu(Id);
+    }
+
+    @Override
+    public MenuEntity selectMenubyId(int Id) {
+        return menuMapper.selectMenuById(Id);
+    }
+
+    @Override
     public Result insert(MenuEntity menuEntity) {
         if (menuMapper.existsMenuByName(menuEntity.getName())) {
             return Result.error("该菜单名称已存在");
@@ -67,12 +77,11 @@ public class MenuServiceImpl implements IMenuService {
     }
 
     @Override
-    public Result insertPermissionRelation(PermissionMenuEntity permissionMenuEntity) {
-        return permissionMenuService.insert(permissionMenuEntity);
-    }
-
-    @Override
     public Result update(MenuEntity menuEntity) {
+        //判断是否已经修改过父节点，如果修改了，需要重置code
+        if (isUpdateParentId(menuEntity)) {
+            menuEntity.setCode(getInsertMenuCode(menuEntity));
+        }
         if (NullUtil.isNull(menuEntity.getId())) {
             return Result.error("需要修改的菜单ID为空");
         } else if (NullUtil.isNull(menuMapper.selectMenuById(menuEntity.getId()))) {
@@ -86,7 +95,11 @@ public class MenuServiceImpl implements IMenuService {
 
     @Override
     public Result delete(int Id) {
-        if (NullUtil.isNull(menuMapper.selectMenuById(Id))) {
+        if (menuMapper.selectHasChildMenu(Id)) {
+            return Result.error("当前菜单存在子菜单，请先删除子菜单");
+        } else if (permissionMenuService.checkDeleteByMenuId(Id)) {
+            return Result.error("当前菜单已关联权限，请先取消权限后再删除");
+        } else if (NullUtil.isNull(menuMapper.selectMenuById(Id))) {
             return Result.error("需要删除的菜单已被删除");
         } else if (menuMapper.delete(Id) > 0) {
             //删除菜单时，需要同步删除菜单与所有权限的关联关系
@@ -109,7 +122,30 @@ public class MenuServiceImpl implements IMenuService {
      */
     private String getInsertMenuCode(MenuEntity menu) {
         String maxCode = menuMapper.selectMenuCodeToMaxByParentId(menu.getParentId());
+        //如果当前的maxcode为空并且parentid=0，则表示第一次新增菜单
+        if (NullUtil.isNull(maxCode) && menu.getParentId() == 0) {
+            maxCode = "0000";
+            //如果当前maxcode为空，并且parentid>0则表示第一次新增二级菜单
+        } else if (NullUtil.isNull(maxCode) && menu.getParentId() > 0) {
+            MenuEntity parentMenu = menuMapper.selectMenuById(menu.getParentId());
+            maxCode = parentMenu.getCode() + "00";
+        }
         int curCode = NumberUtil.toInt(maxCode) + 1;
         return NumberUtil.seats(curCode, maxCode.length());
+    }
+
+    /**
+     * 判断是否是修改过父节点
+     *
+     * @param menu
+     * @return
+     */
+    private boolean isUpdateParentId(MenuEntity menu) {
+        boolean isUpdate = false;
+        MenuEntity menuEntity = selectMenubyId(menu.getId());
+        if (menu.getParentId() != menuEntity.getParentId()) {
+            isUpdate = true;
+        }
+        return isUpdate;
     }
 }

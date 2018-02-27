@@ -71,6 +71,21 @@ public class MenuController {
         return result;
     }
 
+    @ApiOperation(value = "根据ID获取菜单详细信息", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @ResponseBody
+    @GetMapping("getMenuById")
+    public Result getMenuById(@RequestParam int Id) {
+        MenuEntity menuEntity = menuService.selectMenubyId(Id);
+        Result result = null;
+        if (NullUtil.isNull(menuEntity)) {
+            result = Result.error("当前菜单不存在");
+        } else {
+            result = Result.success(menuEntity);
+        }
+
+        return result;
+    }
+
     @ApiOperation(value = "检查是否可以执行删除操作", httpMethod = "POST", produces = "application/json", response = Result.class)
     @ResponseBody
     @GetMapping("checkDelete")
@@ -95,7 +110,7 @@ public class MenuController {
     @ApiOperation(value = "根据ID删除菜单", httpMethod = "POST", produces = "application/json", response = Result.class)
     @ResponseBody
     @PostMapping("deleteMenu")
-    public Result deleteMenu(@RequestBody int Id) {
-        return menuService.delete(Id);
+    public Result deleteMenu(@RequestBody Map<String, Integer> param) {
+        return menuService.delete(param.get("Id"));
     }
 }

@@ -32,6 +32,12 @@ public interface PermissionMapper {
     List<PermissionEntity> selectPermissionByCondition(PermissionEntity permissionEntity);
 
     /**
+     * 获取权限最大的编码
+     * @return
+     */
+    String selectPermissionCodeForMax();
+
+    /**
      * 判断当前用户权限名称是否已经存在
      * @param Name
      * @return

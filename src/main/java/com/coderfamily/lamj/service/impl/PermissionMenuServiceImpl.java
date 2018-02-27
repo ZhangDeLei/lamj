@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @author ZhangDL
  * @date 2018/2/3 14:37
@@ -20,10 +22,8 @@ public class PermissionMenuServiceImpl implements IPermissionMenuService {
     private PermissionMenuMapper permissionMenuMapper;
 
     @Override
-    public Result insert(PermissionMenuEntity permissionMenuEntity) {
-        if (!existsRelat(permissionMenuEntity.getMenuId(), permissionMenuEntity.getPermissionId())) {
-            return Result.error("该菜单与权限的关系已存在");
-        } else if (permissionMenuMapper.insert(permissionMenuEntity) > 0) {
+    public Result insert(List<PermissionMenuEntity> permis) {
+        if (permissionMenuMapper.insert(permis) > 0) {
             return Result.success();
         } else {
             return Result.error();

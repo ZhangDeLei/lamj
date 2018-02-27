@@ -1,5 +1,6 @@
 package com.coderfamily.lamj.service;
 
+import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.model.PermissionEntity;
 
 import java.util.List;
@@ -47,7 +48,7 @@ public interface IPermissionService {
      * @param permissionEntity
      * @return
      */
-    int insert(PermissionEntity permissionEntity);
+    Result insert(PermissionEntity permissionEntity);
 
     /**
      * 新增用户与权限的关联关系

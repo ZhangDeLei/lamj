@@ -1,5 +1,8 @@
 package com.coderfamily.lamj.service.impl;
 
+import com.coderfamily.lamj.common.data.Result;
+import com.coderfamily.lamj.common.util.NumberUtil;
+import com.coderfamily.lamj.common.util.StringUtil;
 import com.coderfamily.lamj.dao.PermissionMapper;
 import com.coderfamily.lamj.model.PermissionEntity;
 import com.coderfamily.lamj.service.IPermissionService;
@@ -40,8 +43,15 @@ public class PermissionServiceImpl implements IPermissionService {
     }
 
     @Override
-    public int insert(PermissionEntity permissionEntity) {
-        return permissionMapper.insert(permissionEntity);
+    public Result insert(PermissionEntity permissionEntity) {
+        permissionEntity.setCode(getMaxCode());
+        if (permissionMapper.existsPermissionByName(permissionEntity.getName())) {
+            return Result.error("当前权限名称已存在");
+        } else if (permissionMapper.insert(permissionEntity) > 0) {
+            return Result.success();
+        } else {
+            return Result.error();
+        }
     }
 
     @Override
@@ -72,5 +82,11 @@ public class PermissionServiceImpl implements IPermissionService {
     @Override
     public int deleteGroupRelation(int GroupId, int PermissionId) {
         return permissionMapper.deleteGroupRelation(GroupId, PermissionId);
+    }
+
+    private String getMaxCode() {
+        String maxCode = permissionMapper.selectPermissionCodeForMax();
+        int code = NumberUtil.toInt(maxCode) + 1;
+        return NumberUtil.seats(code, maxCode.length());
     }
 }
