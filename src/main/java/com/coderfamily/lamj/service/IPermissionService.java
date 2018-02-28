@@ -82,7 +82,7 @@ public interface IPermissionService {
      * @param Id
      * @return
      */
-    int delete(int Id);
+    Result delete(int Id);
 
     /**
      * 删除用户与权限的关联关系

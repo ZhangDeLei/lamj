@@ -30,6 +30,12 @@
     <select id="existsPermissionByName" parameterType="String" resultType="boolean">
         SELECT EXISTS (SELECT 1 FROM MT_Permission WHERE Name=#{name})
     </select>
+    <select id="existsPermissionUserRelat" parameterType="int" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM MT_UserPermission WHERE PermissionId=#{id})
+    </select>
+    <select id="existsPermissionUserGroupRelat" parameterType="int" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM MT_GroupPermission WHERE PermissionId=#{id})
+    </select>
     <insert id="insert" parameterType="com.coderfamily.lamj.model.PermissionEntity" useGeneratedKeys="true" keyProperty="Id">
         INSERT INTO MT_Permission
         <trim prefix="(" suffix=")" suffixOverrides=",">

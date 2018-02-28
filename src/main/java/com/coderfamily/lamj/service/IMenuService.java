@@ -42,6 +42,13 @@ public interface IMenuService {
     List<MenuInfo> selectMenuByTree();
 
     /**
+     * 根据权限ID获取菜单树形列表
+     * @param PermissionId
+     * @return
+     */
+    List<MenuInfo> selectPermissionMenuByTree(int PermissionId);
+
+    /**
      * 根据ParentId获取菜单列表
      * @param ParentId
      * @return

@@ -23,8 +23,13 @@ public class PermissionMenuServiceImpl implements IPermissionMenuService {
 
     @Override
     public Result insert(List<PermissionMenuEntity> permis) {
-        if (permissionMenuMapper.insert(permis) > 0) {
-            return Result.success();
+        //先删除权限所有的菜单关联关系
+        if (permissionMenuMapper.deleteByPermissionId(permis.get(0).getPermissionId()) > 0) {
+            if (permissionMenuMapper.insert(permis) > 0) {
+                return Result.success();
+            } else {
+                return Result.error();
+            }
         } else {
             return Result.error();
         }

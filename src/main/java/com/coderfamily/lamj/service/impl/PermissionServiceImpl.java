@@ -70,8 +70,18 @@ public class PermissionServiceImpl implements IPermissionService {
     }
 
     @Override
-    public int delete(int Id) {
-        return permissionMapper.delete(Id);
+    public Result delete(int Id) {
+        if (permissionMapper.existsPermissionUserRelat(Id)) {
+            return Result.error("当前权限已被用户关联，请移除后再删除");
+        }
+        if (permissionMapper.existsPermissionUserGroupRelat(Id)) {
+            return Result.error("当前权限已被用户组关联，请移除后再删除");
+        }
+        if (permissionMapper.delete(Id) > 0) {
+            return Result.success();
+        } else {
+            return Result.error();
+        }
     }
 
     @Override

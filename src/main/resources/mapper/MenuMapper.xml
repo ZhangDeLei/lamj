@@ -25,8 +25,17 @@
         <collection property="childs"
                     javaType="java.util.ArrayList"
                     column="id"
+                    ofType="com.coderfamily.lamj.domain.MenuInfo"
+                    select="selectMenuByPermissionIdAndParentId">
+        </collection>
+    </resultMap>
+
+    <resultMap id="PermTreeMenu" type="com.coderfamily.lamj.domain.MenuInfo" extends="MenuEntity">
+        <collection property="childs"
+                    javaType="java.util.ArrayList"
+                    column="{id=id,perId=perId}"
                     ofType="com.coderfamily.lamj.model.MenuEntity"
-                    select="selectMenuByParentId">
+                    select="selectMenuByPermissionIdAndParentId">
         </collection>
     </resultMap>
 
@@ -52,8 +61,17 @@
         SELECT <include refid="sql_column"></include> FROM MT_Menu WHERE ParentId=#{id}
     </select>
 
+    <select id="selectMenuByPermissionIdAndParentId" parameterType="java.util.Map" resultMap="MenuEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_Menu LEFT JOIN MT_PermissionMenu ON MT_Menu.Id=
+        MT_PermissionMenu.MenuId WHERE ParentId=#{id} AND MT_PermissionMenu.PermissionId=#{perId}
+    </select>
+
     <select id="selectMenuByTree" resultMap="TreeMenu">
         SELECT <include refid="sql_column"></include> FROM MT_Menu WHERE Level=1
+    </select>
+
+    <select id="selectPermissionMenuByTree" parameterType="int" resultMap="PermTreeMenu">
+        SELECT MT_Menu.*,MT_PermissionMenu.PermissionId perId FROM MT_Menu RIGHT JOIN MT_PermissionMenu ON MenuId=Id WHERE Level=1 AND PermissionId=#{permissionId}
     </select>
 
     <select id="selectMenuByUserIdAndParentId" parameterType="java.util.Map" resultMap="MenuEntity">

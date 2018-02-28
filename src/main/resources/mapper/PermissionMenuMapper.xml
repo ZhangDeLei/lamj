@@ -15,9 +15,9 @@
   </select>
 
   <insert id="insert" parameterType="java.util.List">
-    INSERT INTO MT_PermissionMenu(MenuId,PermissionId) VALUES(#{menuId},#{permissionId})
-    <foreach collection="permis" item="perm" separator=",">
-      (#{perm.menuId},#{perm.permissionId})
+    INSERT INTO MT_PermissionMenu(MenuId,PermissionId) VALUES
+    <foreach collection="list" item="item" index="list" separator=",">
+      (#{item.menuId},#{item.permissionId})
     </foreach>
   </insert>
 
@@ -25,6 +25,9 @@
     DELETE FROM MT_PermissionMenu WHERE MenuId=#{menuId} AND PermissionId=#{permissionId}
   </delete>
 
+  <delete id="deleteByPermissionId" parameterType="int">
+    DELETE FROM MT_PermissionMenu WHERE PermissionId=#{permissionId}
+  </delete>
   <delete id="deleteByMenuId" parameterType="int">
     DELETE FROM MT_PermissionMenu WHERE MenuId=#{menuId}
   </delete>

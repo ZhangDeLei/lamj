@@ -45,6 +45,18 @@ public interface PermissionMapper {
     boolean existsPermissionByName(@Param("name") String Name);
 
     /**
+     * 判断当前权限是否已被关联用户
+     * @param Id
+     * @return
+     */
+    boolean existsPermissionUserRelat(@Param("id") int Id);
+    /**
+     * 判断当前权限是否已被关联用户组
+     * @param Id
+     * @return
+     */
+    boolean existsPermissionUserGroupRelat(@Param("id") int Id);
+    /**
      * 新增权限
      *
      * @param permissionEntity

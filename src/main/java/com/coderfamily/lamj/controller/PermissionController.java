@@ -1,8 +1,10 @@
 package com.coderfamily.lamj.controller;
 
 import com.coderfamily.lamj.common.data.Result;
+import com.coderfamily.lamj.domain.MenuInfo;
 import com.coderfamily.lamj.model.PermissionEntity;
 import com.coderfamily.lamj.model.PermissionMenuEntity;
+import com.coderfamily.lamj.service.IMenuService;
 import com.coderfamily.lamj.service.IPermissionMenuService;
 import com.coderfamily.lamj.service.IPermissionService;
 import io.swagger.annotations.Api;
@@ -27,6 +29,8 @@ public class PermissionController {
     private IPermissionService permissionService;
     @Autowired
     private IPermissionMenuService permissionMenuService;
+    @Autowired
+    private IMenuService menuService;
 
     @ApiOperation(value = "获取权限列表", httpMethod = "GET", produces = "application/json", response = Result.class)
     @ResponseBody
@@ -66,18 +70,21 @@ public class PermissionController {
     @ResponseBody
     @PostMapping("delete")
     public Result delete(@RequestBody Map<String, Integer> params) {
-        if (permissionService.delete(params.get("Id")) > 0) {
-            return Result.success();
-        } else {
-            return Result.error();
-        }
+        return permissionService.delete(params.get("Id"));
     }
 
-    @ApiOperation(value = "新增权限与菜单的关联关系(批量新增)", httpMethod = "POST", produces = "application", response = Result.class)
+    @ApiOperation(value = "新增权限与菜单的关联关系(批量新增)", httpMethod = "POST", produces = "application/json", response = Result.class)
     @ResponseBody
     @PostMapping("insertPermisionMenuRela")
     public Result insertPermisionMenuRela(@RequestBody List<PermissionMenuEntity> mList) {
         return permissionMenuService.insert(mList);
     }
 
+    @ApiOperation(value = "根据权限ID获取权限的菜单树形列表", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @ResponseBody
+    @GetMapping("getPermissionMenuForTreeById")
+    public Result getPermissionMenuForTreeById(@RequestParam int Id) {
+        List<MenuInfo> mList = menuService.selectPermissionMenuByTree(Id);
+        return Result.success(mList);
+    }
 }

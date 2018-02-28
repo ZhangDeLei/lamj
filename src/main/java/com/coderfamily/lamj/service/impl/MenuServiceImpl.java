@@ -48,6 +48,11 @@ public class MenuServiceImpl implements IMenuService {
     }
 
     @Override
+    public List<MenuInfo> selectPermissionMenuByTree(int PermissionId) {
+        return menuMapper.selectPermissionMenuByTree(PermissionId);
+    }
+
+    @Override
     public List<MenuEntity> selectMenuByParentId(int ParentId) {
         return menuMapper.selectMenuByParentId(ParentId);
     }
