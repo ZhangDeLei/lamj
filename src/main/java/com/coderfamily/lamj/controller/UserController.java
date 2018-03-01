@@ -7,13 +7,11 @@ import com.coderfamily.lamj.model.UserEntity;
 import com.coderfamily.lamj.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * @author ZhangDL
@@ -26,38 +24,43 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
+    @ApiOperation(value = "根据条件查询用户列表", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @ResponseBody
+    @GetMapping("getUserListByCondition")
+    public Result getUserListByCondition(@RequestBody(required = false) UserEntity params) {
+        return Result.success(userService.selectUserListByCondition(params));
+    }
+
     /**
      * 用户新增
-     * @param UserAccount
-     * @param Password
-     * @param NickName
-     * @param Tel
-     * @param Sex
-     * @param PhotoUrl
+     *
+     * @param entity
      * @return
      */
     @ApiOperation(value = "新增用户", httpMethod = "POST", produces = "application/json", response = Result.class)
     @ResponseBody
-    @RequestMapping(value = "insert", method = RequestMethod.POST)
-    public Result insert(@RequestParam String UserAccount,
-                         @RequestParam String Password,
-                         @RequestParam String NickName,
-                         @RequestParam String Tel,
-                         @RequestParam(defaultValue = "1", required = false) int Sex,
-                         @RequestParam(defaultValue = "", required = false) String PhotoUrl) {
-        boolean isExists = userService.existsUserByUserAccount(UserAccount);
+    @PostMapping("insert")
+    public Result insert(@RequestBody UserEntity entity) {
+        boolean isExists = userService.existsUserByUserAccount(entity.getUserAccount());
         if (isExists) {
             return new Result(ResponseCode.user_already_exists.getCode(), ResponseCode.user_already_exists.getMsg());
         }
 
         UserEntity user = new UserEntity();
-        user.setUserAccount(UserAccount);
-        user.setNickName(NickName);
-        user.setSex(Sex);
-        user.setPassword(PasUtil.createPassword(Password));
-        user.setPhotoUrl(PhotoUrl);
-        user.setTel(Tel);
+        user.setUserAccount(entity.getUserAccount());
+        user.setNickName(entity.getNickName());
+        user.setSex(entity.getSex());
+        user.setPassword(PasUtil.createPassword(entity.getPassword()));
+        user.setPhotoUrl(entity.getPhotoUrl());
+        user.setTel(entity.getTel());
         int id = userService.insert(user);
         return Result.success(id);
+    }
+
+    @ApiOperation(value = "删除用户",httpMethod = "POST",produces = "application/json",response = Result.class)
+    @ResponseBody
+    @PostMapping("delete")
+    public Result delete(@RequestBody Map<String,Integer> params){
+        return userService.delete(params.get("Id"));
     }
 }

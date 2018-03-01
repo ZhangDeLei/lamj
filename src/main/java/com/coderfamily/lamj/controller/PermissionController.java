@@ -1,6 +1,7 @@
 package com.coderfamily.lamj.controller;
 
 import com.coderfamily.lamj.common.data.Result;
+import com.coderfamily.lamj.common.util.NumberUtil;
 import com.coderfamily.lamj.domain.MenuInfo;
 import com.coderfamily.lamj.model.PermissionEntity;
 import com.coderfamily.lamj.model.PermissionMenuEntity;
@@ -76,8 +77,8 @@ public class PermissionController {
     @ApiOperation(value = "新增权限与菜单的关联关系(批量新增)", httpMethod = "POST", produces = "application/json", response = Result.class)
     @ResponseBody
     @PostMapping("insertPermisionMenuRela")
-    public Result insertPermisionMenuRela(@RequestBody List<PermissionMenuEntity> mList) {
-        return permissionMenuService.insert(mList);
+    public Result insertPermisionMenuRela(@RequestBody Map<String, Object> params) {
+        return permissionMenuService.insert(NumberUtil.toInt(params.get("Id") + ""), (List) params.get("mIds"));
     }
 
     @ApiOperation(value = "根据权限ID获取权限的菜单树形列表", httpMethod = "GET", produces = "application/json", response = Result.class)
@@ -85,6 +86,16 @@ public class PermissionController {
     @GetMapping("getPermissionMenuForTreeById")
     public Result getPermissionMenuForTreeById(@RequestParam int Id) {
         List<MenuInfo> mList = menuService.selectPermissionMenuByTree(Id);
+        return Result.success(mList);
+    }
+
+    @ApiOperation(value = "获取所有可用的权限列表", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @ResponseBody
+    @GetMapping("getPermissionListByUsed")
+    public Result getPermissionListByUsed() {
+        PermissionEntity entity = new PermissionEntity();
+        entity.setStatus(1);
+        List<PermissionEntity> mList = permissionService.selectPermissionByCondition(entity);
         return Result.success(mList);
     }
 }

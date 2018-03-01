@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,16 +23,23 @@ public class PermissionMenuServiceImpl implements IPermissionMenuService {
     private PermissionMenuMapper permissionMenuMapper;
 
     @Override
-    public Result insert(List<PermissionMenuEntity> permis) {
-        //先删除权限所有的菜单关联关系
-        if (permissionMenuMapper.deleteByPermissionId(permis.get(0).getPermissionId()) > 0) {
+    public Result insert(int Id, List<Integer> mIds) {
+        permissionMenuMapper.deleteByPermissionId(Id);
+        if (mIds != null && mIds.size() > 0) {
+            List<PermissionMenuEntity> permis = new ArrayList<>();
+            mIds.forEach(item -> {
+                PermissionMenuEntity entity = new PermissionMenuEntity();
+                entity.setMenuId(item);
+                entity.setPermissionId(Id);
+                permis.add(entity);
+            });
             if (permissionMenuMapper.insert(permis) > 0) {
                 return Result.success();
             } else {
                 return Result.error();
             }
         } else {
-            return Result.error();
+            return Result.success();
         }
     }
 

@@ -25,8 +25,8 @@
         <collection property="childs"
                     javaType="java.util.ArrayList"
                     column="id"
-                    ofType="com.coderfamily.lamj.domain.MenuInfo"
-                    select="selectMenuByPermissionIdAndParentId">
+                    ofType="com.coderfamily.lamj.model.MenuEntity"
+                    select="selectMenuByParentId">
         </collection>
     </resultMap>
 

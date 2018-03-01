@@ -83,13 +83,14 @@ public class MenuServiceImpl implements IMenuService {
 
     @Override
     public Result update(MenuEntity menuEntity) {
+        MenuEntity existsMenu = menuMapper.selectMenuById(menuEntity.getId());
         //判断是否已经修改过父节点，如果修改了，需要重置code
         if (isUpdateParentId(menuEntity)) {
             menuEntity.setCode(getInsertMenuCode(menuEntity));
         }
         if (NullUtil.isNull(menuEntity.getId())) {
             return Result.error("需要修改的菜单ID为空");
-        } else if (NullUtil.isNull(menuMapper.selectMenuById(menuEntity.getId()))) {
+        } else if (NullUtil.isNull(existsMenu)) {
             return Result.error("需要修改的菜单不存在");
         } else if (menuMapper.update(menuEntity) > 0) {
             return Result.success();

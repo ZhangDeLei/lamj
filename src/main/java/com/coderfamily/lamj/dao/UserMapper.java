@@ -3,7 +3,17 @@ package com.coderfamily.lamj.dao;
 import com.coderfamily.lamj.model.UserEntity;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface UserMapper {
+
+    /**
+     * 根据条件查询用户列表信息
+     * @param entity
+     * @return
+     */
+    List<UserEntity> selectUserListByCondition(UserEntity entity);
+
     /**
      * 根据账号获取用户信息
      *
@@ -93,17 +103,15 @@ public interface UserMapper {
      * 删除账号与分组的关联关系
      *
      * @param UserId
-     * @param GroupId
      * @return
      */
-    int deleteGroupRelation(@Param("userId") int UserId, @Param("groupId") int GroupId);
+    int deleteGroupRelation(@Param("userId") int UserId);
 
     /**
      * 删除账号与权限的关联关系
      *
      * @param UserId
-     * @param PermissionId
      * @return
      */
-    int deletePermissionRelation(@Param("userId") int UserId, @Param("permissionId") int PermissionId);
+    int deletePermissionRelation(@Param("userId") int UserId);
 }

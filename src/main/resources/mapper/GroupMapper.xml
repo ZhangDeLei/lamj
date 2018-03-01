@@ -9,11 +9,21 @@
         <result column="Description" jdbcType="VARCHAR" property="description"/>
     </resultMap>
 
+    <resultMap id="GroupPermissionInfo" type="com.coderfamily.lamj.domain.GroupPermissionInfo">
+        <result column="GroupId" jdbcType="INTEGER" property="groupId"/>
+        <result column="PermissionId" jdbcType="INTEGER" property="permissionId"/>
+        <result column="Name" jdbcType="VARCHAR" property="name"/>
+    </resultMap>
+
     <select id="selectGroupByCondition" parameterType="com.coderfamily.lamj.model.GroupEntity" resultMap="GroupEntity">
         SELECT <include refid="sql_column"></include> FROM MT_Group
         <where>
             <include refid="sql_where"></include>
         </where>
+    </select>
+
+    <select id="selectGroupList" resultMap="GroupEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_Group
     </select>
 
     <select id="selectGroupByUserId" parameterType="int" resultMap="GroupEntity">
@@ -22,25 +32,39 @@
         WHERE MT_UserGroup.UserId = #{id}
     </select>
 
+    <select id="selectMaxCode" resultType="String">
+        SELECT MAX(Code) FROM MT_Group
+    </select>
+
+    <select id="selectGroupPermissionByGroupId" parameterType="int" resultMap="GroupPermissionInfo">
+        SELECT MT_GroupPermission.*,MT_Permission.Name FROM MT_Group
+        LEFT JOIN MT_GroupPermission ON MT_Group.Id=MT_GroupPermission.GroupId
+        LEFT JOIN MT_Permission ON MT_GroupPermission.PermissionId=MT_Permission.Id WHERE MT_Group.ID=#{id}
+    </select>
+
     <select id="existsGroupByName" parameterType="String" resultType="boolean">
-    SELECT EXISTS (SELECT 1 FROM MT_Group WHERE Name = #{name})
-  </select>
+        SELECT EXISTS (SELECT 1 FROM MT_Group WHERE Name = #{name})
+    </select>
+
+    <select id="existsGroupHasPermissionById" parameterType="int" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM MT_GroupPermission WHERE GroupId=#{id})
+    </select>
 
     <insert id="insert" parameterType="com.coderfamily.lamj.model.GroupEntity" useGeneratedKeys="true" keyProperty="Id">
         INSERT INTO MT_Group
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id!=null">Id,</if>
-            <if test="name!=null AND name.length()!=0">Name,</if>
-            <if test="code!=null AND code.length()!=0">Code,</if>
+            <if test="name!=null">Name,</if>
+            <if test="code!=null">Code,</if>
             <if test="status!=null">Status,</if>
-            <if test="description!=null AND description.length()!=0">Description,</if>
+            <if test="description!=null">Description,</if>
         </trim>
         <trim prefix=" VALUES (" suffix=")" suffixOverrides=",">
             <if test="id!=null">#{id},</if>
-            <if test="name!=null AND name.length()!=0">#{name},</if>
-            <if test="code!=null AND code.length()!=0">#{code},</if>
+            <if test="name!=null">#{name},</if>
+            <if test="code!=null">#{code},</if>
             <if test="status!=null">#{status},</if>
-            <if test="description!=null AND description.length()!=0">#{description},</if>
+            <if test="description!=null">#{description},</if>
         </trim>
     </insert>
 
@@ -48,10 +72,10 @@
         UPDATE MT_Group
         <set>
             <if test="id!=null">Id=#{id},</if>
-            <if test="name!=null AND name.length()!=0">Name=#{name},</if>
-            <if test="code!=null AND code.length()!=0">Code=#{code},</if>
+            <if test="name!=null">Name=#{name},</if>
+            <if test="code!=null">Code=#{code},</if>
             <if test="status!=null">Status=#{status},</if>
-            <if test="description!=null AND description.length()!=0">Description=#{description},</if>
+            <if test="description!=null">Description=#{description},</if>
         </set>
         WHERE Id = #{id}
     </update>
@@ -63,9 +87,9 @@
     <sql id="sql_column">Id,Name,Code,Status,Description</sql>
     <sql id="sql_where">
         <if test="id!=null">AND Id=#{id}</if>
-        <if test="name!=null AND name.length()!=0">AND Name=#{name}</if>
-        <if test="code!=null AND code.length()!=0">AND Code=#{code}</if>
+        <if test="name!=null">AND Name=#{name}</if>
+        <if test="code!=null">AND Code=#{code}</if>
         <if test="status!=null">AND Status=#{status}</if>
-        <if test="description!=null AND description.length()!=0">AND Description=#{description}</if>
+        <if test="description!=null">AND Description=#{description}</if>
     </sql>
 </mapper>

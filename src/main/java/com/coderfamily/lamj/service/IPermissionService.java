@@ -1,7 +1,9 @@
 package com.coderfamily.lamj.service;
 
 import com.coderfamily.lamj.common.data.Result;
+import com.coderfamily.lamj.model.GroupPermissionEntity;
 import com.coderfamily.lamj.model.PermissionEntity;
+import com.coderfamily.lamj.model.UserPermissionEntity;
 
 import java.util.List;
 
@@ -53,20 +55,20 @@ public interface IPermissionService {
     /**
      * 新增用户与权限的关联关系
      *
-     * @param UserId
-     * @param PermissionId
+     * @param Id
+     * @param mIds
      * @return
      */
-    int insertUserRelation(int UserId, int PermissionId);
+    Result insertUserRelation(int Id,List<Integer> mIds);
 
     /**
      * 新增分组与权限的关联关系
      *
-     * @param GroupId
-     * @param PermissionId
+     * @param Id
+     * @param mIds
      * @return
      */
-    int insertGroupRelation(int GroupId, int PermissionId);
+    Result insertGroupRelation(int Id,List<Integer> mIds);
 
     /**
      * 更新权限
@@ -88,17 +90,16 @@ public interface IPermissionService {
      * 删除用户与权限的关联关系
      *
      * @param UserId
-     * @param PermissionId
      * @return
      */
-    int deleteUserRelation(int UserId, int PermissionId);
+    int deleteUserRelation(int UserId);
 
     /**
      * 删除分组与权限的关联关系
      *
      * @param GroupId
-     * @param PermissionId
      * @return
      */
-    int deleteGroupRelation(int GroupId, int PermissionId);
+    int deleteGroupRelation(int GroupId);
+
 }

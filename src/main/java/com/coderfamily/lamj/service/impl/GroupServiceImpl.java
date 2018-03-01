@@ -1,6 +1,9 @@
 package com.coderfamily.lamj.service.impl;
 
+import com.coderfamily.lamj.common.data.Result;
+import com.coderfamily.lamj.common.util.NumberUtil;
 import com.coderfamily.lamj.dao.GroupMapper;
+import com.coderfamily.lamj.domain.GroupPermissionInfo;
 import com.coderfamily.lamj.model.GroupEntity;
 import com.coderfamily.lamj.service.IGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +28,18 @@ public class GroupServiceImpl implements IGroupService {
     }
 
     @Override
+    public List<GroupEntity> selectGroupList() {
+        return groupMapper.selectGroupList();
+    }
+
+    @Override
     public List<GroupEntity> selectGroupByUserId(int UserId) {
         return groupMapper.selectGroupByUserId(UserId);
+    }
+
+    @Override
+    public List<GroupPermissionInfo> selectGroupPermissionByGroupId(int GroupId) {
+        return groupMapper.selectGroupPermissionByGroupId(GroupId);
     }
 
     @Override
@@ -35,8 +48,15 @@ public class GroupServiceImpl implements IGroupService {
     }
 
     @Override
-    public int insert(GroupEntity groupEntity) {
-        return groupMapper.insert(groupEntity);
+    public Result insert(GroupEntity groupEntity) {
+        groupEntity.setCode(getMaxCode());
+        if (existsGroupByName(groupEntity.getName())) {
+            return Result.error("用户组名称已存在");
+        } else if (groupMapper.insert(groupEntity) > 0) {
+            return Result.success();
+        } else {
+            return Result.error();
+        }
     }
 
     @Override
@@ -45,7 +65,19 @@ public class GroupServiceImpl implements IGroupService {
     }
 
     @Override
-    public int delete(int Id) {
-        return groupMapper.delete(Id);
+    public Result delete(int Id) {
+        if (groupMapper.existsGroupHasPermissionById(Id)) {
+            return Result.error("当前用户组包含权限信息，请先删除");
+        } else if (groupMapper.delete(Id) > 0) {
+            return Result.success();
+        } else {
+            return Result.error();
+        }
+    }
+
+    private String getMaxCode() {
+        String maxCode = groupMapper.selectMaxCode();
+        int code = NumberUtil.toInt(maxCode) + 1;
+        return NumberUtil.seats(code, maxCode.length());
     }
 }

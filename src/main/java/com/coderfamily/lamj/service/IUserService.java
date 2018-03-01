@@ -1,12 +1,21 @@
 package com.coderfamily.lamj.service;
 
+import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.model.UserEntity;
+
+import java.util.List;
 
 /**
  * @author ZhangDL
  * @date 2018/1/25 16:13
  */
 public interface IUserService {
+    /**
+     * 根据条件查询用户列表信息
+     * @param entity
+     * @return
+     */
+    List<UserEntity> selectUserListByCondition(UserEntity entity);
     /**
      * 根据用户名获取用户信息
      *
@@ -90,23 +99,21 @@ public interface IUserService {
      * @param Id
      * @return
      */
-    int delete(int Id);
+    Result delete(int Id);
 
     /**
      * 删除用户与分组的关联关系
      *
      * @param UserId
-     * @param GroupId
      * @return
      */
-    int deleteGroupRelation(int UserId, int GroupId);
+    int deleteGroupRelation(int UserId);
 
     /**
      * 删除用户与权限的关联关系
      *
      * @param UserId
-     * @param PermissionId
      * @return
      */
-    int deletePermissionRelation(int UserId, int PermissionId);
+    int deletePermissionRelation(int UserId);
 }

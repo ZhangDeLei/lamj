@@ -1,11 +1,14 @@
 package com.coderfamily.lamj.service.impl;
 
+import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.dao.UserMapper;
 import com.coderfamily.lamj.model.UserEntity;
 import com.coderfamily.lamj.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @author ZhangDL
@@ -16,6 +19,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements IUserService {
     @Autowired
     private UserMapper userMapper;
+
+    @Override
+    public List<UserEntity> selectUserListByCondition(UserEntity entity) {
+        return userMapper.selectUserListByCondition(entity);
+    }
 
     @Override
     public UserEntity selectUserByUserAccount(String UserAccount) {
@@ -63,17 +71,22 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public int delete(int Id) {
-        return userMapper.delete(Id);
+    public Result delete(int Id) {
+        //删除用户时，需要同步删除用户关联的分组以及权限
+        if (userMapper.delete(Id) >= 0 && deleteGroupRelation(Id) >= 0 && deletePermissionRelation(Id) >= 0) {
+            return Result.success();
+        } else {
+            return Result.error();
+        }
     }
 
     @Override
-    public int deleteGroupRelation(int UserId, int GroupId) {
-        return userMapper.deleteGroupRelation(UserId, GroupId);
+    public int deleteGroupRelation(int UserId) {
+        return userMapper.deleteGroupRelation(UserId);
     }
 
     @Override
-    public int deletePermissionRelation(int UserId, int PermissionId) {
-        return userMapper.deletePermissionRelation(UserId, PermissionId);
+    public int deletePermissionRelation(int UserId) {
+        return userMapper.deletePermissionRelation(UserId);
     }
 }

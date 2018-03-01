@@ -4,12 +4,15 @@ import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.common.util.NumberUtil;
 import com.coderfamily.lamj.common.util.StringUtil;
 import com.coderfamily.lamj.dao.PermissionMapper;
+import com.coderfamily.lamj.model.GroupPermissionEntity;
 import com.coderfamily.lamj.model.PermissionEntity;
+import com.coderfamily.lamj.model.UserPermissionEntity;
 import com.coderfamily.lamj.service.IPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -55,13 +58,45 @@ public class PermissionServiceImpl implements IPermissionService {
     }
 
     @Override
-    public int insertUserRelation(int UserId, int PermissionId) {
-        return permissionMapper.insertUserRelation(UserId, PermissionId);
+    public Result insertUserRelation(int Id, List<Integer> mIds) {
+        deleteUserRelation(Id);
+        if (mIds != null && mIds.size() > 0) {
+            List<UserPermissionEntity> entities = new ArrayList<>();
+            mIds.forEach(item -> {
+                UserPermissionEntity entity = new UserPermissionEntity();
+                entity.setUserId(Id);
+                entity.setPermissionId(item);
+                entities.add(entity);
+            });
+            if (permissionMapper.insertUserRelation(entities) > 0) {
+                return Result.success();
+            } else {
+                return Result.error();
+            }
+        } else {
+            return Result.success();
+        }
     }
 
     @Override
-    public int insertGroupRelation(int GroupId, int PermissionId) {
-        return permissionMapper.insertGroupRelation(GroupId, PermissionId);
+    public Result insertGroupRelation(int Id, List<Integer> mIds) {
+        deleteGroupRelation(Id);
+        if (mIds != null && mIds.size() > 0) {
+            List<GroupPermissionEntity> entities = new ArrayList<>();
+            mIds.forEach(item -> {
+                GroupPermissionEntity entity = new GroupPermissionEntity();
+                entity.setGroupId(Id);
+                entity.setPermissionId(item);
+                entities.add(entity);
+            });
+            if (permissionMapper.insertGroupRelation(entities) > 0) {
+                return Result.success();
+            } else {
+                return Result.error();
+            }
+        } else {
+            return Result.success();
+        }
     }
 
     @Override
@@ -85,13 +120,13 @@ public class PermissionServiceImpl implements IPermissionService {
     }
 
     @Override
-    public int deleteUserRelation(int UserId, int PermissionId) {
-        return permissionMapper.deleteUserRelation(UserId, PermissionId);
+    public int deleteUserRelation(int UserId) {
+        return permissionMapper.deleteUserRelation(UserId);
     }
 
     @Override
-    public int deleteGroupRelation(int GroupId, int PermissionId) {
-        return permissionMapper.deleteGroupRelation(GroupId, PermissionId);
+    public int deleteGroupRelation(int GroupId) {
+        return permissionMapper.deleteGroupRelation(GroupId);
     }
 
     private String getMaxCode() {

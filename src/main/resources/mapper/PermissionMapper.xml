@@ -53,11 +53,17 @@
             <if test="description!=null">#{description},</if>
         </trim>
     </insert>
-    <insert id="insertUserRelation" parameterType="Map">
-        INSERT INTO MT_UserPermission(PermissionId,UserId) VALUES (#{permissionId},#{userId})
+    <insert id="insertUserRelation" parameterType="java.util.List">
+        INSERT INTO MT_UserPermission(PermissionId,UserId) VALUES
+        <foreach collection="list" item="item" index="list" separator=",">
+            (#{permissionId},#{userId})
+        </foreach>
     </insert>
-    <insert id="insertGroupRelation" parameterType="Map">
-        INSERT INTO MT_GroupPermission(PermissionId,GroupId) VALUES (#{permissionId},#{groupId})
+    <insert id="insertGroupRelation" parameterType="java.util.List">
+        INSERT INTO MT_GroupPermission(PermissionId,GroupId) VALUES
+        <foreach collection="list" item="item" index="list" separator=",">
+            (#{item.permissionId},#{item.groupId})
+        </foreach>
     </insert>
     <update id="update" parameterType="com.coderfamily.lamj.model.PermissionEntity">
         UPDATE MT_Permission
@@ -73,11 +79,11 @@
     <delete id="delete" parameterType="int">
         DELETE FROM MT_Permission WHERE Id=#{id}
     </delete>
-    <delete id="deleteUserRelation" parameterType="Map">
-        DELETE FROM MT_UserPermission WHERE PermissionId=#{permissionId} AND UserId=#{userId}
+    <delete id="deleteUserRelation" parameterType="int">
+        DELETE FROM MT_UserPermission WHERE UserId=#{userId}
     </delete>
-    <delete id="deleteGroupRelation" parameterType="Map">
-        DELETE FROM MT_GroupPermission WHERE PermissionId=#{permissionId} AND GroupId=#{groupId}
+    <delete id="deleteGroupRelation" parameterType="int">
+        DELETE FROM MT_GroupPermission WHERE GroupId=#{groupId}
     </delete>
     <sql id="sql_column">Id,Name,Code,Status,Description</sql>
     <sql id="sql_where">

@@ -13,10 +13,11 @@ public interface IPermissionMenuService {
     /**
      * 新增权限与菜单的关联关系
      *
-     * @param permis
+     * @param Id
+     * @param mIds
      * @return
      */
-    Result insert(List<PermissionMenuEntity> permis);
+    Result insert(int Id,List<Integer> mIds);
 
     /**
      * 删除权限与菜单的关联关系
