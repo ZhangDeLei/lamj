@@ -56,7 +56,7 @@
     <insert id="insertUserRelation" parameterType="java.util.List">
         INSERT INTO MT_UserPermission(PermissionId,UserId) VALUES
         <foreach collection="list" item="item" index="list" separator=",">
-            (#{permissionId},#{userId})
+            (#{item.permissionId},#{item.userId})
         </foreach>
     </insert>
     <insert id="insertGroupRelation" parameterType="java.util.List">

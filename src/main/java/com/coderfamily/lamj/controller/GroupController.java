@@ -37,11 +37,28 @@ public class GroupController {
         return Result.success(mList);
     }
 
+    @ApiOperation(value = "根据用户ID获取用户分组列表", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @ResponseBody
+    @GetMapping("getUserGroupList")
+    public Result getUserGroupList(@RequestParam int UserId) {
+        List<GroupEntity> mList = groupService.selectGroupByUserId(UserId);
+        return Result.success(mList);
+    }
+
     @ApiOperation(value = "新增用户组", httpMethod = "POST", produces = "application/json", response = Result.class)
     @ResponseBody
     @PostMapping("insertGroup")
     public Result insertGroup(@RequestBody GroupEntity param) {
         return groupService.insert(param);
+    }
+
+    @ApiOperation(value = "新增用户与用户组的关联关系", httpMethod = "POST", produces = "application/json", response = Result.class)
+    @ResponseBody
+    @PostMapping("insertUserGroup")
+    public Result insertUserGroup(@RequestBody Map<String, Object> params) {
+        int UserId = NumberUtil.toInt(params.get("UserId") + "");
+        List<Integer> mIds = (List) params.get("mIds");
+        return groupService.insertUserGroup(UserId, mIds);
     }
 
     @ApiOperation(value = "更新用户组", httpMethod = "POST", produces = "application/json", response = Result.class)

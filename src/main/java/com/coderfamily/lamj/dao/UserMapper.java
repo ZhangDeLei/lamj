@@ -23,6 +23,12 @@ public interface UserMapper {
     UserEntity selectUserByUserAccount(@Param("userAccount") String userAccount);
 
     /**
+     * 根据ID查询用户信息
+     * @param Id
+     * @return
+     */
+    UserEntity selectUserById(@Param("id")int Id);
+    /**
      * 登陆
      *
      * @param userAccount
@@ -66,24 +72,6 @@ public interface UserMapper {
     int insert(UserEntity userEntity);
 
     /**
-     * 新增账号与分组的关联关系
-     *
-     * @param UserId
-     * @param GroupId
-     * @return
-     */
-    int insertGroupRelation(@Param("userId") int UserId, @Param("groupId") int GroupId);
-
-    /**
-     * 新增账号与权限的关联关系
-     *
-     * @param UserId
-     * @param PermissionId
-     * @return
-     */
-    int insertPermissionRelation(@Param("userId") int UserId, @Param("permissionId") int PermissionId);
-
-    /**
      * 更新账号信息
      *
      * @param userEntity
@@ -98,20 +86,4 @@ public interface UserMapper {
      * @return
      */
     int delete(@Param("id") int Id);
-
-    /**
-     * 删除账号与分组的关联关系
-     *
-     * @param UserId
-     * @return
-     */
-    int deleteGroupRelation(@Param("userId") int UserId);
-
-    /**
-     * 删除账号与权限的关联关系
-     *
-     * @param UserId
-     * @return
-     */
-    int deletePermissionRelation(@Param("userId") int UserId);
 }

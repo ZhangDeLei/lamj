@@ -5,11 +5,13 @@ import com.coderfamily.lamj.common.util.NumberUtil;
 import com.coderfamily.lamj.dao.GroupMapper;
 import com.coderfamily.lamj.domain.GroupPermissionInfo;
 import com.coderfamily.lamj.model.GroupEntity;
+import com.coderfamily.lamj.model.UserGroupEntity;
 import com.coderfamily.lamj.service.IGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -73,6 +75,37 @@ public class GroupServiceImpl implements IGroupService {
         } else {
             return Result.error();
         }
+    }
+
+    @Override
+    public int deleteGroupRelation(int UserId) {
+        return groupMapper.deleteGroupRelation(UserId);
+    }
+
+    @Override
+    public Result insertUserGroup(int UserId, List<Integer> mIds) {
+        deleteGroupRelation(UserId);
+        if (mIds != null && mIds.size() > 0) {
+            List<UserGroupEntity> mData = new ArrayList<>();
+            mIds.forEach(item -> {
+                UserGroupEntity entity = new UserGroupEntity();
+                entity.setUserId(UserId);
+                entity.setGroupId(item);
+                mData.add(entity);
+            });
+            if (groupMapper.insertUserGroupRelat(mData) > 0) {
+                return Result.success();
+            } else {
+                return Result.error();
+            }
+        } else {
+            return Result.success();
+        }
+    }
+
+    @Override
+    public boolean insertUserGroup(List<UserGroupEntity> mList) {
+        return groupMapper.insertUserGroupRelat(mList) > 0;
     }
 
     private String getMaxCode() {

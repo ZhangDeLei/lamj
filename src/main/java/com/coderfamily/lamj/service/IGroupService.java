@@ -3,6 +3,7 @@ package com.coderfamily.lamj.service;
 import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.domain.GroupPermissionInfo;
 import com.coderfamily.lamj.model.GroupEntity;
+import com.coderfamily.lamj.model.UserGroupEntity;
 
 import java.util.List;
 
@@ -59,6 +60,21 @@ public interface IGroupService {
     Result insert(GroupEntity groupEntity);
 
     /**
+     * 新增用户与用户组的关联关系
+     * @param UserId
+     * @param mIds
+     * @return
+     */
+    Result insertUserGroup(int UserId,List<Integer> mIds);
+
+    /**
+     * 新增用户与用户组的关联关系
+     * @param mList
+     * @return
+     */
+    boolean insertUserGroup(List<UserGroupEntity> mList);
+
+    /**
      * 更新分组
      *
      * @param groupEntity
@@ -73,4 +89,11 @@ public interface IGroupService {
      * @return
      */
     Result delete(int Id);
+
+    /**
+     * 删除用户与分组的关联关系
+     * @param UserId
+     * @return
+     */
+    int deleteGroupRelation(int UserId);
 }

@@ -2,6 +2,7 @@ package com.coderfamily.lamj.dao;
 
 import com.coderfamily.lamj.domain.GroupPermissionInfo;
 import com.coderfamily.lamj.model.GroupEntity;
+import com.coderfamily.lamj.model.UserGroupEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -65,6 +66,13 @@ public interface GroupMapper {
     int insert(GroupEntity groupEntity);
 
     /**
+     * 新增用户与用户组的关联关系
+     * @param mList
+     * @return
+     */
+    int insertUserGroupRelat(@Param("list") List<UserGroupEntity> mList);
+
+    /**
      * 更新分组
      *
      * @param groupEntity
@@ -79,4 +87,11 @@ public interface GroupMapper {
      * @return
      */
     int delete(@Param("id") int Id);
+
+    /**
+     * 删除用户与分组的关联关系
+     * @param UserId
+     * @return
+     */
+    int deleteGroupRelation(@Param("userId")int UserId);
 }

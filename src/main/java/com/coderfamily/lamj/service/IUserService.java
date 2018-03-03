@@ -4,6 +4,7 @@ import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.model.UserEntity;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author ZhangDL
@@ -12,10 +13,12 @@ import java.util.List;
 public interface IUserService {
     /**
      * 根据条件查询用户列表信息
+     *
      * @param entity
      * @return
      */
     List<UserEntity> selectUserListByCondition(UserEntity entity);
+
     /**
      * 根据用户名获取用户信息
      *
@@ -23,6 +26,14 @@ public interface IUserService {
      * @return
      */
     UserEntity selectUserByUserAccount(String UserAccount);
+
+    /**
+     * 根据id查询用户信息
+     *
+     * @param Id
+     * @return
+     */
+    UserEntity selectUserById(int Id);
 
     /**
      * 根据用户名密码查询用户信息
@@ -68,22 +79,13 @@ public interface IUserService {
     int insert(UserEntity userEntity);
 
     /**
-     * 新增用于与分组的关联关系
-     *
+     * 新增用户组、权限与用户的关联关系
      * @param UserId
-     * @param GroupId
+     * @param GroupIds
+     * @param PerIds
      * @return
      */
-    int insertGroupRelation(int UserId, int GroupId);
-
-    /**
-     * 新增用户与权限的关联关系
-     *
-     * @param UserId
-     * @param PermissionId
-     * @return
-     */
-    int insertPermissionRelation(int UserId, int PermissionId);
+    Result insertGroupAndPermission(int UserId, List<Integer> GroupIds, List<Integer> PerIds);
 
     /**
      * 更新账号信息
@@ -91,7 +93,23 @@ public interface IUserService {
      * @param userEntity
      * @return
      */
-    int update(UserEntity userEntity);
+    Result update(UserEntity userEntity);
+
+    /**
+     * 更新密码
+     *
+     * @param params
+     * @return
+     */
+    Result updatePassword(Map<String, String> params);
+
+    /**
+     * 更新头像
+     *
+     * @param params
+     * @return
+     */
+    Result updatePhoto(Map<String, String> params);
 
     /**
      * 根据ID删除用户信息
@@ -101,19 +119,4 @@ public interface IUserService {
      */
     Result delete(int Id);
 
-    /**
-     * 删除用户与分组的关联关系
-     *
-     * @param UserId
-     * @return
-     */
-    int deleteGroupRelation(int UserId);
-
-    /**
-     * 删除用户与权限的关联关系
-     *
-     * @param UserId
-     * @return
-     */
-    int deletePermissionRelation(int UserId);
 }

@@ -79,6 +79,11 @@ public class PermissionServiceImpl implements IPermissionService {
     }
 
     @Override
+    public boolean insertUserRelation(List<UserPermissionEntity> mList) {
+        return permissionMapper.insertUserRelation(mList) > 0;
+    }
+
+    @Override
     public Result insertGroupRelation(int Id, List<Integer> mIds) {
         deleteGroupRelation(Id);
         if (mIds != null && mIds.size() > 0) {

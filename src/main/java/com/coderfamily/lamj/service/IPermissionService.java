@@ -62,6 +62,13 @@ public interface IPermissionService {
     Result insertUserRelation(int Id,List<Integer> mIds);
 
     /**
+     * 新增用户与权限的关联关系
+     * @param mList
+     * @return
+     */
+    boolean insertUserRelation(List<UserPermissionEntity> mList);
+
+    /**
      * 新增分组与权限的关联关系
      *
      * @param Id

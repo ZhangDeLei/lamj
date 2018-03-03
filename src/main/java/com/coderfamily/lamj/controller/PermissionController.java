@@ -4,7 +4,6 @@ import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.common.util.NumberUtil;
 import com.coderfamily.lamj.domain.MenuInfo;
 import com.coderfamily.lamj.model.PermissionEntity;
-import com.coderfamily.lamj.model.PermissionMenuEntity;
 import com.coderfamily.lamj.service.IMenuService;
 import com.coderfamily.lamj.service.IPermissionMenuService;
 import com.coderfamily.lamj.service.IPermissionService;
@@ -47,6 +46,14 @@ public class PermissionController {
         return result;
     }
 
+    @ApiOperation(value = "根据用户ID获取用户权限列表", httpMethod = "GET", produces = "appilcation/json", response = Result.class)
+    @ResponseBody
+    @GetMapping("getUserPermissionList")
+    public Result getUserPermissionList(@RequestParam int UserId) {
+        List<PermissionEntity> mList = permissionService.selectPermissionByUserId(UserId);
+        return Result.success(mList);
+    }
+
     @ApiOperation(value = "新增权限", httpMethod = "POST", produces = "application/json", response = Result.class)
     @ResponseBody
     @PostMapping("insert")
@@ -79,6 +86,15 @@ public class PermissionController {
     @PostMapping("insertPermisionMenuRela")
     public Result insertPermisionMenuRela(@RequestBody Map<String, Object> params) {
         return permissionMenuService.insert(NumberUtil.toInt(params.get("Id") + ""), (List) params.get("mIds"));
+    }
+
+    @ApiOperation(value = "新增用户与权限的关联关系", httpMethod = "POST", produces = "application/json", response = Result.class)
+    @ResponseBody
+    @PostMapping("insertUserPermission")
+    public Result insertUserPermission(@RequestBody Map<String, Object> params) {
+        int UserId = NumberUtil.toInt(params.get("UserId") + "");
+        List<Integer> mIds = (List) params.get("mIds");
+        return permissionService.insertUserRelation(UserId, mIds);
     }
 
     @ApiOperation(value = "根据权限ID获取权限的菜单树形列表", httpMethod = "GET", produces = "application/json", response = Result.class)
