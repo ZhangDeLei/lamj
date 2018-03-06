@@ -11,6 +11,12 @@ public class PermissionEntity {
 
     private String description;
 
+    private Integer typeId;
+
+    private String typeCode;
+
+    private String typeName;
+
     public Integer getId() {
         return id;
     }
@@ -49,5 +55,29 @@ public class PermissionEntity {
 
     public void setDescription(String description) {
         this.description = description == null ? null : description.trim();
+    }
+
+    public Integer getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(Integer typeId) {
+        this.typeId = typeId;
+    }
+
+    public String getTypeCode() {
+        return typeCode;
+    }
+
+    public void setTypeCode(String typeCode) {
+        this.typeCode = typeCode;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
     }
 }

@@ -7,6 +7,7 @@ import com.coderfamily.lamj.model.GroupEntity;
 import com.coderfamily.lamj.model.GroupPermissionEntity;
 import com.coderfamily.lamj.service.IGroupService;
 import com.coderfamily.lamj.service.IPermissionService;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +30,21 @@ public class GroupController {
     @Autowired
     private IPermissionService permissionService;
 
-    @ApiOperation(value = "获取所有用户组信息", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @ApiOperation(value = "获取用户组信息", httpMethod = "GET", produces = "application/json", response = Result.class)
     @ResponseBody
     @GetMapping("getGroupList")
-    public Result getGroupList() {
-        List<GroupEntity> mList = groupService.selectGroupList();
+    public Result getGroupList(@RequestParam(required = false) String Name,
+                               @RequestParam int PageSize,
+                               @RequestParam int CurPage) {
+        PageInfo<GroupEntity> mList = groupService.selectGroupList(Name, PageSize, CurPage);
         return Result.success(mList);
+    }
+
+    @ApiOperation(value = "获取所有用户组信息", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @ResponseBody
+    @GetMapping("getAllGroupList")
+    public Result getAllGroupList(){
+        return Result.success(groupService.selectGroupByCondition(new GroupEntity()));
     }
 
     @ApiOperation(value = "根据用户ID获取用户分组列表", httpMethod = "GET", produces = "application/json", response = Result.class)

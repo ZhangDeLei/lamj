@@ -12,6 +12,8 @@ import com.coderfamily.lamj.service.IFileService;
 import com.coderfamily.lamj.service.IGroupService;
 import com.coderfamily.lamj.service.IPermissionService;
 import com.coderfamily.lamj.service.IUserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,8 +39,26 @@ public class UserServiceImpl implements IUserService {
     private IGroupService groupService;
 
     @Override
-    public List<UserEntity> selectUserListByCondition(UserEntity entity) {
-        return userMapper.selectUserListByCondition(entity);
+    public PageInfo<UserEntity> selectUserListByCondition(String Name, String UserAccount, String Tel, int StarLevelId,
+                                                          int TypeId, int Status, int Sex, int PageSize, int CurPage) {
+        PageHelper.startPage(CurPage, PageSize);
+        UserEntity entity = new UserEntity();
+        entity.setNickName(Name);
+        entity.setUserAccount(UserAccount);
+        entity.setTel(Tel);
+        entity.setStatus(Status);
+        entity.setStarLevelId(StarLevelId);
+        entity.setTypeId(TypeId);
+        entity.setSex(Sex);
+        List<UserEntity> mData = userMapper.selectUserListByCondition(entity);
+        PageInfo<UserEntity> pageInfo = new PageInfo<>(mData);
+        return pageInfo;
+    }
+
+
+    @Override
+    public List<UserEntity> selectAllUser() {
+        return userMapper.selectUserListByCondition(new UserEntity());
     }
 
     @Override
@@ -121,6 +141,12 @@ public class UserServiceImpl implements IUserService {
             entity.setSex(userEntity.getSex());
             entity.setStatus(userEntity.getStatus());
             entity.setUserAccount(userEntity.getUserAccount());
+            entity.setTypeId(userEntity.getTypeId());
+            entity.setTypeCode(userEntity.getTypeCode());
+            entity.setTypeName(userEntity.getTypeName());
+            entity.setStarLevelId(userEntity.getStarLevelId());
+            entity.setStarLevelCode(userEntity.getStarLevelCode());
+            entity.setStarLevelName(userEntity.getStarLevelName());
             if (userMapper.update(entity) > 0) {
                 return Result.success();
             } else {

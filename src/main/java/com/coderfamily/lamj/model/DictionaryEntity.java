@@ -5,15 +5,15 @@ public class DictionaryEntity {
 
     private String name;
 
+    private String enName;
+
     private String code;
 
-    private Integer value;
+    private String label;
 
     private String description;
 
-    private String type;
-
-    private String status;
+    private int status;
 
     public Integer getId() {
         return id;
@@ -31,6 +31,14 @@ public class DictionaryEntity {
         this.name = name == null ? null : name.trim();
     }
 
+    public String getEnName() {
+        return enName;
+    }
+
+    public void setEnName(String enName) {
+        this.enName = enName;
+    }
+
     public String getCode() {
         return code;
     }
@@ -39,12 +47,12 @@ public class DictionaryEntity {
         this.code = code == null ? null : code.trim();
     }
 
-    public Integer getValue() {
-        return value;
+    public String getLabel() {
+        return label;
     }
 
-    public void setValue(Integer value) {
-        this.value = value;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public String getDescription() {
@@ -55,19 +63,12 @@ public class DictionaryEntity {
         this.description = description == null ? null : description.trim();
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type == null ? null : type.trim();
-    }
-
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
+    public void setStatus(int status) {
+        this.status = status;
     }
+
 }

@@ -7,6 +7,8 @@ import com.coderfamily.lamj.domain.GroupPermissionInfo;
 import com.coderfamily.lamj.model.GroupEntity;
 import com.coderfamily.lamj.model.UserGroupEntity;
 import com.coderfamily.lamj.service.IGroupService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,8 +32,9 @@ public class GroupServiceImpl implements IGroupService {
     }
 
     @Override
-    public List<GroupEntity> selectGroupList() {
-        return groupMapper.selectGroupList();
+    public PageInfo<GroupEntity> selectGroupList(String Name, int PageSize, int CurPage) {
+        PageHelper.startPage(CurPage, PageSize);
+        return new PageInfo<>(groupMapper.selectGroupList(Name));
     }
 
     @Override

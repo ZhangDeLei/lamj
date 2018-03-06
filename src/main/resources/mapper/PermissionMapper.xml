@@ -7,7 +7,11 @@
         <result column="Code" jdbcType="VARCHAR" property="code"/>
         <result column="Status" jdbcType="INTEGER" property="status"/>
         <result column="Description" jdbcType="VARCHAR" property="description"/>
+        <result column="TypeId" jdbcType="INTEGER" property="typeId"/>
+        <result column="TypeCode" jdbcType="INTEGER" property="typeCode"/>
+        <result column="TypeName" jdbcType="INTEGER" property="typeName"/>
     </resultMap>
+
     <select id="selectPermissionByUserId" parameterType="int" resultMap="PermissionEntity">
         SELECT <include refid="sql_column"></include> FROM MT_Permission
         LEFT JOIN MT_UserPermission ON MT_UserPermission.PermissionId=MT_Permission.Id
@@ -44,6 +48,9 @@
             <if test="code!=null">Code,</if>
             <if test="status!=null">Status,</if>
             <if test="description!=null">Description,</if>
+            <if test="typeId!=-1 and typeId!=null">TypeId,</if>
+            <if test="typeCode!=null">TypeCode,</if>
+            <if test="typeName!=null">TypeName,</if>
         </trim>
         <trim prefix=" VALUES ( " suffix=")" suffixOverrides=",">
             <if test="id!=null">#{id},</if>
@@ -51,6 +58,9 @@
             <if test="code!=null">#{code},</if>
             <if test="status!=null">#{status},</if>
             <if test="description!=null">#{description},</if>
+            <if test="typeId!=-1 and typeId!=null">#{typeId},</if>
+            <if test="typeCode!=null">#{typeCode},</if>
+            <if test="typeName!=null">#{typeName},</if>
         </trim>
     </insert>
     <insert id="insertUserRelation" parameterType="java.util.List">
@@ -73,6 +83,9 @@
             <if test="code!=null">Code=#{code},</if>
             <if test="status!=null">Status=#{status},</if>
             <if test="description!=null">Description=#{description},</if>
+            <if test="typeId!=-1 and typeId!=null">TypeId=#{typeId},</if>
+            <if test="typeCode!=null">TypeCode=#{typeCode},</if>
+            <if test="typeName!=null">TypeName=#{typeName},</if>
         </set>
         WHERE Id=#{id}
     </update>
@@ -85,12 +98,15 @@
     <delete id="deleteGroupRelation" parameterType="int">
         DELETE FROM MT_GroupPermission WHERE GroupId=#{groupId}
     </delete>
-    <sql id="sql_column">Id,Name,Code,Status,Description</sql>
+    <sql id="sql_column">Id,Name,Code,Status,Description,TypeId,TypeCode,TypeName</sql>
     <sql id="sql_where">
         <if test="id!=null">AND Id=#{id}</if>
         <if test="name!=null">AND Name=#{name}</if>
         <if test="code!=null">AND Code=#{code}</if>
         <if test="status!=null">AND Status=#{status}</if>
         <if test="description!=null">AND Description=#{description}</if>
+        <if test="typeId!=-1 and typeId!=null">AND TypeId=#{typeId}</if>
+        <if test="typeCode!=null">AND TypeCode=#{typeCode}</if>
+        <if test="typeName!=null">AND TypeName=#{typeName}</if>
     </sql>
 </mapper>

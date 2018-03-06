@@ -8,6 +8,8 @@ import com.coderfamily.lamj.model.GroupPermissionEntity;
 import com.coderfamily.lamj.model.PermissionEntity;
 import com.coderfamily.lamj.model.UserPermissionEntity;
 import com.coderfamily.lamj.service.IPermissionService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,8 +38,17 @@ public class PermissionServiceImpl implements IPermissionService {
     }
 
     @Override
-    public List<PermissionEntity> selectPermissionByCondition(PermissionEntity permissionEntity) {
-        return permissionMapper.selectPermissionByCondition(permissionEntity);
+    public PageInfo<PermissionEntity> selectPermissionByPage(String Name, int PageSize, int CurPage) {
+        PageHelper.startPage(CurPage, PageSize);
+        PermissionEntity entity = new PermissionEntity();
+        entity.setName(Name);
+        List<PermissionEntity> mData = permissionMapper.selectPermissionByCondition(entity);
+        return new PageInfo<>(mData);
+    }
+
+    @Override
+    public List<PermissionEntity> selectPermissionByCondition(PermissionEntity entity) {
+        return permissionMapper.selectPermissionByCondition(entity);
     }
 
     @Override

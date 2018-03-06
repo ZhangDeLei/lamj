@@ -24,6 +24,9 @@
 
     <select id="selectGroupList" resultMap="GroupEntity">
         SELECT <include refid="sql_column"></include> FROM MT_Group
+        <where>
+            <if test="name!=null"> AND Name=#{name}</if>
+        </where>
     </select>
 
     <select id="selectGroupByUserId" parameterType="int" resultMap="GroupEntity">

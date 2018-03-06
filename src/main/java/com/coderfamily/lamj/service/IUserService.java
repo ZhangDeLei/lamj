@@ -2,6 +2,7 @@ package com.coderfamily.lamj.service;
 
 import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.model.UserEntity;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -14,10 +15,24 @@ public interface IUserService {
     /**
      * 根据条件查询用户列表信息
      *
-     * @param entity
+     * @param Name
+     * @param UserAccount
+     * @param Tel
+     * @param StarLevelId
+     * @param TypeId
+     * @param Status
+     * @param Sex
+     * @param PageSize
+     * @param CurPage
      * @return
      */
-    List<UserEntity> selectUserListByCondition(UserEntity entity);
+    PageInfo<UserEntity> selectUserListByCondition(String Name, String UserAccount, String Tel, int StarLevelId, int TypeId, int Status, int Sex, int PageSize, int CurPage);
+
+    /**
+     * 获取所有用户信息
+     * @return
+     */
+    List<UserEntity> selectAllUser();
 
     /**
      * 根据用户名获取用户信息

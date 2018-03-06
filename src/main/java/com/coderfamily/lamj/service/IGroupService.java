@@ -4,6 +4,7 @@ import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.domain.GroupPermissionInfo;
 import com.coderfamily.lamj.model.GroupEntity;
 import com.coderfamily.lamj.model.UserGroupEntity;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -23,9 +24,12 @@ public interface IGroupService {
     /**
      * 获取所有的用户组信息
      *
+     * @param Name
+     * @param PageSize
+     * @param CurPage
      * @return
      */
-    List<GroupEntity> selectGroupList();
+    PageInfo<GroupEntity> selectGroupList(String Name, int PageSize, int CurPage);
 
     /**
      * 根据用户ID获取当前用户所属分组信息
@@ -61,14 +65,16 @@ public interface IGroupService {
 
     /**
      * 新增用户与用户组的关联关系
+     *
      * @param UserId
      * @param mIds
      * @return
      */
-    Result insertUserGroup(int UserId,List<Integer> mIds);
+    Result insertUserGroup(int UserId, List<Integer> mIds);
 
     /**
      * 新增用户与用户组的关联关系
+     *
      * @param mList
      * @return
      */
@@ -92,6 +98,7 @@ public interface IGroupService {
 
     /**
      * 删除用户与分组的关联关系
+     *
      * @param UserId
      * @return
      */

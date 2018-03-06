@@ -29,8 +29,23 @@ public class UserController {
     @ApiOperation(value = "根据条件查询用户列表", httpMethod = "GET", produces = "application/json", response = Result.class)
     @ResponseBody
     @GetMapping("getUserListByCondition")
-    public Result getUserListByCondition(@RequestBody(required = false) UserEntity params) {
-        return Result.success(userService.selectUserListByCondition(params));
+    public Result getUserListByCondition(@RequestParam(required = false) String Name,
+                                         @RequestParam(required = false, defaultValue = "-1") int StarLevelId,
+                                         @RequestParam(required = false, defaultValue = "-1") int TypeId,
+                                         @RequestParam(required = false, defaultValue = "-1") int Status,
+                                         @RequestParam(required = false) String Tel,
+                                         @RequestParam(required = false, defaultValue = "-1") int Sex,
+                                         @RequestParam(required = false) String UserAccount,
+                                         @RequestParam(required = false, defaultValue = "10") int PageSize,
+                                         @RequestParam(required = false, defaultValue = "1") int CurPage) {
+        return Result.success(userService.selectUserListByCondition(Name, UserAccount, Tel, StarLevelId, TypeId, Status, Sex, PageSize, CurPage));
+    }
+
+    @ApiOperation(value = "获取所有用户列表",httpMethod = "GET",produces = "application/json",response = Result.class)
+    @ResponseBody
+    @GetMapping("getAllUser")
+    public Result getAllUser(){
+        return Result.success(userService.selectAllUser());
     }
 
     @ApiOperation(value = "根据ID查询用户信息", httpMethod = "GET", produces = "application/json", response = Result.class)

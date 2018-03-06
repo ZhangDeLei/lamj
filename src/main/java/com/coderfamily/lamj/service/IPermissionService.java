@@ -4,6 +4,7 @@ import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.model.GroupPermissionEntity;
 import com.coderfamily.lamj.model.PermissionEntity;
 import com.coderfamily.lamj.model.UserPermissionEntity;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -31,11 +32,19 @@ public interface IPermissionService {
     /**
      * 根据条件查询权限列表信息
      *
-     * @param permissionEntity
+     * @param Name
+     * @param PageSize
+     * @param CurPage
      * @return
      */
-    List<PermissionEntity> selectPermissionByCondition(PermissionEntity permissionEntity);
+    PageInfo<PermissionEntity> selectPermissionByPage(String Name,int PageSize,int CurPage);
 
+    /**
+     * 根据条件查询权限列表
+     * @param entity
+     * @return
+     */
+    List<PermissionEntity> selectPermissionByCondition(PermissionEntity entity);
     /**
      * 判断当前用户权限名称是否已经存在
      *

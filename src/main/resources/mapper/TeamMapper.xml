@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coderfamily.lamj.dao.TeamMapper">
+  <resultMap id="TeamEntity" type="com.coderfamily.lamj.model.TeamEntity">
+    <result column="Id" jdbcType="INTEGER" property="id" />
+    <result column="Name" jdbcType="VARCHAR" property="name" />
+    <result column="Status" jdbcType="INTEGER" property="status" />
+    <result column="CompanyId" jdbcType="INTEGER" property="companyId" />
+    <result column="Description" jdbcType="VARCHAR" property="description" />
+  </resultMap>
+
+  <select id="selectTeamListByName" parameterType="String" resultMap="TeamEntity">
+    SELECT <include refid="sql_column"></include> FROM MT_Team
+    <where>
+      <if test="name!=null and name.length()>0">AND Name like '%'||#{name}||'%'</if>
+    </where>
+  </select>
+
+  <select id="selectTeamListByCondition" parameterType="com.coderfamily.lamj.model.TeamEntity" resultMap="TeamEntity">
+    SELECT <include refid="sql_column"></include> FROM MT_Team
+    <where>
+      <include refid="sql_where"></include>
+    </where>
+  </select>
+
+  <select id="selectTeamById" parameterType="int" resultMap="TeamEntity">
+    SELECT <include refid="sql_column"></include> FROM MT_Team WHERE Id=#{id}
+  </select>
+
+  <select id="existsTeamByName" parameterType="String" resultType="boolean">
+    SELECT EXISTS (SELECT 1 FROM MT_Team WHERE Name=#{name} AND CompanyId=#{companyId})
+  </select>
+
+  <insert id="insert" parameterType="com.coderfamily.lamj.model.TeamEntity">
+    INSERT INTO MT_Team
+    <trim suffix="(" prefix=")" suffixOverrides=",">
+      <if test="id!=null">Id,</if>
+      <if test="name!=null">Name,</if>
+      <if test="status!=null">Status,</if>
+      <if test="companyId!=null">CompanyId,</if>
+      <if test="description!=null">Description,</if>
+    </trim>
+    VALUES
+    <trim suffix="(" prefix=")" suffixOverrides=",">
+      <if test="id!=null">#{id},</if>
+      <if test="name!=null">#{name},</if>
+      <if test="status!=null">#{status},</if>
+      <if test="companyId!=null">#{companyId},</if>
+      <if test="description!=null">#{description},</if>
+    </trim>
+  </insert>
+
+  <insert id="insertTeamUser" parameterType="List">
+    INSERT INTO MT_TeamUser(TeamId,UserId) VALUES
+    <foreach collection="list" index="list" item="item" separator=",">
+      (#{item.teamId},#{item.userId})
+    </foreach>
+  </insert>
+
+  <update id="update" parameterType="com.coderfamily.lamj.model.TeamEntity">
+    UPDATE MT_Team
+    <set>
+      <if test="id!=null">Id=#{id},</if>
+      <if test="name!=null">Name=#{name},</if>
+      <if test="status!=null">Status=#{status},</if>
+      <if test="companyId!=null">CompanyId=#{companyId},</if>
+      <if test="description!=null">Description=#{description},</if>
+    </set>
+  </update>
+
+  <delete id="delete" parameterType="int">
+    DELETE FROM MT_Team WHERE Id=#{id}
+  </delete>
+
+  <sql id="sql_column">Id,Name,Status,CompanyId,Description</sql>
+  <sql id="sql_where">
+    <if test="id!=null"> AND Id=#{id}</if>
+    <if test="name!=null"> AND Name=#{name}</if>
+    <if test="status!=null"> AND Status=#{status}</if>
+    <if test="companyId!=null"> AND CompanyId=#{companyId}</if>
+    <if test="description!=null"> AND Description=#{description}</if>
+  </sql>
+</mapper>

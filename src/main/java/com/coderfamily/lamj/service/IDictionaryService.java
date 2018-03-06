@@ -1,6 +1,7 @@
 package com.coderfamily.lamj.service;
 
 import com.coderfamily.lamj.model.DictionaryEntity;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -12,11 +13,21 @@ public interface IDictionaryService {
     /**
      * 根据条件查询字典列表
      *
-     * @param dictionaryEntity
+     * @param Name
+     * @param EnName
+     * @param Status
+     * @param PageSize
+     * @param CurPage
      * @return
      */
-    List<DictionaryEntity> selectDictByCondition(DictionaryEntity dictionaryEntity);
+    PageInfo<DictionaryEntity> selectDictByPage(String Name,String EnName,int Status,int PageSize,int CurPage);
 
+    /**
+     * 根据
+     * @param EnName
+     * @return
+     */
+    List<DictionaryEntity> selectDictByCondition(String EnName);
     /**
      * 新增字典值
      *

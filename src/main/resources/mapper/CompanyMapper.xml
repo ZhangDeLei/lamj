@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coderfamily.lamj.dao.CompanyMapper">
+    <resultMap id="CompanyEntity" type="com.coderfamily.lamj.model.CompanyEntity">
+        <result column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="Name" jdbcType="VARCHAR" property="name"/>
+        <result column="ShortName" jdbcType="VARCHAR" property="shortName"/>
+        <result column="ConcatUserName" jdbcType="VARCHAR" property="concatUserName"/>
+        <result column="ConcatUserPhone" jdbcType="VARCHAR" property="concatUserPhone"/>
+        <result column="Address" jdbcType="VARCHAR" property="address"/>
+        <result column="CreateDate" jdbcType="VARCHAR" property="createDate"/>
+        <result column="ExpiredDate" jdbcType="VARCHAR" property="expiredDate"/>
+        <result column="MaxNumUser" jdbcType="INTEGER" property="maxNumUser"/>
+    </resultMap>
+
+    <select id="selectCompanyList" parameterType="Map" resultMap="CompanyEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_Company
+        <where>
+            <if test="name!=null and name.length()>0">AND Name=#{name}</if>
+            <if test="begDate!=null and begDate.length()>0">AND ExpiredDate>=#{begDate}</if>
+            <if test="endDate!=null and endDate.length()>0"><![CDATA[ AND ExpiredDate <= #{endDate}]]></if>
+        </where>
+    </select>
+
+    <select id="selectCompanyListByCondition" parameterType="com.coderfamily.lamj.model.CompanyEntity" resultMap="CompanyEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_Company
+        <where>
+            <include refid="sql_where"></include>
+        </where>
+    </select>
+
+    <select id="selectCompanyById" parameterType="int" resultMap="CompanyEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_Company WHERE Id=#{id}
+    </select>
+
+    <select id="selectCompanyIsExpired" parameterType="Map" resultType="boolean">
+    <![CDATA[
+        SELECT EXISTS (SELECT 1 FROM MT_Company WHERE ExpiredDate>=#{begDate} AND ExpiredDate<=#{endDate})
+        ]]>
+  </select>
+
+    <select id="existsCompanyByName" parameterType="String" resultType="boolean">
+    SELECT EXISTS (SELECT 1 FROM MT_Company WHERE Name=#{name})
+  </select>
+
+    <select id="isExpiredCompanyByUserId" parameterType="int" resultType="boolean">
+<![CDATA[
+        SELECT EXISTS (SELECT 1 FROM MT_Company C LEFT JOIN MT_CompanyUser U ON C.Id = U.CompanyId
+        WHERE C.ExpiredDate<=DATE_FORMAT(NOW(),'%Y-%m-%d %h:%i:%s') AND U.UserId=#{userId})
+        ]]>
+  </select>
+
+    <insert id="insert" parameterType="com.coderfamily.lamj.model.CompanyEntity">
+        INSERT INTO MT_Company
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">Id,</if>
+            <if test="name!=null">Name,</if>
+            <if test="shortName!=null">ShortName,</if>
+            <if test="concatUserName!=null">ConcatUserName,</if>
+            <if test="concatUserPhone!=null">ConcatUserPhone,</if>
+            <if test="address!=null">Address,</if>
+            <if test="createDate!=null">CreateDate,</if>
+            <if test="expiredDate!=null">ExpiredDate,</if>
+            <if test="maxNumUser!=null">MaxNumUser,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">#{id},</if>
+            <if test="name!=null">#{name},</if>
+            <if test="shortName!=null">#{shortName},</if>
+            <if test="concatUserName!=null">#{concatUserName},</if>
+            <if test="concatUserPhone!=null">#{concatUserPhone},</if>
+            <if test="address!=null">#{address},</if>
+            <if test="createDate!=null">#{createDate},</if>
+            <if test="expiredDate!=null">#{expiredDate},</if>
+            <if test="maxNumUser!=null">#{maxNumUser},</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.coderfamily.lamj.model.CompanyEntity">
+        UPDATE MT_Company
+        <set>
+            <if test="name!=null">Name=#{name},</if>
+            <if test="shortName!=null">ShortName=#{shortName},</if>
+            <if test="concatUserName!=null">ConcatUserName=#{concatUserName},</if>
+            <if test="concatuserPhone!=null">ConcatUserPhone=#{concatUserPhone},</if>
+            <if test="address!=null">Address=#{address},</if>
+            <if test="createDate!=null">CreateDate=#{createDate},</if>
+            <if test="expiredDate!=null">ExpiredDate=#{expiredDate},</if>
+            <if test="maxNumUser!=null">MaxNumUser=#{maxNumUser},</if>
+        </set>
+        WHERE Id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+    DELETE FROM MT_Company WHERE Id=#{id}
+  </delete>
+
+    <sql id="sql_column">Id,Name,ShortName,ConcatUserName,ConcatUserPhone,Address,CreateDate,ExpiredDate,MaxNumUser</sql>
+    <sql id="sql_where">
+        <if test="name!=null and name.length()>0">AND Name=#{name}</if>
+        <if test="shortName!=null and shortName.length()>0">AND ShortName=#{shortName}</if>
+        <if test="concatUserName!=null and concatUserName.length()>0">AND ConcatUserName=#{concatUserName}</if>
+        <if test="concatuserPhone!=null and concatuserPhone.length()>0">AND ConcatUserPhone=#{concatUserPhone}</if>
+        <if test="address!=null and address.length()>0">AND Address=#{address}</if>
+        <if test="createDate!=null and createDate.length()>0">AND CreateDate=#{createDate}</if>
+        <if test="expiredDate!=null and expiredDate.length()>0">AND ExpiredDate=#{expiredDate}</if>
+        <if test="maxNumUser!=null"> AND MaxNumUser=#{maxNumUser}</if>
+    </sql>
+</mapper>

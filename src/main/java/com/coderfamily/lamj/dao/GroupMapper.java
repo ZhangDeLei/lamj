@@ -20,7 +20,7 @@ public interface GroupMapper {
      * 获取所有用户组信息
      * @return
      */
-    List<GroupEntity> selectGroupList();
+    List<GroupEntity> selectGroupList(@Param("name") String Name);
     /**
      * 根据用户ID获取当前用户所属分组信息
      *

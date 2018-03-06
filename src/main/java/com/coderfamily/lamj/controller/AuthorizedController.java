@@ -7,6 +7,7 @@ import com.coderfamily.lamj.common.util.StringUtil;
 import com.coderfamily.lamj.common.util.TokenUtil;
 import com.coderfamily.lamj.domain.UserInfo;
 import com.coderfamily.lamj.model.UserEntity;
+import com.coderfamily.lamj.service.ICompanyService;
 import com.coderfamily.lamj.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,6 +28,8 @@ public class AuthorizedController {
 
     @Autowired
     private IUserService userService;
+    @Autowired
+    private ICompanyService companyService;
 
     /**
      * 登陆授权
@@ -37,7 +40,7 @@ public class AuthorizedController {
     @ApiOperation(value = "登陆授权", httpMethod = "POST", produces = "application/json", response = Result.class)
     @ResponseBody
     @PostMapping("login")
-    public Result login(@RequestBody Map<String,Object> param) {
+    public Result login(@RequestBody Map<String, Object> param) {
         String UserAccount = StringUtil.toStr(param.get("UserAccount"));
         String Password = StringUtil.toStr(param.get("Password"));
         UserEntity user = userService.selectUserByUserAccount(UserAccount);
@@ -46,6 +49,8 @@ public class AuthorizedController {
             return Result.init(ResponseCode.unknown_account.getCode(), ResponseCode.unknown_account.getMsg());
         } else if (!PasUtil.createPassword(Password).equals(user.getPassword())) {
             return Result.init(ResponseCode.password_incorrect.getCode(), ResponseCode.password_incorrect.getMsg());
+        } else if (user.getTypeCode().equals("1002") && companyService.isExpiredCompanyByUserId(user.getId())) {//如果是业务用户，需要判断一下是否已经超过有效期
+            return Result.init(ResponseCode.expired.getCode(), ResponseCode.expired.getMsg());
         } else {
             userInfo.setUser(user);
             userInfo.setToken(TokenUtil.sign(UserAccount, Password));

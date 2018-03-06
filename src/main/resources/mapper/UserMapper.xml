@@ -10,6 +10,13 @@
         <result column="Sex" jdbcType="INTEGER" property="sex"/>
         <result column="PhotoUrl" jdbcType="VARCHAR" property="photoUrl"/>
         <result column="Status" jdbcType="INTEGER" property="status"/>
+        <result column="TypeId" jdbcType="INTEGER" property="typeId"/>
+        <result column="TypeCode" jdbcType="VARCHAR" property="typeCode"/>
+        <result column="TypeName" jdbcType="VARCHAR" property="typeName"/>
+        <result column="Email" jdbcType="VARCHAR" property="email"/>
+        <result column="StarLevelId" jdbcType="INTEGER" property="starLevelId"/>
+        <result column="StarLevelCode" jdbcType="VARCHAR" property="starLevelCode"/>
+        <result column="StarLevelName" jdbcType="VARCHAR" property="starLevelName"/>
     </resultMap>
 
     <select id="selectUserListByCondition" parameterType="com.coderfamily.lamj.model.UserEntity" resultMap="UserEntity">
@@ -28,9 +35,16 @@
             <if test="password!=null">Password,</if>
             <if test="nickName!=null">NickName,</if>
             <if test="tel!=null">Tel,</if>
-            <if test="sex!=null">Sex,</if>
+            <if test="sex!=-1 and sex!=null">Sex,</if>
             <if test="photoUrl!=null">PhotoUrl,</if>
-            <if test="status!=null">Status,</if>
+            <if test="status!=-1 and status!=null">Status,</if>
+            <if test="typeId!='' and typeId!=null">TypeId,</if>
+            <if test="typeCode!=null">TypeCode,</if>
+            <if test="typeName!=null">TypeName,</if>
+            <if test="email!=null">Email,</if>
+            <if test="starLevelId!=-1 and starLevelId!=null">StarLevelId,</if>
+            <if test="starLevelCode!=null">StarLevelCode,</if>
+            <if test="starLevelName!=null">StarLevelName,</if>
         </trim>
         VALUES
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -39,9 +53,16 @@
             <if test="password!=null">#{password},</if>
             <if test="nickName!=null">#{nickName},</if>
             <if test="tel!=null">#{tel},</if>
-            <if test="sex!=null">#{sex},</if>
+            <if test="sex!=-1 and sex!=null">#{sex},</if>
             <if test="photoUrl!=null">#{photoUrl},</if>
-            <if test="status!=null">#{status},</if>
+            <if test="status!=-1 and status!=null">#{status},</if>
+            <if test="typeId!=-1 and typeId!=null">#{typeId},</if>
+            <if test="typeCode!=null">#{typeCode},</if>
+            <if test="typeName!=null">#{typeName},</if>
+            <if test="email!=null">#{email},</if>
+            <if test="starLevelId!=-1 and starLevelId!=null">#{starLevelId},</if>
+            <if test="starLevelCode!=null">#{starLevelCode},</if>
+            <if test="starLevelName!=null">#{starLevelName},</if>
         </trim>
     </insert>
 
@@ -53,9 +74,16 @@
             <if test="password!=null">Password=#{password},</if>
             <if test="nickName!=null">NickName=#{nickName},</if>
             <if test="tel!=null">Tel=#{tel},</if>
-            <if test="sex!=null">Sex=#{sex},</if>
+            <if test="sex!=-1">Sex=#{sex},</if>
             <if test="photoUrl!=null">PhotoUrl=#{photoUrl},</if>
-            <if test="status!=null">Status=#{status},</if>
+            <if test="status!=-1">Status=#{status},</if>
+            <if test="typeId!=-1">TypeId=#{typeId},</if>
+            <if test="typeCode!=null">TypeCode=#{typeCode},</if>
+            <if test="typeName!=null">TypeName=#{typeName},</if>
+            <if test="email!=null">Email=#{email},</if>
+            <if test="starLevelId!=-1 and starLevelId!=null">StarLevelId=#{starLevelId},</if>
+            <if test="starLevelCode!=null">StarLevelCode=#{starLevelCode},</if>
+            <if test="starLevelName!=null">StarLevelName=#{starLevelName},</if>
         </set>
         WHERE Id=#{id}
     </update>
@@ -84,15 +112,22 @@
         SELECT EXISTS (SELECT 1 FROM MT_UserPermission WHERE UserId=#{userId} AND PermissionId=#{permissionId})
     </select>
 
-    <sql id="sql_column">Id,UserAccount,Password,NickName,Tel,Sex,PhotoUrl,Status</sql>
+    <sql id="sql_column">Id,UserAccount,Password,NickName,Tel,Sex,PhotoUrl,Status,TypeId,TypeCode,TypeName,Email,StarLevelId,StarLevelCode,StarLevelName</sql>
     <sql id="sql_where">
         <if test="id!=null">AND Id=#{id}</if>
         <if test="userAccount!=null">AND UserAccount=#{userAccount}</if>
         <if test="password!=null">AND Password=#{password}</if>
-        <if test="nickName!=null">AND NickName=#{nickName}</if>
+        <if test="nickName!=null and nickName.length()>0">AND NickName=#{nickName}</if>
         <if test="tel!=null">AND Tel=#{tel}</if>
-        <if test="sex!=null">AND Sex=#{sex}</if>
+        <if test="sex!=-1 and sex!=null">AND Sex=#{sex}</if>
         <if test="photoUrl!=null">AND PhotoUrl=#{photoUrl}</if>
-        <if test="status!=null">#{Status},</if>
+        <if test="status!=-1 and status!=null">AND Status=#{status}</if>
+        <if test="typeId!=-1 and typeId!=null">AND TypeId=#{typeId}</if>
+        <if test="typeCode!=null">AND TypeCode=#{typeCode}</if>
+        <if test="typeName!=null">AND TypeName=#{typeName}</if>
+        <if test="email!=null">AND Email=#{email}</if>
+        <if test="starLevelId!=-1 and starLevelId!=null">AND StarLevelId=#{starLevelId}</if>
+        <if test="starLevelCode!=null">AND StarLevelCode=#{starLevelCode}</if>
+        <if test="starLevelName!=null">AND StarLevelName=#{starLevelName}</if>
     </sql>
 </mapper>

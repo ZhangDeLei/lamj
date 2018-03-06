@@ -7,6 +7,7 @@ import com.coderfamily.lamj.model.PermissionEntity;
 import com.coderfamily.lamj.service.IMenuService;
 import com.coderfamily.lamj.service.IPermissionMenuService;
 import com.coderfamily.lamj.service.IPermissionService;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,15 +36,16 @@ public class PermissionController {
     @ApiOperation(value = "获取权限列表", httpMethod = "GET", produces = "application/json", response = Result.class)
     @ResponseBody
     @GetMapping("getPermissionList")
-    public Result getPermissionList() {
-        Result result = null;
-        List<PermissionEntity> mList = permissionService.selectPermissionByCondition(new PermissionEntity());
-        if (mList == null) {
-            result = Result.error("当前不存在权限信息");
-        } else {
-            result = Result.success(mList);
-        }
-        return result;
+    public Result getPermissionList(@RequestParam(required = false) String Name, @RequestParam int PageSize, @RequestParam int CurPage) {
+        PageInfo<PermissionEntity> mList = permissionService.selectPermissionByPage(Name, PageSize, CurPage);
+        return Result.success(mList);
+    }
+
+    @ApiOperation(value = "获取所有权限列表", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @ResponseBody
+    @GetMapping("getAllPermissionList")
+    public Result getAllPermissionList(){
+        return Result.success(permissionService.selectPermissionByCondition(new PermissionEntity()));
     }
 
     @ApiOperation(value = "根据用户ID获取用户权限列表", httpMethod = "GET", produces = "appilcation/json", response = Result.class)
