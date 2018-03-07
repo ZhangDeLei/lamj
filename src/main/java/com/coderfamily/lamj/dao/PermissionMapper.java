@@ -1,6 +1,5 @@
 package com.coderfamily.lamj.dao;
 
-import com.coderfamily.lamj.model.GroupPermissionEntity;
 import com.coderfamily.lamj.model.PermissionEntity;
 import com.coderfamily.lamj.model.UserPermissionEntity;
 import org.apache.ibatis.annotations.Param;
@@ -16,14 +15,6 @@ public interface PermissionMapper {
      * @return
      */
     List<PermissionEntity> selectPermissionByUserId(@Param("userId") int UserId);
-
-    /**
-     * 根据分组ID获取权限列表
-     *
-     * @param GroupId
-     * @return
-     */
-    List<PermissionEntity> selectPermissionByGroupId(@Param("groupId") int GroupId);
 
     /**
      * 根据条件查询权限列表信息
@@ -57,14 +48,6 @@ public interface PermissionMapper {
     boolean existsPermissionUserRelat(@Param("id") int Id);
 
     /**
-     * 判断当前权限是否已被关联用户组
-     *
-     * @param Id
-     * @return
-     */
-    boolean existsPermissionUserGroupRelat(@Param("id") int Id);
-
-    /**
      * 新增权限
      *
      * @param permissionEntity
@@ -79,14 +62,6 @@ public interface PermissionMapper {
      * @return
      */
     int insertUserRelation(@Param("list") List<UserPermissionEntity> mList);
-
-    /**
-     * 新增分组与权限的关联关系
-     *
-     * @param mList
-     * @return
-     */
-    int insertGroupRelation(@Param("list") List<GroupPermissionEntity> mList);
 
     /**
      * 更新权限
@@ -111,12 +86,4 @@ public interface PermissionMapper {
      * @return
      */
     int deleteUserRelation(@Param("userId") int UserId);
-
-    /**
-     * 删除分组与权限的关联关系
-     *
-     * @param GroupId
-     * @return
-     */
-    int deleteGroupRelation(@Param("groupId") int GroupId);
 }

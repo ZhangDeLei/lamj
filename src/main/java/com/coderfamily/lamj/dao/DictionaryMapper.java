@@ -24,6 +24,14 @@ public interface DictionaryMapper {
     String selectMaxCode(@Param("enName") String EnName);
 
     /**
+     * 根据英文名称和编码获取字典值信息
+     * @param EnName
+     * @param Code
+     * @return
+     */
+    DictionaryEntity selectDictByEnNameAndCode(@Param("enName") String EnName,@Param("code") String Code);
+
+    /**
      * 根据ID查询字典详细信息
      *
      * @param Id

@@ -4,6 +4,7 @@ import com.coderfamily.lamj.common.data.ResponseCode;
 import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.common.util.NullUtil;
 import com.coderfamily.lamj.common.util.NumberUtil;
+import com.coderfamily.lamj.domain.UserDetail;
 import com.coderfamily.lamj.model.UserEntity;
 import com.coderfamily.lamj.service.IUserService;
 import io.swagger.annotations.Api;
@@ -32,19 +33,22 @@ public class UserController {
     public Result getUserListByCondition(@RequestParam(required = false) String Name,
                                          @RequestParam(required = false, defaultValue = "-1") int StarLevelId,
                                          @RequestParam(required = false, defaultValue = "-1") int TypeId,
-                                         @RequestParam(required = false, defaultValue = "-1") int Status,
+                                         @RequestParam(required = false) Boolean Status,
                                          @RequestParam(required = false) String Tel,
                                          @RequestParam(required = false, defaultValue = "-1") int Sex,
                                          @RequestParam(required = false) String UserAccount,
+                                         @RequestParam(required = false, defaultValue = "-1") int CompanyId,
+                                         @RequestParam(required = false, defaultValue = "-1") int TeamId,
                                          @RequestParam(required = false, defaultValue = "10") int PageSize,
                                          @RequestParam(required = false, defaultValue = "1") int CurPage) {
-        return Result.success(userService.selectUserListByCondition(Name, UserAccount, Tel, StarLevelId, TypeId, Status, Sex, PageSize, CurPage));
+        return Result.success(userService.selectUserListByCondition(Name, UserAccount, Tel, StarLevelId, TypeId, Status,
+                Sex, CompanyId, TeamId, PageSize, CurPage));
     }
 
-    @ApiOperation(value = "获取所有用户列表",httpMethod = "GET",produces = "application/json",response = Result.class)
+    @ApiOperation(value = "获取所有用户列表", httpMethod = "GET", produces = "application/json", response = Result.class)
     @ResponseBody
     @GetMapping("getAllUser")
-    public Result getAllUser(){
+    public Result getAllUser() {
         return Result.success(userService.selectAllUser());
     }
 
@@ -69,20 +73,42 @@ public class UserController {
     @ApiOperation(value = "新增用户", httpMethod = "POST", produces = "application/json", response = Result.class)
     @ResponseBody
     @PostMapping("insert")
-    public Result insert(@RequestBody UserEntity entity) {
+    public Result insert(@RequestBody UserDetail entity) {
         boolean isExists = userService.existsUserByUserAccount(entity.getUserAccount());
         if (isExists) {
             return new Result(ResponseCode.user_already_exists.getCode(), ResponseCode.user_already_exists.getMsg());
         }
-        int id = userService.insert(entity);
-        return Result.success(id);
+        return userService.insert(entity,false);
+    }
+    /**
+     * 用户新增(用户业务账户新增)
+     *
+     * @param user
+     * @return
+     */
+    @ApiOperation(value = "新增用户", httpMethod = "POST", produces = "application/json", response = Result.class)
+    @ResponseBody
+    @PostMapping("insertCustom")
+    public Result insertCustom(@RequestBody UserDetail user){
+        boolean isExists = userService.existsUserByUserAccount(user.getUserAccount());
+        if (isExists) {
+            return new Result(ResponseCode.user_already_exists.getCode(), ResponseCode.user_already_exists.getMsg());
+        }
+        return userService.insert(user,true);
     }
 
     @ApiOperation(value = "更新用户", httpMethod = "POST", produces = "application/json", response = Result.class)
     @ResponseBody
     @PostMapping("update")
-    public Result update(@RequestBody UserEntity entity) {
-        return userService.update(entity);
+    public Result update(@RequestBody UserDetail entity) {
+        return userService.update(entity,false);
+    }
+
+    @ApiOperation(value = "更新用户", httpMethod = "POST", produces = "application/json", response = Result.class)
+    @ResponseBody
+    @PostMapping("updateCustom")
+    public Result updateCustom(@RequestBody UserDetail entity) {
+        return userService.update(entity,true);
     }
 
     @ApiOperation(value = "更新密码", httpMethod = "POST", produces = "application/json", response = Result.class)
@@ -104,15 +130,5 @@ public class UserController {
     @PostMapping("delete")
     public Result delete(@RequestBody Map<String, Integer> params) {
         return userService.delete(params.get("Id"));
-    }
-
-    @ApiOperation(value = "新增用户组、权限与用户的关联关系", httpMethod = "POST", produces = "application/json", response = Result.class)
-    @ResponseBody
-    @PostMapping("insertGroupAndPermission")
-    public Result insertGroupAndPermission(@RequestBody Map<String, Object> params) {
-        int UserId = NumberUtil.toInt(params.get("UserId") + "");
-        List<Integer> mGroupIds = (List) params.get("GroupIds");
-        List<Integer> mPerIds = (List) params.get("PerIds");
-        return userService.insertGroupAndPermission(UserId, mGroupIds, mPerIds);
     }
 }

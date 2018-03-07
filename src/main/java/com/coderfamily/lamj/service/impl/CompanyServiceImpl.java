@@ -5,6 +5,7 @@ import com.coderfamily.lamj.common.util.NullUtil;
 import com.coderfamily.lamj.common.util.TimeUtils;
 import com.coderfamily.lamj.dao.CompanyMapper;
 import com.coderfamily.lamj.model.CompanyEntity;
+import com.coderfamily.lamj.model.CompanyUserEntity;
 import com.coderfamily.lamj.service.ICompanyService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -53,6 +54,11 @@ public class CompanyServiceImpl implements ICompanyService {
     }
 
     @Override
+    public boolean existsCompanyByMaxNum(int Id) {
+        return companyMapper.existsCompanyByMaxNum(Id);
+    }
+
+    @Override
     public Result insert(CompanyEntity entity) {
         entity.setCreateDate(TimeUtils.getCurrentDate());
         if (companyMapper.existsCompanyByName(entity.getName())) {
@@ -62,6 +68,11 @@ public class CompanyServiceImpl implements ICompanyService {
         } else {
             return Result.error();
         }
+    }
+
+    @Override
+    public int insertCompanyUser(CompanyUserEntity entity) {
+        return companyMapper.insertCompanyUser(entity);
     }
 
     @Override
@@ -86,5 +97,20 @@ public class CompanyServiceImpl implements ICompanyService {
         } else {
             return Result.error();
         }
+    }
+
+    @Override
+    public int deleteCompanyUser(int CompanyId, int UserId) {
+        return companyMapper.deleteCompanyUser(CompanyId,UserId);
+    }
+
+    @Override
+    public int deleteAllCompanyUser(int CompanyId) {
+        return companyMapper.deleteAllCompanyUser(CompanyId);
+    }
+
+    @Override
+    public int deleteCompanyUserByUserId(int UserId) {
+        return companyMapper.deleteCompanyUserByUserId(UserId);
     }
 }

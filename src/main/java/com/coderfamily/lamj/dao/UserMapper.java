@@ -1,5 +1,6 @@
 package com.coderfamily.lamj.dao;
 
+import com.coderfamily.lamj.domain.UserDetail;
 import com.coderfamily.lamj.model.UserEntity;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,7 +13,7 @@ public interface UserMapper {
      * @param entity
      * @return
      */
-    List<UserEntity> selectUserListByCondition(UserEntity entity);
+    List<UserEntity> selectUserListByCondition(UserDetail entity);
 
     /**
      * 根据账号获取用户信息
@@ -20,7 +21,7 @@ public interface UserMapper {
      * @param userAccount
      * @return
      */
-    UserEntity selectUserByUserAccount(@Param("userAccount") String userAccount);
+    UserDetail selectUserByUserAccount(@Param("userAccount") String userAccount);
 
     /**
      * 根据ID查询用户信息
@@ -44,15 +45,6 @@ public interface UserMapper {
      * @return
      */
     boolean existsUserByUserAccount(@Param("userAccount") String userAccount);
-
-    /**
-     * 判断当前账号是否已经关联了该分组
-     *
-     * @param UserId
-     * @param GroupId
-     * @return
-     */
-    boolean existsUserRelationGroup(@Param("userId") int UserId, @Param("groupId") int GroupId);
 
     /**
      * 判断当前账号是否已经关联了该权限

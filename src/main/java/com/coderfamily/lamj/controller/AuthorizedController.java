@@ -5,6 +5,7 @@ import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.common.util.PasUtil;
 import com.coderfamily.lamj.common.util.StringUtil;
 import com.coderfamily.lamj.common.util.TokenUtil;
+import com.coderfamily.lamj.domain.UserDetail;
 import com.coderfamily.lamj.domain.UserInfo;
 import com.coderfamily.lamj.model.UserEntity;
 import com.coderfamily.lamj.service.ICompanyService;
@@ -43,7 +44,7 @@ public class AuthorizedController {
     public Result login(@RequestBody Map<String, Object> param) {
         String UserAccount = StringUtil.toStr(param.get("UserAccount"));
         String Password = StringUtil.toStr(param.get("Password"));
-        UserEntity user = userService.selectUserByUserAccount(UserAccount);
+        UserDetail user = userService.selectUserByUserAccount(UserAccount);
         UserInfo userInfo = new UserInfo();
         if (user == null) {
             return Result.init(ResponseCode.unknown_account.getCode(), ResponseCode.unknown_account.getMsg());

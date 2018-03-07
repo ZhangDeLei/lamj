@@ -1,13 +1,11 @@
 package com.coderfamily.lamj.domain;
 
-import com.coderfamily.lamj.model.UserEntity;
-
 /**
  * @author ZhangDL
  * @date 2018/1/26 14:48
  */
 public class UserInfo {
-    private UserEntity user;
+    private UserDetail user;
     private String token;
 
     public String getToken() {
@@ -18,11 +16,11 @@ public class UserInfo {
         this.token = token;
     }
 
-    public UserEntity getUser() {
+    public UserDetail getUser() {
         return user;
     }
 
-    public void setUser(UserEntity user) {
+    public void setUser(UserDetail user) {
         this.user = user;
     }
 }

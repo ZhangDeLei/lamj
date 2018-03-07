@@ -1,6 +1,7 @@
 package com.coderfamily.lamj.service;
 
 import com.coderfamily.lamj.common.data.Result;
+import com.coderfamily.lamj.domain.UserDetail;
 import com.coderfamily.lamj.model.UserEntity;
 import com.github.pagehelper.PageInfo;
 
@@ -26,10 +27,12 @@ public interface IUserService {
      * @param CurPage
      * @return
      */
-    PageInfo<UserEntity> selectUserListByCondition(String Name, String UserAccount, String Tel, int StarLevelId, int TypeId, int Status, int Sex, int PageSize, int CurPage);
+    PageInfo<UserEntity> selectUserListByCondition(String Name, String UserAccount, String Tel, int StarLevelId,
+                                                   int TypeId, Boolean Status, int Sex, int CompanyId, int TeamId, int PageSize, int CurPage);
 
     /**
      * 获取所有用户信息
+     *
      * @return
      */
     List<UserEntity> selectAllUser();
@@ -40,7 +43,7 @@ public interface IUserService {
      * @param UserAccount
      * @return
      */
-    UserEntity selectUserByUserAccount(String UserAccount);
+    UserDetail selectUserByUserAccount(String UserAccount);
 
     /**
      * 根据id查询用户信息
@@ -58,15 +61,6 @@ public interface IUserService {
      * @return
      */
     UserEntity login(String UserAccount, String Password);
-
-    /**
-     * 判断是否已经有该分组
-     *
-     * @param UserId
-     * @param GroupId
-     * @return
-     */
-    boolean existsUserRelationGroup(int UserId, int GroupId);
 
     /**
      * 判断是否已经有该权限
@@ -91,24 +85,16 @@ public interface IUserService {
      * @param userEntity
      * @return
      */
-    int insert(UserEntity userEntity);
-
-    /**
-     * 新增用户组、权限与用户的关联关系
-     * @param UserId
-     * @param GroupIds
-     * @param PerIds
-     * @return
-     */
-    Result insertGroupAndPermission(int UserId, List<Integer> GroupIds, List<Integer> PerIds);
+    Result insert(UserDetail userEntity, boolean isCustom);
 
     /**
      * 更新账号信息
      *
      * @param userEntity
+     * @param isCustome
      * @return
      */
-    Result update(UserEntity userEntity);
+    Result update(UserDetail userEntity,boolean isCustome);
 
     /**
      * 更新密码

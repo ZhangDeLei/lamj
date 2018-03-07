@@ -15,7 +15,7 @@ public class MenuEntity {
 
     private Integer parentId;
 
-    private int status;
+    private Boolean status;
     public Integer getId() {
         return id;
     }
@@ -72,11 +72,11 @@ public class MenuEntity {
         this.parentId = parentId;
     }
 
-    public int getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 }

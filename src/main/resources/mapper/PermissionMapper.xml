@@ -17,11 +17,6 @@
         LEFT JOIN MT_UserPermission ON MT_UserPermission.PermissionId=MT_Permission.Id
         WHERE MT_UserPermission.UserId=#{userId}
     </select>
-    <select id="selectPermissionByGroupId" parameterType="int" resultMap="PermissionEntity">
-        SELECT <include refid="sql_column"></include> FROM MT_Permission
-        LEFT JOIN MT_GroupPermission ON MT_GroupPermission.PermissionId=MT_Permission.Id
-        WHERE MT_GroupPermission.GroupId=#{groupId}
-    </select>
     <select id="selectPermissionByCondition" parameterType="com.coderfamily.lamj.model.PermissionEntity" resultMap="PermissionEntity">
         SELECT <include refid="sql_column"></include> FROM MT_Permission
         <where>
@@ -36,9 +31,6 @@
     </select>
     <select id="existsPermissionUserRelat" parameterType="int" resultType="boolean">
         SELECT EXISTS (SELECT 1 FROM MT_UserPermission WHERE PermissionId=#{id})
-    </select>
-    <select id="existsPermissionUserGroupRelat" parameterType="int" resultType="boolean">
-        SELECT EXISTS (SELECT 1 FROM MT_GroupPermission WHERE PermissionId=#{id})
     </select>
     <insert id="insert" parameterType="com.coderfamily.lamj.model.PermissionEntity" useGeneratedKeys="true" keyProperty="Id">
         INSERT INTO MT_Permission
@@ -69,12 +61,6 @@
             (#{item.permissionId},#{item.userId})
         </foreach>
     </insert>
-    <insert id="insertGroupRelation" parameterType="java.util.List">
-        INSERT INTO MT_GroupPermission(PermissionId,GroupId) VALUES
-        <foreach collection="list" item="item" index="list" separator=",">
-            (#{item.permissionId},#{item.groupId})
-        </foreach>
-    </insert>
     <update id="update" parameterType="com.coderfamily.lamj.model.PermissionEntity">
         UPDATE MT_Permission
         <set>
@@ -94,9 +80,6 @@
     </delete>
     <delete id="deleteUserRelation" parameterType="int">
         DELETE FROM MT_UserPermission WHERE UserId=#{userId}
-    </delete>
-    <delete id="deleteGroupRelation" parameterType="int">
-        DELETE FROM MT_GroupPermission WHERE GroupId=#{groupId}
     </delete>
     <sql id="sql_column">Id,Name,Code,Status,Description,TypeId,TypeCode,TypeName</sql>
     <sql id="sql_where">

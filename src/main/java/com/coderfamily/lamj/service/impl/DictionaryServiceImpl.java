@@ -25,7 +25,7 @@ public class DictionaryServiceImpl implements IDictionaryService {
     private DictionaryMapper dictionaryMapper;
 
     @Override
-    public PageInfo<DictionaryEntity> selectDictByPage(String Name, String EnName, int Status, int PageSize, int CurPage) {
+    public PageInfo<DictionaryEntity> selectDictByPage(String Name, String EnName, Boolean Status, int PageSize, int CurPage) {
         PageHelper.startPage(CurPage, PageSize);
         DictionaryEntity entity = new DictionaryEntity();
         entity.setName(Name);
@@ -39,9 +39,14 @@ public class DictionaryServiceImpl implements IDictionaryService {
     public List<DictionaryEntity> selectDictByCondition(String EnName) {
         DictionaryEntity entity = new DictionaryEntity();
         entity.setEnName(EnName);
-        entity.setStatus(1);
+        entity.setStatus(true);
         List<DictionaryEntity> mData = dictionaryMapper.selectDictByCondition(entity);
         return mData;
+    }
+
+    @Override
+    public DictionaryEntity DictInfo(String EnName, String Code) {
+        return dictionaryMapper.selectDictByEnNameAndCode(EnName, Code);
     }
 
     @Override

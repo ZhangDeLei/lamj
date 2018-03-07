@@ -13,7 +13,7 @@ public class DictionaryEntity {
 
     private String description;
 
-    private int status;
+    private Boolean status;
 
     public Integer getId() {
         return id;
@@ -63,11 +63,11 @@ public class DictionaryEntity {
         this.description = description == null ? null : description.trim();
     }
 
-    public int getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 

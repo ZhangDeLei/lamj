@@ -26,6 +26,10 @@
         SELECT <include refid="sql_column"></include> FROM MT_Dictionary WHERE Id=#{id}
     </select>
 
+    <select id="selectDictByEnNameAndCode" parameterType="Map" resultMap="DictionaryEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_Dictionary WHERE EnName=#{enName} AND Code=#{code}
+    </select>
+
     <select id="existsByNameAndCode" parameterType="java.util.Map" resultType="boolean">
         SELECT EXISTS (SELECT 1 FROM MT_Dictionary WHERE EnName=#{enName} AND Code = #{code})
     </select>
@@ -37,7 +41,7 @@
             <if test="name!=null">Name=#{name},</if>
             <if test="enName!=null">EnName=#{enName},</if>
             <if test="code!=null">Code=#{code},</if>
-            <if test="label!=null">AND Label=#{label},</if>
+            <if test="label!=null">Label=#{label},</if>
             <if test="description!=null">Description=#{description},</if>
             <if test="status!=null">Status=#{status},</if>
         </set>
@@ -79,6 +83,6 @@
         <if test="code!=null">AND Code=#{code}</if>
         <if test="label!=null">AND Label=#{label}</if>
         <if test="description!=null">AND Description=#{description}</if>
-        <if test="status!=-1">AND Status=#{status}</if>
+        <if test="status!=null">AND Status=#{status}</if>
     </sql>
 </mapper>

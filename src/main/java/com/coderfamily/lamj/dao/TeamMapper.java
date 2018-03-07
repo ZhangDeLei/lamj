@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface TeamMapper {
-    List<TeamEntity> selectTeamListByName(@Param("name") String Name);
+    List<TeamEntity> selectTeamListByName(@Param("name") String Name, @Param("companyId") int CompanyId);
 
     List<TeamEntity> selectTeamListByCondition(TeamEntity entity);
 
@@ -17,11 +17,15 @@ public interface TeamMapper {
 
     int insert(TeamEntity entity);
 
-    int insertTeamUser(@Param("list") List<TeamUserEntity> list);
+    int insertTeamUser(TeamUserEntity entity);
 
     int update(TeamEntity entity);
 
     int delete(@Param("id") int Id);
 
     int deleteUserRelat(@Param("id") int Id);
+
+    int deleteTeamUser(@Param("teamId") int TeamId, @Param("userId") int UserId);
+
+    int deleteTeamUserByUserId(@Param("userId") int UserId);
 }

@@ -16,11 +16,12 @@ public interface ITeamService {
     /**
      * 分页查询队伍列表
      * @param Name
+     * @param CompanyId
      * @param PageSize
      * @param CurPage
      * @return
      */
-    PageInfo<TeamEntity> getTeamList(String Name,int PageSize,int CurPage);
+    PageInfo<TeamEntity> getTeamList(String Name,int CompanyId,int PageSize,int CurPage);
 
     /**
      * 根据条件查询队伍列表
@@ -38,10 +39,10 @@ public interface ITeamService {
 
     /**
      * 新增队伍与用户的关联关系
-     * @param mList
+     * @param entity
      * @return
      */
-    int insertTeamUser(List<TeamUserEntity> mList);
+    int insertTeamUser(TeamUserEntity entity);
     /**
      * 更新队伍
      * @param entity
@@ -55,4 +56,19 @@ public interface ITeamService {
      * @return
      */
     Result delete(int Id);
+
+    /**
+     * 根据队伍ID和用户ID删除用户与队伍的关联关系
+     * @param TeamId
+     * @param UserId
+     * @return
+     */
+    int deleteTeamUser(int TeamId,int UserId);
+
+    /**
+     * 根据用户ID删除用户与队伍的关联关系
+     * @param UserId
+     * @return
+     */
+    int deleteTeamUserByUser(int UserId);
 }

@@ -19,15 +19,25 @@
         <result column="StarLevelName" jdbcType="VARCHAR" property="starLevelName"/>
     </resultMap>
 
-    <select id="selectUserListByCondition" parameterType="com.coderfamily.lamj.model.UserEntity" resultMap="UserEntity">
-        SELECT <include refid="sql_column"></include> FROM MT_User WHERE 1=1 <include refid="sql_where"></include>
+    <resultMap id="UserDetail" type="com.coderfamily.lamj.domain.UserDetail" extends="UserEntity">
+        <result column="CompanyId" jdbcType="INTEGER" property="companyId"/>
+        <result column="TeamId" jdbcType="INTEGER" property="teamId"/>
+        <result column="PermissionId" jdbcType="INTEGER" property="permissionId"/>
+    </resultMap>
+
+    <select id="selectUserListByCondition" parameterType="com.coderfamily.lamj.domain.UserDetail" resultMap="UserEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_User
+        <if test="companyId!=null and companyId!=-1">LEFT JOIN MT_CompanyUser ON MT_CompanyUser.UserId=MT_User.Id</if>
+        <if test="teamId!=null and teamId!=-1">LEFT JOIN MT_TeamUser ON MT_TeamUser.UserId=MT_User.Id</if>
+        WHERE 1=1
+        <include refid="sql_where"></include>
     </select>
 
     <select id="selectUserById" parameterType="int" resultMap="UserEntity">
         SELECT <include refid="sql_column"></include> FROM MT_User WHERE Id = #{id}
     </select>
 
-    <insert id="insert" parameterType="com.coderfamily.lamj.model.UserEntity" useGeneratedKeys="true" keyProperty="Id">
+    <insert id="insert" parameterType="com.coderfamily.lamj.model.UserEntity" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO MT_User
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id!=null">Id,</if>
@@ -92,8 +102,13 @@
         DELETE FROM MT_User WHERE Id=#{id}
     </delete>
 
-    <select id="selectUserByUserAccount" parameterType="String" resultMap="UserEntity">
-        SELECT <include refid="sql_column"></include> FROM MT_User WHERE UserAccount=#{userAccount}
+    <select id="selectUserByUserAccount" parameterType="String" resultMap="UserDetail">
+        SELECT MT_User.*,MT_CompanyUser.CompanyId,MT_TeamUser.TeamId,MT_UserPermission.PermissionId
+        FROM MT_User
+        LEFT JOIN MT_CompanyUser ON MT_User.Id=MT_CompanyUser.UserId
+        LEFT JOIN MT_TeamUser ON MT_User.Id=MT_TeamUser.UserId
+        LEFT JOIN MT_UserPermission ON MT_User.Id=MT_UserPermission.UserId
+        WHERE UserAccount=#{userAccount}
     </select>
 
     <select id="login" parameterType="String" resultMap="UserEntity">
@@ -102,10 +117,6 @@
 
     <select id="existsUserByUserAccount" parameterType="String" resultType="boolean">
         SELECT EXISTS (SELECT 1 FROM MT_User WHERE UserAccount=#{userAccount})
-    </select>
-
-    <select id="existsUserRelationGroup" parameterType="Map" resultType="boolean">
-        SELECT EXISTS (SELECT 1 FROM MT_UserGroup WHERE UserId=#{userId} AND GroupId=#{groupId})
     </select>
 
     <select id="existsUserRelationPermission" parameterType="Map" resultType="boolean">
@@ -129,5 +140,7 @@
         <if test="starLevelId!=-1 and starLevelId!=null">AND StarLevelId=#{starLevelId}</if>
         <if test="starLevelCode!=null">AND StarLevelCode=#{starLevelCode}</if>
         <if test="starLevelName!=null">AND StarLevelName=#{starLevelName}</if>
+        <if test="companyId!=null and companyId!=-1 and companyId!=0">AND MT_CompanyUser.CompanyId=#{companyId}</if>
+        <if test="teamId!=null and teamId!=-1 and teamId!=0">AND MT_TeamUser.TeamId=#{teamId}</if>
     </sql>
 </mapper>

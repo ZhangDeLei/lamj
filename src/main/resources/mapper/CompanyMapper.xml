@@ -22,7 +22,8 @@
         </where>
     </select>
 
-    <select id="selectCompanyListByCondition" parameterType="com.coderfamily.lamj.model.CompanyEntity" resultMap="CompanyEntity">
+    <select id="selectCompanyListByCondition" parameterType="com.coderfamily.lamj.model.CompanyEntity"
+            resultMap="CompanyEntity">
         SELECT <include refid="sql_column"></include> FROM MT_Company
         <where>
             <include refid="sql_where"></include>
@@ -35,9 +36,15 @@
 
     <select id="selectCompanyIsExpired" parameterType="Map" resultType="boolean">
     <![CDATA[
+
         SELECT EXISTS (SELECT 1 FROM MT_Company WHERE ExpiredDate>=#{begDate} AND ExpiredDate<=#{endDate})
+
         ]]>
   </select>
+
+    <select id="existsCompanyByMaxNum" parameterType="int" resultType="boolean">
+        <![CDATA[SELECT EXISTS(SELECT 1 FROM MT_Company C WHERE C.MaxNumUser<(SELECT Count(1) FROM MT_CompanyUser U WHERE C.Id=U.CompanyId) AND C.Id=#{id})]]>
+    </select>
 
     <select id="existsCompanyByName" parameterType="String" resultType="boolean">
     SELECT EXISTS (SELECT 1 FROM MT_Company WHERE Name=#{name})
@@ -45,8 +52,10 @@
 
     <select id="isExpiredCompanyByUserId" parameterType="int" resultType="boolean">
 <![CDATA[
+
         SELECT EXISTS (SELECT 1 FROM MT_Company C LEFT JOIN MT_CompanyUser U ON C.Id = U.CompanyId
         WHERE C.ExpiredDate<=DATE_FORMAT(NOW(),'%Y-%m-%d %h:%i:%s') AND U.UserId=#{userId})
+
         ]]>
   </select>
 
@@ -77,13 +86,17 @@
         </trim>
     </insert>
 
+    <insert id="insertCompanyUser" parameterType="com.coderfamily.lamj.model.CompanyUserEntity">
+        INSERT INTO MT_CompanyUser(CompanyId,UserId) VALUES (#{companyId},#{userId})
+    </insert>
+
     <update id="update" parameterType="com.coderfamily.lamj.model.CompanyEntity">
         UPDATE MT_Company
         <set>
             <if test="name!=null">Name=#{name},</if>
             <if test="shortName!=null">ShortName=#{shortName},</if>
             <if test="concatUserName!=null">ConcatUserName=#{concatUserName},</if>
-            <if test="concatuserPhone!=null">ConcatUserPhone=#{concatUserPhone},</if>
+            <if test="concatUserPhone!=null">ConcatUserPhone=#{concatUserPhone},</if>
             <if test="address!=null">Address=#{address},</if>
             <if test="createDate!=null">CreateDate=#{createDate},</if>
             <if test="expiredDate!=null">ExpiredDate=#{expiredDate},</if>
@@ -93,18 +106,30 @@
     </update>
 
     <delete id="delete" parameterType="int">
-    DELETE FROM MT_Company WHERE Id=#{id}
-  </delete>
+      DELETE FROM MT_Company WHERE Id=#{id}
+    </delete>
+
+    <delete id="deleteCompanyUser" parameterType="Map">
+        DELETE FROM MT_CompanyUser WHERE CompanyId=#{companyId} AND UserId=#{userId}
+    </delete>
+    
+    <delete id="deleteAllCompanyUser" parameterType="int">
+        DELETE FROM MT_CompanyUser WHERE CompanyId=#{companyId}
+    </delete>
+
+    <delete id="deleteCompanyUserByUserId" parameterType="int">
+        DELETE FROM MT_CompanyUser WHERE UserId=#{userId}
+    </delete>
 
     <sql id="sql_column">Id,Name,ShortName,ConcatUserName,ConcatUserPhone,Address,CreateDate,ExpiredDate,MaxNumUser</sql>
     <sql id="sql_where">
         <if test="name!=null and name.length()>0">AND Name=#{name}</if>
         <if test="shortName!=null and shortName.length()>0">AND ShortName=#{shortName}</if>
-        <if test="concatUserName!=null and concatUserName.length()>0">AND ConcatUserName=#{concatUserName}</if>
-        <if test="concatuserPhone!=null and concatuserPhone.length()>0">AND ConcatUserPhone=#{concatUserPhone}</if>
+        <if test="concatUserName!=null">AND ConcatUserName=#{concatUserName}</if>
+        <if test="concatUserPhone!=null">AND ConcatUserPhone=#{concatUserPhone}</if>
         <if test="address!=null and address.length()>0">AND Address=#{address}</if>
         <if test="createDate!=null and createDate.length()>0">AND CreateDate=#{createDate}</if>
         <if test="expiredDate!=null and expiredDate.length()>0">AND ExpiredDate=#{expiredDate}</if>
-        <if test="maxNumUser!=null"> AND MaxNumUser=#{maxNumUser}</if>
+        <if test="maxNumUser!=null and maxNumUser!=0">AND MaxNumUser=#{maxNumUser}</if>
     </sql>
 </mapper>

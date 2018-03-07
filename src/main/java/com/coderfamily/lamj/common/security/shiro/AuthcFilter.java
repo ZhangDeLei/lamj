@@ -5,6 +5,7 @@ import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.common.util.NullUtil;
 import com.coderfamily.lamj.common.util.TokenUtil;
 import com.coderfamily.lamj.dao.UserMapper;
+import com.coderfamily.lamj.domain.UserDetail;
 import com.coderfamily.lamj.model.UserEntity;
 import com.google.gson.Gson;
 import org.apache.shiro.web.filter.authc.PassThruAuthenticationFilter;
@@ -36,7 +37,7 @@ public class AuthcFilter extends PassThruAuthenticationFilter {
             String authc = hsr.getHeader("Authorization");
             if (NullUtil.isNotNull(authc)) {
                 String userName = TokenUtil.getUsername(authc);
-                UserEntity user = userMapper.selectUserByUserAccount(userName);
+                UserDetail user = userMapper.selectUserByUserAccount(userName);
                 Result result = null;
                 if (!TokenUtil.verify(authc, userName, user.getPassword())) {
                     result = Result.init(ResponseCode.unauthenticated.getCode(), ResponseCode.unauthenticated.getMsg());

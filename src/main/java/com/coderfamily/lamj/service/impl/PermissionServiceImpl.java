@@ -2,9 +2,7 @@ package com.coderfamily.lamj.service.impl;
 
 import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.common.util.NumberUtil;
-import com.coderfamily.lamj.common.util.StringUtil;
 import com.coderfamily.lamj.dao.PermissionMapper;
-import com.coderfamily.lamj.model.GroupPermissionEntity;
 import com.coderfamily.lamj.model.PermissionEntity;
 import com.coderfamily.lamj.model.UserPermissionEntity;
 import com.coderfamily.lamj.service.IPermissionService;
@@ -30,11 +28,6 @@ public class PermissionServiceImpl implements IPermissionService {
     @Override
     public List<PermissionEntity> selectPermissionByUserId(int UserId) {
         return permissionMapper.selectPermissionByUserId(UserId);
-    }
-
-    @Override
-    public List<PermissionEntity> selectPermissionByGroupId(int GroupId) {
-        return permissionMapper.selectPermissionByGroupId(GroupId);
     }
 
     @Override
@@ -95,27 +88,6 @@ public class PermissionServiceImpl implements IPermissionService {
     }
 
     @Override
-    public Result insertGroupRelation(int Id, List<Integer> mIds) {
-        deleteGroupRelation(Id);
-        if (mIds != null && mIds.size() > 0) {
-            List<GroupPermissionEntity> entities = new ArrayList<>();
-            mIds.forEach(item -> {
-                GroupPermissionEntity entity = new GroupPermissionEntity();
-                entity.setGroupId(Id);
-                entity.setPermissionId(item);
-                entities.add(entity);
-            });
-            if (permissionMapper.insertGroupRelation(entities) > 0) {
-                return Result.success();
-            } else {
-                return Result.error();
-            }
-        } else {
-            return Result.success();
-        }
-    }
-
-    @Override
     public int update(PermissionEntity permissionEntity) {
         return permissionMapper.update(permissionEntity);
     }
@@ -124,9 +96,6 @@ public class PermissionServiceImpl implements IPermissionService {
     public Result delete(int Id) {
         if (permissionMapper.existsPermissionUserRelat(Id)) {
             return Result.error("当前权限已被用户关联，请移除后再删除");
-        }
-        if (permissionMapper.existsPermissionUserGroupRelat(Id)) {
-            return Result.error("当前权限已被用户组关联，请移除后再删除");
         }
         if (permissionMapper.delete(Id) > 0) {
             return Result.success();
@@ -138,11 +107,6 @@ public class PermissionServiceImpl implements IPermissionService {
     @Override
     public int deleteUserRelation(int UserId) {
         return permissionMapper.deleteUserRelation(UserId);
-    }
-
-    @Override
-    public int deleteGroupRelation(int GroupId) {
-        return permissionMapper.deleteGroupRelation(GroupId);
     }
 
     private String getMaxCode() {

@@ -29,7 +29,7 @@ public class DictionaryController {
     @GetMapping("getDictList")
     public Result getDictList(@RequestParam(required = false, defaultValue = "") String Name,
                               @RequestParam(required = false, defaultValue = "") String EnName,
-                              @RequestParam(required = false, defaultValue = "-1") int Status,
+                              @RequestParam(required = false) Boolean Status,
                               @RequestParam int PageSize,
                               @RequestParam int CurPage) {
         DictionaryEntity entity = new DictionaryEntity();

@@ -20,14 +20,22 @@ public interface IDictionaryService {
      * @param CurPage
      * @return
      */
-    PageInfo<DictionaryEntity> selectDictByPage(String Name,String EnName,int Status,int PageSize,int CurPage);
+    PageInfo<DictionaryEntity> selectDictByPage(String Name,String EnName,Boolean Status,int PageSize,int CurPage);
 
     /**
-     * 根据
+     * 根据应用名称获取字典值列表
      * @param EnName
      * @return
      */
     List<DictionaryEntity> selectDictByCondition(String EnName);
+
+    /**
+     * 根据英文名称和编码获取具体的字典值信息
+     * @param EnName
+     * @param Code
+     * @return
+     */
+    DictionaryEntity DictInfo(String EnName,String Code);
     /**
      * 新增字典值
      *

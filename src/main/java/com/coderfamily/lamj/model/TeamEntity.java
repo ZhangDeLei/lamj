@@ -5,9 +5,11 @@ public class TeamEntity {
 
     private String name;
 
-    private Integer status;
+    private Boolean status;
 
     private Integer companyId;
+
+    private String companyName;
 
     private String description;
 
@@ -27,11 +29,11 @@ public class TeamEntity {
         this.name = name == null ? null : name.trim();
     }
 
-    public Integer getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 
@@ -49,5 +51,13 @@ public class TeamEntity {
 
     public void setDescription(String description) {
         this.description = description == null ? null : description.trim();
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }

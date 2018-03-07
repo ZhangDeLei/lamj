@@ -7,7 +7,7 @@ public class PermissionEntity {
 
     private String code;
 
-    private Integer status;
+    private Boolean status;
 
     private String description;
 
@@ -41,11 +41,11 @@ public class PermissionEntity {
         this.code = code == null ? null : code.trim();
     }
 
-    public Integer getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 

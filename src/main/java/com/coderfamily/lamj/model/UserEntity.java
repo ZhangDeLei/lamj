@@ -15,7 +15,7 @@ public class UserEntity {
 
     private String photoUrl;
 
-    private Integer status;
+    private Boolean status;
 
     private Integer typeId;
 
@@ -87,11 +87,11 @@ public class UserEntity {
         this.photoUrl = photoUrl == null ? null : photoUrl.trim();
     }
 
-    public Integer getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 

@@ -43,11 +43,6 @@
         SELECT M1.*,U1.UserId FROM MT_Menu M1 LEFT JOIN MT_PermissionMenu P1 ON M1.Id = P1.MenuId
         LEFT JOIN MT_UserPermission U1 ON P1.PermissionId = U1.PermissionId
         WHERE U1.UserId=#{userId} AND M1.LEVEL=1 AND M1.Status=1
-        UNION
-        SELECT M1.*,U1.UserId FROM MT_Menu M1 LEFT JOIN MT_PermissionMenu P1 ON M1.Id = P1.MenuId
-        LEFT JOIN MT_GroupPermission G1 ON P1.PermissionId = G1.PermissionId
-        LEFT JOIN MT_UserGroup U1 ON U1.GroupId = G1.GroupId
-        WHERE U1.UserId=#{userId} AND M1.LEVEL=1 AND M1.Status=1
     </select>
 
     <select id="selectMenuByCondition" parameterType="com.coderfamily.lamj.model.MenuEntity" resultMap="MenuEntity">
@@ -78,11 +73,6 @@
         SELECT M1.* FROM MT_Menu M1 LEFT JOIN MT_PermissionMenu P1 ON M1.Id = P1.MenuId
         LEFT JOIN MT_UserPermission U1 ON P1.PermissionId = U1.PermissionId
         WHERE U1.UserId=#{userId} AND M1.ParentId=#{id}
-        UNION
-        SELECT M1.* FROM MT_Menu M1 LEFT JOIN MT_PermissionMenu P1 ON M1.Id = P1.MenuId
-        LEFT JOIN MT_GroupPermission G1 ON P1.PermissionId = G1.PermissionId
-        LEFT JOIN MT_UserGroup U1 ON U1.GroupId = G1.GroupId
-        WHERE U1.UserId=#{userId} AND M1.LEVEL=2 AND M1.ParentId=#{id}
     </select>
 
     <select id="selectMenuByPermissionId" parameterType="int" resultMap="MenuEntity">

@@ -112,7 +112,7 @@ public class PermissionController {
     @GetMapping("getPermissionListByUsed")
     public Result getPermissionListByUsed() {
         PermissionEntity entity = new PermissionEntity();
-        entity.setStatus(1);
+        entity.setStatus(true);
         List<PermissionEntity> mList = permissionService.selectPermissionByCondition(entity);
         return Result.success(mList);
     }

@@ -1,7 +1,6 @@
 package com.coderfamily.lamj.service;
 
 import com.coderfamily.lamj.common.data.Result;
-import com.coderfamily.lamj.model.GroupPermissionEntity;
 import com.coderfamily.lamj.model.PermissionEntity;
 import com.coderfamily.lamj.model.UserPermissionEntity;
 import com.github.pagehelper.PageInfo;
@@ -20,14 +19,6 @@ public interface IPermissionService {
      * @return
      */
     List<PermissionEntity> selectPermissionByUserId(int UserId);
-
-    /**
-     * 根据分组ID获取权限列表
-     *
-     * @param GroupId
-     * @return
-     */
-    List<PermissionEntity> selectPermissionByGroupId(int GroupId);
 
     /**
      * 根据条件查询权限列表信息
@@ -78,15 +69,6 @@ public interface IPermissionService {
     boolean insertUserRelation(List<UserPermissionEntity> mList);
 
     /**
-     * 新增分组与权限的关联关系
-     *
-     * @param Id
-     * @param mIds
-     * @return
-     */
-    Result insertGroupRelation(int Id,List<Integer> mIds);
-
-    /**
      * 更新权限
      *
      * @param permissionEntity
@@ -109,13 +91,5 @@ public interface IPermissionService {
      * @return
      */
     int deleteUserRelation(int UserId);
-
-    /**
-     * 删除分组与权限的关联关系
-     *
-     * @param GroupId
-     * @return
-     */
-    int deleteGroupRelation(int GroupId);
 
 }

@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,9 +26,10 @@ public class TeamController {
     @ApiOperation(value = "获取队伍列表", httpMethod = "GET", produces = "application/json", response = Result.class)
     @GetMapping("getTeamList")
     public Result getTeamList(@RequestParam(required = false) String Name,
+                              @RequestParam(required = false, defaultValue = "-1") int CompanyId,
                               @RequestParam int PageSize,
                               @RequestParam int CurPage) {
-        PageInfo<TeamEntity> pageInfo = teamService.getTeamList(Name, PageSize, CurPage);
+        PageInfo<TeamEntity> pageInfo = teamService.getTeamList(Name, CompanyId, PageSize, CurPage);
         return Result.success(pageInfo);
     }
 
@@ -35,6 +37,16 @@ public class TeamController {
     @GetMapping("getAllTeamList")
     public Result getAllTeamList() {
         return Result.success(teamService.getTeamListByCondition(new TeamEntity()));
+    }
+
+    @ApiOperation(value = "根据企业ID查询队伍列表", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @GetMapping("getTeamListByCompanyId")
+    public Result getTeamListByCompanyId(@RequestParam(required = false) String Name, @RequestParam int CompanyId) {
+        TeamEntity entity = new TeamEntity();
+        entity.setCompanyId(CompanyId);
+        entity.setName(Name);
+        List<TeamEntity> mData = teamService.getTeamListByCondition(entity);
+        return Result.success(mData);
     }
 
     @ApiOperation(value = "新增队伍", httpMethod = "POST", produces = "application/json", response = Result.class)

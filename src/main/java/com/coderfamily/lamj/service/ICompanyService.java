@@ -2,6 +2,7 @@ package com.coderfamily.lamj.service;
 
 import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.model.CompanyEntity;
+import com.coderfamily.lamj.model.CompanyUserEntity;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
@@ -50,12 +51,26 @@ public interface ICompanyService {
      * @return
      */
     boolean isExpiredCompanyByUserId(int UserId);
+
+    /**
+     * 判断当前企业的用户数是否已经超标
+     * @param Id
+     * @return
+     */
+    boolean existsCompanyByMaxNum(int Id);
     /**
      * 新增企业
      * @param entity
      * @return
      */
     Result insert(CompanyEntity entity);
+
+    /**
+     * 新增企业用户的关联关系
+     * @param entity
+     * @return
+     */
+    int insertCompanyUser(CompanyUserEntity entity);
 
     /**
      * 修改企业
@@ -70,4 +85,27 @@ public interface ICompanyService {
      * @return
      */
     Result delete(int Id);
+
+    /**
+     * 删除根据企业ID和用户ID删除用户与企业的关联关系
+     * @param CompanyId
+     * @param UserId
+     * @return
+     */
+    int deleteCompanyUser(int CompanyId,int UserId);
+
+    /**
+     * 删除所有的企业用户信息
+     * @param CompanyId
+     * @return
+     */
+    int deleteAllCompanyUser(int CompanyId);
+
+    /**
+     * 根据用户ID删除用户与企业的关联关系
+     * @param UserId
+     * @return
+     */
+    int deleteCompanyUserByUserId(int UserId);
+
 }

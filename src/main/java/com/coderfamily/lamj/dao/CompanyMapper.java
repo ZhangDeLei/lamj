@@ -1,6 +1,7 @@
 package com.coderfamily.lamj.dao;
 
 import com.coderfamily.lamj.model.CompanyEntity;
+import com.coderfamily.lamj.model.CompanyUserEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -19,9 +20,19 @@ public interface CompanyMapper {
 
     boolean existsCompanyByName(@Param("name") String Name);
 
+    boolean existsCompanyByMaxNum(@Param("id") int Id);
+
     int insert(CompanyEntity entity);
+
+    int insertCompanyUser(CompanyUserEntity entity);
 
     int update(CompanyEntity entity);
 
     int delete(@Param("id") int Id);
+
+    int deleteCompanyUser(@Param("companyId") int CompanyId, @Param("userId") int UserId);
+
+    int deleteAllCompanyUser(@Param("companyId") int CompanyId);
+
+    int deleteCompanyUserByUserId(@Param("userId") int UserId);
 }
