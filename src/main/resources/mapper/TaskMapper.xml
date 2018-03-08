@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coderfamily.lamj.dao.TaskMapper">
+    <resultMap id="TaskEntity" type="com.coderfamily.lamj.model.TaskEntity">
+        <result column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="CompanyId" jdbcType="INTEGER" property="companyId"/>
+        <result column="Url" jdbcType="VARCHAR" property="url"/>
+        <result column="Title" jdbcType="VARCHAR" property="title"/>
+        <result column="Comment" jdbcType="VARCHAR" property="comment"/>
+        <result column="Integral" jdbcType="INTEGER" property="integral"/>
+        <result column="NewId" jdbcType="INTEGER" property="newId"/>
+        <result column="NewName" jdbcType="VARCHAR" property="newName"/>
+        <result column="TypeId" jdbcType="INTEGER" property="typeId"/>
+        <result column="TypeCode" jdbcType="VARCHAR" property="typeCode"/>
+        <result column="TypeName" jdbcType="VARCHAR" property="typeName"/>
+        <result column="ExpireDate" jdbcType="VARCHAR" property="expireDate"/>
+        <result column="ExecTypeId" jdbcType="INTEGER" property="execTypeId"/>
+        <result column="ExecTypeCode" jdbcType="VARCHAR" property="execTypeCode"/>
+        <result column="ExecTypeName" jdbcType="VARCHAR" property="execTypeName"/>
+        <result column="CreateDate" jdbcType="VARCHAR" property="createDate"/>
+        <result column="FinishDate" jdbcType="VARCHAR" property="finishDate"/>
+        <result column="CreateUserId" jdbcType="INTEGER" property="createUserId"/>
+        <result column="CreateUserName" jdbcType="VARCHAR" property="createUserName"/>
+        <result column="StageId" jdbcType="INTEGER" property="stageid"/>
+        <result column="StageCode" jdbcType="VARCHAR" property="stageCode"/>
+        <result column="StageName" jdbcType="VARCHAR" property="stageName"/>
+    </resultMap>
+
+    <resultMap id="TaskInfo" type="com.coderfamily.lamj.domain.TaskInfo" extends="TaskEntity">
+        <collection property="teams" javaType="java.util.List" column="{Id=id,CompanyId=companyId}"
+                    ofType="com.coderfamily.lamj.model.TeamEntity"
+                    select="com.coderfamily.lamj.dao.TeamMapper.selectByTaskId"/>
+    </resultMap>
+
+    <select id="select" parameterType="com.coderfamily.lamj.model.TaskEntity" resultMap="TaskEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_Task
+        <where>
+            <include refid="sql_where"></include>
+        </where>
+    </select>
+
+    <select id="selectById" parameterType="int" resultMap="TaskInfo">
+        SELECT <include refid="sql_column"></include> FROM MT_Task WHERE Id=#{id}
+    </select>
+
+    <insert id="insert" parameterType="com.coderfamily.lamj.model.TaskEntity" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO MT_Task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">Id,</if>
+            <if test="companyId!=null">CompanyId,</if>
+            <if test="url!=null">Url,</if>
+            <if test="title!=null">Title,</if>
+            <if test="comment!=null">Comment,</if>
+            <if test="integral!=null">Integral,</if>
+            <if test="newId!=null">NewId,</if>
+            <if test="newName!=null">NewName,</if>
+            <if test="typeId!=null">TypeId,</if>
+            <if test="typeCode!=null">TypeCode,</if>
+            <if test="typeName!=null">TypeName,</if>
+            <if test="expireDate!=null">ExpireDate,</if>
+            <if test="execTypeId!=null">ExecTypeId,</if>
+            <if test="execTypeCode!=null">ExecTypeCode,</if>
+            <if test="execTypeName!=null">ExecTypeName,</if>
+            <if test="createDate!=null">CreateDate,</if>
+            <if test="finishDate!=null">FinishDate,</if>
+            <if test="createUserId!=null">CreateUserId,</if>
+            <if test="createUserName!=null">CreateUserName,</if>
+            <if test="stageId!=null">StageId,</if>
+            <if test="stageCode!=null">StageCode,</if>
+            <if test="stageName!=null">StageName,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">#{id},</if>
+            <if test="companyId!=null">#{companyId},</if>
+            <if test="url!=null">#{url},</if>
+            <if test="title!=null">#{title},</if>
+            <if test="comment!=null">#{comment},</if>
+            <if test="integral!=null">#{integral},</if>
+            <if test="newId!=null">#{newId},</if>
+            <if test="newName!=null">#{newName},</if>
+            <if test="typeId!=null">#{typeId},</if>
+            <if test="typeCode!=null">#{typeCode},</if>
+            <if test="typeName!=null">#{typeName},</if>
+            <if test="expireDate!=null">#{expireDate},</if>
+            <if test="execTypeId!=null">#{execTypeId},</if>
+            <if test="execTypeCode!=null">#{execTypeCode},</if>
+            <if test="execTypeName!=null">#{execTypeName},</if>
+            <if test="createDate!=null">#{createDate},</if>
+            <if test="finishDate!=null">#{finishDate},</if>
+            <if test="createUserId!=null">#{createUserId},</if>
+            <if test="createUserName!=null">#{createUserName},</if>
+            <if test="stageId!=null">#{stageId},</if>
+            <if test="stageCode!=null">#{stageCode},</if>
+            <if test="stageName!=null">#{stageName},</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.coderfamily.lamj.model.TaskEntity">
+        UPDATE MT_Task
+        <set>
+            <if test="url!=null">Url=#{url},</if>
+            <if test="title!=null">Title=#{title},</if>
+            <if test="comment!=null">Comment=#{comment},</if>
+            <if test="integral!=null">Integral=#{integral},</if>
+            <if test="newId!=null">NewId=#{newId},</if>
+            <if test="newName!=null">NewName=#{newName},</if>
+            <if test="typeId!=null">TypeId=#{typeId},</if>
+            <if test="typeCode!=null">TypeCode=#{typeCode},</if>
+            <if test="typeName!=null">TypeName=#{typeName},</if>
+            <if test="expireDate!=null">ExpireDate=#{expireDate},</if>
+            <if test="execTypeId!=null">ExecTypeId=#{execTypeId},</if>
+            <if test="execTypeCode!=null">ExecTypeCode=#{execTypeCode},</if>
+            <if test="execTypeName!=null">ExecTypeName=#{execTypeName},</if>
+            <if test="createDate!=null">CreateDate=#{createDate},</if>
+            <if test="finishDate!=null">FinishDate=#{finishDate},</if>
+            <if test="createUserId!=null">CreateUserId=#{createUserId},</if>
+            <if test="createUserName!=null">CreateUserName=#{createUserName},</if>
+            <if test="stageId!=null">StageId=#{stageId},</if>
+            <if test="stageCode!=null">StageCode=#{stageCode},</if>
+            <if test="stageName!=null">StageName=#{stageName},</if>
+        </set>
+        WHERE Id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM MT_Task WHERE Id=#{id}
+    </delete>
+
+    <delete id="deleteByIds" parameterType="List">
+        DELETE FROM MT_Task WHERE Id IN(
+        <foreach collection="list" item="i" index="list" separator=",">#{i}</foreach>
+        )
+    </delete>
+
+    <sql id="sql_column">Id,CompanyId,Url,Title,Comment,Integral,NewId,NewName,TypeId,TypeCode,TypeName,ExpireDate,ExecTypeId
+                        ,ExecTypeCode,ExecTypeName,CreateDate,FinishDate,CreateUserId,CreateUserName,StageId,StageCode,StageName</sql>
+
+    <sql id="sql_where">
+        <if test="companyId!=null">AND CompanyId=#{companyId}</if>
+        <if test="title!=null">AND Title LIKE CONCAT('%',#{title},'%')</if>
+        <if test="stageId!=-1 and stageId!=null">AND StageId=#{stageId}</if>
+        <if test="newId!=-1 and newId!=null">AND NewId=#{newId}</if>
+    </sql>
+</mapper>

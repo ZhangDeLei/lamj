@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coderfamily.lamj.dao.NewAuthMapper">
+    <resultMap id="NewAuthEntity" type="com.coderfamily.lamj.model.NewAuthEntity">
+        <result column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="Url" jdbcType="VARCHAR" property="url"/>
+        <result column="Name" jdbcType="VARCHAR" property="name"/>
+        <result column="Status" jdbcType="BIT" property="status"/>
+        <result column="AppId" jdbcType="VARCHAR" property="appId"/>
+        <result column="AppKey" jdbcType="VARCHAR" property="appKey"/>
+        <result column="AppSecret" jdbcType="VARCHAR" property="appSecret"/>
+        <result column="AuthCode" jdbcType="VARCHAR" property="authCode"/>
+        <result column="Cls" jdbcType="VARCHAR" property="cls"/>
+    </resultMap>
+
+    <resultMap id="NewAuthInfo" type="com.coderfamily.lamj.domain.NewAuthInfo" extends="NewAuthEntity">
+        <collection property="oprs" javaType="java.util.ArrayList" column="id"
+                    ofType="com.coderfamily.lamj.model.NewOperatorEntity"
+                    select="com.coderfamily.lamj.dao.NewOperatorMapper.selectNewOperatorByNewId"/>
+    </resultMap>
+
+    <select id="select" parameterType="com.coderfamily.lamj.model.NewAuthEntity" resultMap="NewAuthEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_NewAuth
+        <where>
+            <include refid="sql_where"></include>
+        </where>
+    </select>
+
+    <select id="selectById" parameterType="int" resultMap="NewAuthInfo">
+        SELECT <include refid="sql_column"></include> FROM Id=#{id}
+    </select>
+
+    <select id="existsNewAuthByName" parameterType="String" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM MT_NewAuth WHERE Name=#{name})
+    </select>
+
+    <insert id="insert" parameterType="com.coderfamily.lamj.model.NewAuthEntity" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO MT_NewAuth
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">Id,</if>
+            <if test="url!=null">Url,</if>
+            <if test="name!=null">Name,</if>
+            <if test="status!=null">Status,</if>
+            <if test="appId!=null">AppId,</if>
+            <if test="appKey!=null">AppKey,</if>
+            <if test="appSecret!=null">AppSecret,</if>
+            <if test="authCode!=null">AuthCode,</if>
+            <if test="cls!=null">Cls,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">#{id},</if>
+            <if test="url!=null">#{url},</if>
+            <if test="name!=null">#{name},</if>
+            <if test="status!=null">#{status},</if>
+            <if test="appId!=null">#{appId},</if>
+            <if test="appKey!=null">#{appKey},</if>
+            <if test="appSecret!=null">#{appSecret},</if>
+            <if test="authCode!=null">#{authCode},</if>
+            <if test="cls!=null">#{cls},</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.coderfamily.lamj.model.NewAuthEntity">
+        UPDATE MT_NewAuth
+        <set>
+            <if test="id!=null">Id=#{id},</if>
+            <if test="url!=null">Url=#{url},</if>
+            <if test="name!=null">Name=#{name},</if>
+            <if test="status!=null">Status=#{status},</if>
+            <if test="appId!=null">AppId=#{appId},</if>
+            <if test="appKey!=null">AppKey=#{appKey},</if>
+            <if test="appSecret!=null">AppSecret=#{appSecret},</if>
+            <if test="authCode!=null">AuthCode=#{authCode},</if>
+            <if test="cls!=null">Cls=#{cls},</if>
+        </set>
+        WHERE Id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM MT_NewAuth WHERE Id=#{id}
+    </delete>
+
+    <sql id="sql_column">Id,Url,Name,Status,AppId,AppKey,AppSecret,AuthCode,Cls</sql>
+    <sql id="sql_where">
+        <if test="name!=null">AND Name=#{name}</if>
+        <if test="status!=null">AND Status!=#{status}</if>
+    </sql>
+</mapper>

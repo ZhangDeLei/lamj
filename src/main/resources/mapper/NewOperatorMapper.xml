@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coderfamily.lamj.dao.NewOperatorMapper">
+    <resultMap id="NewOperatorEntity" type="com.coderfamily.lamj.model.NewOperatorEntity">
+        <result column="NewId" jdbcType="INTEGER" property="newId"/>
+        <result column="NewName" jdbcType="VARCHAR" property="newName"/>
+        <result column="OprTypeId" jdbcType="INTEGER" property="oprTypeId"/>
+        <result column="OprTypeCode" jdbcType="VARCHAR" property="oprTypeCode"/>
+        <result column="OprTypeName" jdbcType="VARCHAR" property="oprTypeName"/>
+    </resultMap>
+
+    <select id="selectNewOperatorByNewId" parameterType="int" resultMap="NewOperatorEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_NewOperator WHERE NewId=#{newId}
+    </select>
+
+    <insert id="insertByList" parameterType="List">
+        INSERT INTO MT_NewOperator(NewId,NewName,OprTypeId,OprTypeCode,OprTypeName) VALUES
+        <foreach collection="list" index="list" item="item" separator=",">
+            (#{item.newId},#{item.newName},#{item.oprTypeId},#{item.oprTypeCode},#{item.oprTypeName})
+        </foreach>
+    </insert>
+
+    <delete id="deleteByNewId" parameterType="int">
+      DELETE FROM MT_NewOperator WHERE NewId=#{newId}
+    </delete>
+
+    <sql id="sql_column">NewId,NewName,OprTypeId,OprTypeCode,OprTypeName</sql>
+</mapper>

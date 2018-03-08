@@ -5,6 +5,7 @@ import com.coderfamily.lamj.common.util.NullUtil;
 import com.coderfamily.lamj.dao.TeamMapper;
 import com.coderfamily.lamj.model.CompanyEntity;
 import com.coderfamily.lamj.model.TeamEntity;
+import com.coderfamily.lamj.model.TeamTaskEntity;
 import com.coderfamily.lamj.model.TeamUserEntity;
 import com.coderfamily.lamj.service.ICompanyService;
 import com.coderfamily.lamj.service.ITeamService;
@@ -64,6 +65,11 @@ public class TeamServiceImpl implements ITeamService {
     }
 
     @Override
+    public int insertTeamTask(List<TeamTaskEntity> entities) {
+        return teamMapper.insertTeamTask(entities);
+    }
+
+    @Override
     public Result update(TeamEntity entity) {
         CompanyEntity companyEntity = companyService.getCompanyById(entity.getCompanyId());
         if(NullUtil.isNull(companyEntity)){
@@ -88,6 +94,7 @@ public class TeamServiceImpl implements ITeamService {
         if (NullUtil.isNull(team)) {
             return Result.error("队伍不存在");
         } else if (teamMapper.delete(Id) > 0 && teamMapper.deleteUserRelat(Id) >= 0) {
+            teamMapper.deleteTeamTaskByTeamId(Id);
             return Result.success();
         } else {
             return Result.error();
@@ -102,5 +109,15 @@ public class TeamServiceImpl implements ITeamService {
     @Override
     public int deleteTeamUserByUser(int UserId) {
         return teamMapper.deleteTeamUserByUserId(UserId);
+    }
+
+    @Override
+    public int deleteTeamTaskByTaskId(int TaskId) {
+        return teamMapper.deleteTeamTaskByTaskId(TaskId);
+    }
+
+    @Override
+    public int deleteTeamTaskByTaskIds(List<Integer> TaskIds) {
+        return teamMapper.deleteTeamTaskByTaskIds(TaskIds);
     }
 }

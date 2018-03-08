@@ -113,6 +113,14 @@ public interface IUserService {
     Result updatePhoto(Map<String, String> params);
 
     /**
+     * 更新最后一次登录时间
+     * @param UserId
+     * @param LastLoginTime
+     * @return
+     */
+    int updateLastLoginTime(int UserId);
+
+    /**
      * 根据ID删除用户信息
      *
      * @param Id

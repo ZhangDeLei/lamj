@@ -22,7 +22,7 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table tableName="MT_Team" mapperName="TeamMapper" domainObjectName="TeamEntity"
+        <table tableName="MT_NewOperator" mapperName="NewOperatorMapper" domainObjectName="NewOperatorEntity"
                enableSelectByExample="false"
                enableUpdateByPrimaryKey="false"
                enableInsert="false"

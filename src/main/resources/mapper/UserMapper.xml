@@ -17,6 +17,8 @@
         <result column="StarLevelId" jdbcType="INTEGER" property="starLevelId"/>
         <result column="StarLevelCode" jdbcType="VARCHAR" property="starLevelCode"/>
         <result column="StarLevelName" jdbcType="VARCHAR" property="starLevelName"/>
+        <result column="CreateDateTime" jdbcType="VARCHAR" property="createDateTime"/>
+        <result column="LastLoginTime" jdbcType="VARCHAR" property="lastLoginTime"/>
     </resultMap>
 
     <resultMap id="UserDetail" type="com.coderfamily.lamj.domain.UserDetail" extends="UserEntity">
@@ -25,7 +27,8 @@
         <result column="PermissionId" jdbcType="INTEGER" property="permissionId"/>
     </resultMap>
 
-    <select id="selectUserListByCondition" parameterType="com.coderfamily.lamj.domain.UserDetail" resultMap="UserEntity">
+    <select id="selectUserListByCondition" parameterType="com.coderfamily.lamj.domain.UserDetail"
+            resultMap="UserEntity">
         SELECT <include refid="sql_column"></include> FROM MT_User
         <if test="companyId!=null and companyId!=-1">LEFT JOIN MT_CompanyUser ON MT_CompanyUser.UserId=MT_User.Id</if>
         <if test="teamId!=null and teamId!=-1">LEFT JOIN MT_TeamUser ON MT_TeamUser.UserId=MT_User.Id</if>
@@ -55,6 +58,8 @@
             <if test="starLevelId!=-1 and starLevelId!=null">StarLevelId,</if>
             <if test="starLevelCode!=null">StarLevelCode,</if>
             <if test="starLevelName!=null">StarLevelName,</if>
+            <if test="createDateTime!=null">CreateDateTime,</if>
+            <if test="lastLoginTime!=null">LastLoginTime,</if>
         </trim>
         VALUES
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -73,27 +78,30 @@
             <if test="starLevelId!=-1 and starLevelId!=null">#{starLevelId},</if>
             <if test="starLevelCode!=null">#{starLevelCode},</if>
             <if test="starLevelName!=null">#{starLevelName},</if>
+            <if test="createDateTime!=null">#{createDateTime},</if>
+            <if test="lastLoginTime!=null">#{lastLoginTime},</if>
         </trim>
     </insert>
 
     <update id="update" parameterType="com.coderfamily.lamj.model.UserEntity">
         UPDATE MT_User
         <set>
-            <if test="id!=null">Id=#{id},</if>
             <if test="userAccount!=null">UserAccount=#{userAccount},</if>
             <if test="password!=null">Password=#{password},</if>
             <if test="nickName!=null">NickName=#{nickName},</if>
             <if test="tel!=null">Tel=#{tel},</if>
-            <if test="sex!=-1">Sex=#{sex},</if>
+            <if test="sex!=-1 and sex!=null">Sex=#{sex},</if>
             <if test="photoUrl!=null">PhotoUrl=#{photoUrl},</if>
-            <if test="status!=-1">Status=#{status},</if>
-            <if test="typeId!=-1">TypeId=#{typeId},</if>
+            <if test="status!=-1 and status!=null">Status=#{status},</if>
+            <if test="typeId!=-1 and typeId!=null">TypeId=#{typeId},</if>
             <if test="typeCode!=null">TypeCode=#{typeCode},</if>
             <if test="typeName!=null">TypeName=#{typeName},</if>
             <if test="email!=null">Email=#{email},</if>
             <if test="starLevelId!=-1 and starLevelId!=null">StarLevelId=#{starLevelId},</if>
             <if test="starLevelCode!=null">StarLevelCode=#{starLevelCode},</if>
             <if test="starLevelName!=null">StarLevelName=#{starLevelName},</if>
+            <if test="createDateTime!=null">CreateDateTime=#{createDateTime},</if>
+            <if test="lastLoginTime!=null">LastLoginTime=#{lastLoginTime},</if>
         </set>
         WHERE Id=#{id}
     </update>
@@ -123,7 +131,8 @@
         SELECT EXISTS (SELECT 1 FROM MT_UserPermission WHERE UserId=#{userId} AND PermissionId=#{permissionId})
     </select>
 
-    <sql id="sql_column">Id,UserAccount,Password,NickName,Tel,Sex,PhotoUrl,Status,TypeId,TypeCode,TypeName,Email,StarLevelId,StarLevelCode,StarLevelName</sql>
+    <sql id="sql_column">Id,UserAccount,Password,NickName,Tel,Sex,PhotoUrl,Status,TypeId,TypeCode,TypeName,
+                        Email,StarLevelId,StarLevelCode,StarLevelName,CreateDateTime,LastLoginTime</sql>
     <sql id="sql_where">
         <if test="id!=null">AND Id=#{id}</if>
         <if test="userAccount!=null">AND UserAccount=#{userAccount}</if>
@@ -140,6 +149,8 @@
         <if test="starLevelId!=-1 and starLevelId!=null">AND StarLevelId=#{starLevelId}</if>
         <if test="starLevelCode!=null">AND StarLevelCode=#{starLevelCode}</if>
         <if test="starLevelName!=null">AND StarLevelName=#{starLevelName}</if>
+        <if test="createDateTime!=null">AND CreateDateTime=#{createDateTime}</if>
+        <if test="lastLoginTime!=null">AND LastLoginTime=#{lastLoginTime}</if>
         <if test="companyId!=null and companyId!=-1 and companyId!=0">AND MT_CompanyUser.CompanyId=#{companyId}</if>
         <if test="teamId!=null and teamId!=-1 and teamId!=0">AND MT_TeamUser.TeamId=#{teamId}</if>
     </sql>

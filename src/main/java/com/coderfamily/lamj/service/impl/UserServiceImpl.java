@@ -4,6 +4,7 @@ import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.common.util.NullUtil;
 import com.coderfamily.lamj.common.util.NumberUtil;
 import com.coderfamily.lamj.common.util.PasUtil;
+import com.coderfamily.lamj.common.util.TimeUtils;
 import com.coderfamily.lamj.dao.UserMapper;
 import com.coderfamily.lamj.domain.UserDetail;
 import com.coderfamily.lamj.model.*;
@@ -37,6 +38,8 @@ public class UserServiceImpl implements IUserService {
     private ICompanyService companyService;
     @Autowired
     private IDictionaryService dictionaryService;
+    @Autowired
+    private IUserNewAuthService userNewAuthService;
 
     @Override
     public PageInfo<UserEntity> selectUserListByCondition(String Name, String UserAccount, String Tel, int StarLevelId,
@@ -186,6 +189,14 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public int updateLastLoginTime(int UserId) {
+        UserEntity entity = new UserEntity();
+        entity.setId(UserId);
+        entity.setLastLoginTime(TimeUtils.getCurrentDate());
+        return userMapper.update(entity);
+    }
+
+    @Override
     public Result delete(int Id) {
         UserEntity entity = userMapper.selectUserById(Id);
         if (NullUtil.isNull(entity)) {
@@ -193,6 +204,7 @@ public class UserServiceImpl implements IUserService {
         } else {
             //删除用户时，需要同步删除用户关联的分组以及权限
             if (userMapper.delete(Id) >= 0 && permissionService.deleteUserRelation(Id) >= 0) {
+                userNewAuthService.deleteByUserId(Id);
                 companyService.deleteCompanyUserByUserId(Id);
                 teamService.deleteTeamUserByUser(Id);
                 if (NullUtil.isNotNull(entity.getPhotoUrl())) {

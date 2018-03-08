@@ -1,6 +1,7 @@
 package com.coderfamily.lamj.dao;
 
 import com.coderfamily.lamj.model.TeamEntity;
+import com.coderfamily.lamj.model.TeamTaskEntity;
 import com.coderfamily.lamj.model.TeamUserEntity;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,6 +12,8 @@ public interface TeamMapper {
 
     List<TeamEntity> selectTeamListByCondition(TeamEntity entity);
 
+    List<TeamEntity> selectByTaskId(@Param("taskId") int TaskId,@Param("companyId") int CompanyId);
+
     TeamEntity selectTeamById(@Param("id") int Id);
 
     boolean existsTeamByName(@Param("name") String Name, @Param("companyId") int CompanyId);
@@ -18,6 +21,8 @@ public interface TeamMapper {
     int insert(TeamEntity entity);
 
     int insertTeamUser(TeamUserEntity entity);
+
+    int insertTeamTask(@Param("list") List<TeamTaskEntity> entities);
 
     int update(TeamEntity entity);
 
@@ -28,4 +33,10 @@ public interface TeamMapper {
     int deleteTeamUser(@Param("teamId") int TeamId, @Param("userId") int UserId);
 
     int deleteTeamUserByUserId(@Param("userId") int UserId);
+
+    int deleteTeamTaskByTaskId(@Param("taskId") int TaskId);
+
+    int deleteTeamTaskByTeamId(@Param("teamId") int TeamId);
+
+    int deleteTeamTaskByTaskIds(@Param("list") List<Integer> TaskIds);
 }

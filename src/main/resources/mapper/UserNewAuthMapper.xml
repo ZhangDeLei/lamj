@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coderfamily.lamj.dao.UserNewAuthMapper">
+    <resultMap id="UserNewAuthEntity" type="com.coderfamily.lamj.model.UserNewAuthEntity">
+        <result column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="UserId" jdbcType="INTEGER" property="userId"/>
+        <result column="NewId" jdbcType="INTEGER" property="newId"/>
+        <result column="NewName" jdbcType="VARCHAR" property="newName"/>
+        <result column="NewAccount" jdbcType="VARCHAR" property="newAccount"/>
+        <result column="IsAuth" jdbcType="BIT" property="isAuth"/>
+        <result column="AuthToken" jdbcType="VARCHAR" property="authToken"/>
+        <result column="AuthTokenExpire" jdbcType="VARCHAR" property="authTokenExpire"/>
+        <result column="RefreshToken" jdbcType="VARCHAR" property="refreshToken"/>
+    </resultMap>
+
+    <select id="selectUserNewAuthList" parameterType="int" resultMap="UserNewAuthEntity">
+      SELECT U.Id,U.UserId,N.Id NewId,N.Name NewName,U.NewAccount,U.IsAuth,U.AuthToken,U.AuthTokenExpire,U.RefreshToken
+      FROM MT_UserNewAuth U RIGHT JOIN MT_NewAuth N ON U.NewId = N.Id WHERE N.Status=1 AND U.UserId=#{userId}
+    </select>
+
+    <select id="selectById" parameterType="int" resultMap="UserNewAuthEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_UserNewAuth WHERE Id=#{id}
+    </select>
+
+    <select id="existsUserNewAuthByUserIdAndNewId" parameterType="Map" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM MT_UserNewAuth WHERE UserId=#{userId} AND NewId=#{newId})
+    </select>
+
+    <insert id="insert" parameterType="com.coderfamily.lamj.model.UserNewAuthEntity">
+        INSERT INTO MT_UserNewAuth
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">Id,</if>
+            <if test="userId!=null">UserId,</if>
+            <if test="newId!=null">NewId,</if>
+            <if test="newName!=null">NewName,</if>
+            <if test="newAccount!=null">NewAccount,</if>
+            <if test="isAuth!=null">IsAuth,</if>
+            <if test="authToken!=null">AuthToken,</if>
+            <if test="authTokenExpire!=null">AuthTokenExpire,</if>
+            <if test="refreshToken!=null">RefreshToken,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">#{id},</if>
+            <if test="userId!=null">#{userId},</if>
+            <if test="newId!=null">#{newId},</if>
+            <if test="newName!=null">#{newName},</if>
+            <if test="newAccount!=null">#{newAccount},</if>
+            <if test="isAuth!=null">#{isAuth},</if>
+            <if test="authToken!=null">#{authToken},</if>
+            <if test="authTokenExpire!=null">#{authTokenExpire},</if>
+            <if test="refreshToken!=null">#{refreshToken},</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.coderfamily.lamj.model.UserNewAuthEntity">
+        UPDATE MT_UserNewAuth
+        <set>
+            <if test="newAccount!=null">NewAccount=#{newAccount},</if>
+            <if test="isAuth!=null">IsAuth=#{isAuth},</if>
+            <if test="authToken!=null">AuthToken=#{authToken},</if>
+            <if test="authTokenExpire!=null">AuthTokenExpire=#{authTokenExpire},</if>
+            <if test="refreshToken!=null">RefreshToken=#{refreshToken},</if>
+        </set>
+        WHERE Id=#{id}
+    </update>
+
+    <delete id="deleteByNewid" parameterType="int">
+      DELETE FROM MT_UserNewAuth WHERE NewId=#{newId}
+    </delete>
+
+    <delete id="deleteByUserId" parameterType="int">
+        DELETE FROM MT_UserNewAuth WHERE UserId=#{userId}
+    </delete>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM MT_UserNewAuth WHERE Id=#{id}
+    </delete>
+
+    <sql id="sql_column">Id,UserId,NewId,NewName,NewAccount,IsAuth,AuthToken,AuthTokenExpire,RefreshToken</sql>
+</mapper>

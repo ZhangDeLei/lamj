@@ -31,6 +31,10 @@ public class UserEntity {
 
     private String starLevelName;
 
+    private String createDateTime;
+
+    private String lastLoginTime;
+
     public Integer getId() {
         return id;
     }
@@ -149,5 +153,21 @@ public class UserEntity {
 
     public void setStarLevelName(String starLevelName) {
         this.starLevelName = starLevelName;
+    }
+
+    public String getCreateDateTime() {
+        return createDateTime;
+    }
+
+    public void setCreateDateTime(String createDateTime) {
+        this.createDateTime = createDateTime;
+    }
+
+    public String getLastLoginTime() {
+        return lastLoginTime;
+    }
+
+    public void setLastLoginTime(String lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
     }
 }
