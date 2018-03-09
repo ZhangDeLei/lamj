@@ -41,6 +41,13 @@ public class NewAuthServiceImpl implements INewAuthService {
     }
 
     @Override
+    public List<NewAuthInfo> selectAll() {
+        NewAuthEntity entity = new NewAuthEntity();
+        entity.setStatus(true);
+        return newAuthMapper.select(entity);
+    }
+
+    @Override
     public Result insert(NewAuthInfo info) {
         if (newAuthMapper.existsNewAuthByName(info.getName())) {
             return Result.error("当前客户端已存在");

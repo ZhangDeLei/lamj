@@ -19,6 +19,10 @@ public class NewAuthEntity {
 
     private String cls;
 
+    private String authUrl;
+
+    private String redirectUrl;
+
     public Integer getId() {
         return id;
     }
@@ -89,5 +93,21 @@ public class NewAuthEntity {
 
     public void setCls(String cls) {
         this.cls = cls == null ? null : cls.trim();
+    }
+
+    public String getAuthUrl() {
+        return authUrl;
+    }
+
+    public void setAuthUrl(String authUrl) {
+        this.authUrl = authUrl;
+    }
+
+    public String getRedirectUrl() {
+        return redirectUrl;
+    }
+
+    public void setRedirectUrl(String redirectUrl) {
+        this.redirectUrl = redirectUrl;
     }
 }

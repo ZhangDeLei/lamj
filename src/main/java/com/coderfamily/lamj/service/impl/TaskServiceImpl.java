@@ -1,6 +1,7 @@
 package com.coderfamily.lamj.service.impl;
 
 import com.coderfamily.lamj.common.data.Result;
+import com.coderfamily.lamj.common.util.TimeUtils;
 import com.coderfamily.lamj.dao.TaskMapper;
 import com.coderfamily.lamj.domain.TaskInfo;
 import com.coderfamily.lamj.model.TaskEntity;
@@ -47,6 +48,7 @@ public class TaskServiceImpl implements ITaskService {
 
     @Override
     public Result insert(TaskInfo info) {
+        info.setCreateDate(TimeUtils.getCurrentDate());
         if (taskMapper.insert(info) > 0) {
             insertTeamTask(info.getId(), info.getTeams());
             return Result.success();
