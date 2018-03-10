@@ -1,9 +1,9 @@
-package com.coderfamily.lamj.service.impl;
+package com.coderfamily.lamj.intef.impl;
 
 import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.dao.PermissionMenuMapper;
 import com.coderfamily.lamj.model.PermissionMenuEntity;
-import com.coderfamily.lamj.service.IPermissionMenuService;
+import com.coderfamily.lamj.intef.IPermissionMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

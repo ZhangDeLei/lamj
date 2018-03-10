@@ -7,13 +7,11 @@ import com.coderfamily.lamj.common.util.StringUtil;
 import com.coderfamily.lamj.common.util.TokenUtil;
 import com.coderfamily.lamj.domain.UserDetail;
 import com.coderfamily.lamj.domain.UserInfo;
-import com.coderfamily.lamj.model.UserEntity;
-import com.coderfamily.lamj.service.ICompanyService;
-import com.coderfamily.lamj.service.IUserService;
+import com.coderfamily.lamj.intef.ICompanyService;
+import com.coderfamily.lamj.intef.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;

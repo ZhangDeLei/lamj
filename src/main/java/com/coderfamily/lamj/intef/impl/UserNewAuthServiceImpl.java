@@ -1,10 +1,10 @@
-package com.coderfamily.lamj.service.impl;
+package com.coderfamily.lamj.intef.impl;
 
 import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.common.util.NullUtil;
 import com.coderfamily.lamj.dao.UserNewAuthMapper;
 import com.coderfamily.lamj.model.UserNewAuthEntity;
-import com.coderfamily.lamj.service.IUserNewAuthService;
+import com.coderfamily.lamj.intef.IUserNewAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

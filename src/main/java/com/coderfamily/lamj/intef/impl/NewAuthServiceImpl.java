@@ -1,4 +1,4 @@
-package com.coderfamily.lamj.service.impl;
+package com.coderfamily.lamj.intef.impl;
 
 import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.common.util.NullUtil;
@@ -6,9 +6,9 @@ import com.coderfamily.lamj.dao.NewAuthMapper;
 import com.coderfamily.lamj.domain.NewAuthInfo;
 import com.coderfamily.lamj.model.NewAuthEntity;
 import com.coderfamily.lamj.model.NewOperatorEntity;
-import com.coderfamily.lamj.service.INewAuthService;
-import com.coderfamily.lamj.service.INewOperatorService;
-import com.coderfamily.lamj.service.IUserNewAuthService;
+import com.coderfamily.lamj.intef.INewAuthService;
+import com.coderfamily.lamj.intef.INewOperatorService;
+import com.coderfamily.lamj.intef.IUserNewAuthService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;

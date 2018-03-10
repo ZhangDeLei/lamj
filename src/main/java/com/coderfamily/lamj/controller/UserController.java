@@ -3,17 +3,15 @@ package com.coderfamily.lamj.controller;
 import com.coderfamily.lamj.common.data.ResponseCode;
 import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.common.util.NullUtil;
-import com.coderfamily.lamj.common.util.NumberUtil;
 import com.coderfamily.lamj.domain.UserDetail;
 import com.coderfamily.lamj.model.UserEntity;
-import com.coderfamily.lamj.service.IUserService;
+import com.coderfamily.lamj.intef.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 /**

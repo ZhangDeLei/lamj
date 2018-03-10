@@ -1,10 +1,10 @@
-package com.coderfamily.lamj.service.impl;
+package com.coderfamily.lamj.intef.impl;
 
 import com.coderfamily.lamj.common.util.NullUtil;
 import com.coderfamily.lamj.common.util.NumberUtil;
 import com.coderfamily.lamj.dao.DictionaryMapper;
 import com.coderfamily.lamj.model.DictionaryEntity;
-import com.coderfamily.lamj.service.IDictionaryService;
+import com.coderfamily.lamj.intef.IDictionaryService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.coderfamily.lamj.service;
+package com.coderfamily.lamj.intef;
 
 import com.coderfamily.lamj.model.NewOperatorEntity;
 

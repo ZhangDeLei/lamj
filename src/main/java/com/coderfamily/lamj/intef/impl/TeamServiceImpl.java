@@ -1,4 +1,4 @@
-package com.coderfamily.lamj.service.impl;
+package com.coderfamily.lamj.intef.impl;
 
 import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.common.util.NullUtil;
@@ -7,8 +7,8 @@ import com.coderfamily.lamj.model.CompanyEntity;
 import com.coderfamily.lamj.model.TeamEntity;
 import com.coderfamily.lamj.model.TeamTaskEntity;
 import com.coderfamily.lamj.model.TeamUserEntity;
-import com.coderfamily.lamj.service.ICompanyService;
-import com.coderfamily.lamj.service.ITeamService;
+import com.coderfamily.lamj.intef.ICompanyService;
+import com.coderfamily.lamj.intef.ITeamService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;

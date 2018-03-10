@@ -1,4 +1,4 @@
-package com.coderfamily.lamj.service.impl;
+package com.coderfamily.lamj.intef.impl;
 
 import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.common.util.NullUtil;
@@ -6,9 +6,8 @@ import com.coderfamily.lamj.common.util.NumberUtil;
 import com.coderfamily.lamj.dao.MenuMapper;
 import com.coderfamily.lamj.domain.MenuInfo;
 import com.coderfamily.lamj.model.MenuEntity;
-import com.coderfamily.lamj.model.PermissionMenuEntity;
-import com.coderfamily.lamj.service.IMenuService;
-import com.coderfamily.lamj.service.IPermissionMenuService;
+import com.coderfamily.lamj.intef.IMenuService;
+import com.coderfamily.lamj.intef.IPermissionMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

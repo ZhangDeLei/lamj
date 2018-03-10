@@ -1,11 +1,11 @@
-package com.coderfamily.lamj.service.impl;
+package com.coderfamily.lamj.intef.impl;
 
 import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.common.util.NumberUtil;
 import com.coderfamily.lamj.dao.PermissionMapper;
 import com.coderfamily.lamj.model.PermissionEntity;
 import com.coderfamily.lamj.model.UserPermissionEntity;
-import com.coderfamily.lamj.service.IPermissionService;
+import com.coderfamily.lamj.intef.IPermissionService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;

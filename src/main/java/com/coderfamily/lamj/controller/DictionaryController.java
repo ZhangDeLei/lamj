@@ -3,7 +3,7 @@ package com.coderfamily.lamj.controller;
 import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.common.util.NullUtil;
 import com.coderfamily.lamj.model.DictionaryEntity;
-import com.coderfamily.lamj.service.IDictionaryService;
+import com.coderfamily.lamj.intef.IDictionaryService;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

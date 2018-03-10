@@ -2,7 +2,7 @@ package com.coderfamily.lamj.controller;
 
 import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.model.TeamEntity;
-import com.coderfamily.lamj.service.ITeamService;
+import com.coderfamily.lamj.intef.ITeamService;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

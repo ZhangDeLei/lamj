@@ -1,17 +1,15 @@
-package com.coderfamily.lamj.service.impl;
+package com.coderfamily.lamj.intef.impl;
 
 import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.common.util.NullUtil;
 import com.coderfamily.lamj.dao.CaliberMapper;
 import com.coderfamily.lamj.model.CaliberEntity;
-import com.coderfamily.lamj.service.ICaliberService;
+import com.coderfamily.lamj.intef.ICaliberService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * @author ZhangDL

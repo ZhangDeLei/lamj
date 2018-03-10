@@ -5,12 +5,11 @@ import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.common.util.NullUtil;
 import com.coderfamily.lamj.domain.MenuInfo;
 import com.coderfamily.lamj.model.MenuEntity;
-import com.coderfamily.lamj.service.IMenuService;
-import com.coderfamily.lamj.service.IPermissionMenuService;
+import com.coderfamily.lamj.intef.IMenuService;
+import com.coderfamily.lamj.intef.IPermissionMenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

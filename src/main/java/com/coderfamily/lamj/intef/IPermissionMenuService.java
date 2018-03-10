@@ -1,7 +1,6 @@
-package com.coderfamily.lamj.service;
+package com.coderfamily.lamj.intef;
 
 import com.coderfamily.lamj.common.data.Result;
-import com.coderfamily.lamj.model.PermissionMenuEntity;
 
 import java.util.List;
 

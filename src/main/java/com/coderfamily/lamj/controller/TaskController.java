@@ -2,7 +2,7 @@ package com.coderfamily.lamj.controller;
 
 import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.domain.TaskInfo;
-import com.coderfamily.lamj.service.ITaskService;
+import com.coderfamily.lamj.intef.ITaskService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

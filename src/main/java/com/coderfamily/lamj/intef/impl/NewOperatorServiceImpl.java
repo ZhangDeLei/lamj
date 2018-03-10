@@ -1,8 +1,8 @@
-package com.coderfamily.lamj.service.impl;
+package com.coderfamily.lamj.intef.impl;
 
 import com.coderfamily.lamj.dao.NewOperatorMapper;
 import com.coderfamily.lamj.model.NewOperatorEntity;
-import com.coderfamily.lamj.service.INewOperatorService;
+import com.coderfamily.lamj.intef.INewOperatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
