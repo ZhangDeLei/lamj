@@ -27,7 +27,7 @@
     </resultMap>
 
     <resultMap id="TaskInfo" type="com.coderfamily.lamj.domain.TaskInfo" extends="TaskEntity">
-        <collection property="teams" javaType="java.util.List" column="{Id=id,CompanyId=companyId}"
+        <collection property="teams" javaType="java.util.List" column="{taskId=id,companyId=companyId}"
                     ofType="com.coderfamily.lamj.model.TeamEntity"
                     select="com.coderfamily.lamj.dao.TeamMapper.selectByTaskId"/>
     </resultMap>
