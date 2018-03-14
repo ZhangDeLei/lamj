@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coderfamily.lamj.dao.SubmissionAuditMapper">
+  <resultMap id="BaseResultMap" type="com.coderfamily.lamj.model.SubmissionAuditEntity">
+    <result column="Id" jdbcType="INTEGER" property="id" />
+    <result column="SubmissionId" jdbcType="INTEGER" property="submissionId" />
+    <result column="OperationTime" jdbcType="VARCHAR" property="operationTime" />
+    <result column="OperationUserId" jdbcType="INTEGER" property="operationUserId" />
+    <result column="OperationUserName" jdbcType="VARCHAR" property="operationUserName" />
+    <result column="ProcessId" jdbcType="INTEGER" property="processId" />
+    <result column="ProcessCode" jdbcType="VARCHAR" property="processCode" />
+    <result column="ProcessName" jdbcType="VARCHAR" property="processName" />
+    <result column="OrderNum" jdbcType="INTEGER" property="orderNum" />
+    <result column="Comment" jdbcType="VARCHAR" property="comment" />
+  </resultMap>
+</mapper>
