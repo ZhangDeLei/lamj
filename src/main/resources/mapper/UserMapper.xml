@@ -24,14 +24,17 @@
     <resultMap id="UserDetail" type="com.coderfamily.lamj.domain.UserDetail" extends="UserEntity">
         <result column="CompanyId" jdbcType="INTEGER" property="companyId"/>
         <result column="TeamId" jdbcType="INTEGER" property="teamId"/>
+        <result column="TeamName" jdbcType="VARCHAR" property="teamName"/>
         <result column="PermissionId" jdbcType="INTEGER" property="permissionId"/>
     </resultMap>
 
     <select id="selectUserListByCondition" parameterType="com.coderfamily.lamj.domain.UserDetail"
-            resultMap="UserEntity">
-        SELECT <include refid="sql_column"></include> FROM MT_User
-        <if test="companyId!=null and companyId!=-1">LEFT JOIN MT_CompanyUser ON MT_CompanyUser.UserId=MT_User.Id</if>
-        <if test="teamId!=null and teamId!=-1">LEFT JOIN MT_TeamUser ON MT_TeamUser.UserId=MT_User.Id</if>
+            resultMap="UserDetail">
+        SELECT <include refid="sql_column"></include>,MT_Team.Name AS TeamName,MT_Team.Id AS TeamId,
+        MT_CompanyUser.CompanyId FROM MT_User
+        LEFT JOIN MT_CompanyUser ON MT_CompanyUser.UserId=MT_User.Id
+        LEFT JOIN MT_TeamUser ON MT_TeamUser.UserId=MT_User.Id
+        LEFT JOIN MT_Team ON MT_TeamUser.TeamId = MT_Team.Id
         WHERE 1=1
         <include refid="sql_where"></include>
     </select>
@@ -131,7 +134,7 @@
         SELECT EXISTS (SELECT 1 FROM MT_UserPermission WHERE UserId=#{userId} AND PermissionId=#{permissionId})
     </select>
 
-    <sql id="sql_column">Id,UserAccount,Password,NickName,Tel,Sex,PhotoUrl,Status,TypeId,TypeCode,TypeName,
+    <sql id="sql_column">MT_User.Id,UserAccount,Password,NickName,Tel,Sex,PhotoUrl,MT_User.Status,TypeId,TypeCode,TypeName,
                         Email,StarLevelId,StarLevelCode,StarLevelName,CreateDateTime,LastLoginTime</sql>
     <sql id="sql_where">
         <if test="id!=null">AND Id=#{id}</if>

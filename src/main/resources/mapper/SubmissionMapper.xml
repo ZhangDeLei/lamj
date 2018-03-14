@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coderfamily.lamj.dao.SubmissionMapper">
+    <resultMap id="BaseResultMap" type="com.coderfamily.lamj.model.SubmissionEntity">
+        <result column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="ThemeId" jdbcType="INTEGER" property="themeId"/>
+        <result column="ThemeCode" jdbcType="VARCHAR" property="themeCode"/>
+        <result column="ThemeName" jdbcType="VARCHAR" property="themeName"/>
+        <result column="Title" jdbcType="VARCHAR" property="title"/>
+        <result column="UserId" jdbcType="INTEGER" property="userId"/>
+        <result column="UserName" jdbcType="VARCHAR" property="userName"/>
+        <result column="CreateTime" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="ProcessId" jdbcType="INTEGER" property="processId"/>
+        <result column="ProcessCode" jdbcType="VARCHAR" property="processCode"/>
+        <result column="ProcessName" jdbcType="VARCHAR" property="processName"/>
+        <result column="ExamineUserId" jdbcType="INTEGER" property="examineUserId"/>
+        <result column="ExamineUserName" jdbcType="VARCHAR" property="examineUserName"/>
+        <result column="ExamineTime" jdbcType="TIMESTAMP" property="examineTime"/>
+        <result column="Path" jdbcType="VARCHAR" property="path"/>
+        <result column="Url" jdbcType="VARCHAR" property="url"/>
+    </resultMap>
+</mapper>

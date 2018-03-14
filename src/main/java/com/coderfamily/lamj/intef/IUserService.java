@@ -27,15 +27,15 @@ public interface IUserService {
      * @param CurPage
      * @return
      */
-    PageInfo<UserEntity> selectUserListByCondition(String Name, String UserAccount, String Tel, int StarLevelId,
-                                                   int TypeId, Boolean Status, int Sex, int CompanyId, int TeamId, int PageSize, int CurPage);
+    PageInfo<UserDetail> selectUserListByCondition(String Name, String UserAccount, String Tel, int StarLevelId,
+                                                 int TypeId, Boolean Status, int Sex, int CompanyId, int TeamId, int PageSize, int CurPage);
 
     /**
      * 获取所有用户信息
      *
      * @return
      */
-    List<UserEntity> selectAllUser();
+    List<UserDetail> selectAllUser();
 
     /**
      * 根据用户名获取用户信息

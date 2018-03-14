@@ -10,6 +10,7 @@ public class UserDetail extends UserEntity {
     private int companyId;
     private int teamId;
     private int permissionId;
+    private String teamName;
     public int getCompanyId() {
         return companyId;
     }
@@ -32,5 +33,13 @@ public class UserDetail extends UserEntity {
 
     public void setPermissionId(int permissionId) {
         this.permissionId = permissionId;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
     }
 }

@@ -22,7 +22,7 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table tableName="MT_NewOperator" mapperName="NewOperatorMapper" domainObjectName="NewOperatorEntity"
+        <table tableName="MT_Article" mapperName="ArticleMapper" domainObjectName="ArticleEntity"
                enableSelectByExample="false"
                enableUpdateByPrimaryKey="false"
                enableInsert="false"
@@ -33,5 +33,15 @@
             <property name="useActualColumnNames" value="true"/>
         </table>
 
+        <table tableName="MT_Submission" mapperName="SubmissionMapper" domainObjectName="SubmissionEntity"
+               enableSelectByExample="false"
+               enableUpdateByPrimaryKey="false"
+               enableInsert="false"
+               enableDeleteByPrimaryKey="false"
+               enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableUpdateByExample="false">
+            <property name="useActualColumnNames" value="true"/>
+        </table>
     </context>
 </generatorConfiguration>

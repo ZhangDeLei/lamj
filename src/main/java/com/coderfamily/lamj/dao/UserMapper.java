@@ -13,7 +13,7 @@ public interface UserMapper {
      * @param entity
      * @return
      */
-    List<UserEntity> selectUserListByCondition(UserDetail entity);
+    List<UserDetail> selectUserListByCondition(UserDetail entity);
 
     /**
      * 根据账号获取用户信息

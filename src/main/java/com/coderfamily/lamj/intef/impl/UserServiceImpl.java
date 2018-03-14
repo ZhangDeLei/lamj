@@ -42,8 +42,8 @@ public class UserServiceImpl implements IUserService {
     private IUserNewAuthService userNewAuthService;
 
     @Override
-    public PageInfo<UserEntity> selectUserListByCondition(String Name, String UserAccount, String Tel, int StarLevelId,
-                                                          int TypeId, Boolean Status, int Sex, int CompanyId, int TeamId
+    public PageInfo<UserDetail> selectUserListByCondition(String Name, String UserAccount, String Tel, int StarLevelId,
+                                                        int TypeId, Boolean Status, int Sex, int CompanyId, int TeamId
             , int PageSize, int CurPage) {
         PageHelper.startPage(CurPage, PageSize);
         UserDetail entity = new UserDetail();
@@ -56,14 +56,14 @@ public class UserServiceImpl implements IUserService {
         entity.setSex(Sex);
         entity.setCompanyId(CompanyId);
         entity.setTeamId(TeamId);
-        List<UserEntity> mData = userMapper.selectUserListByCondition(entity);
-        PageInfo<UserEntity> pageInfo = new PageInfo<>(mData);
+        List<UserDetail> mData = userMapper.selectUserListByCondition(entity);
+        PageInfo<UserDetail> pageInfo = new PageInfo<>(mData);
         return pageInfo;
     }
 
 
     @Override
-    public List<UserEntity> selectAllUser() {
+    public List<UserDetail> selectAllUser() {
         return userMapper.selectUserListByCondition(new UserDetail());
     }
 

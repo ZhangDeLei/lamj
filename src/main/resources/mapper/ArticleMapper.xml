@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coderfamily.lamj.dao.ArticleMapper">
+  <resultMap id="BaseResultMap" type="com.coderfamily.lamj.model.ArticleEntity">
+    <result column="Id" jdbcType="INTEGER" property="id" />
+    <result column="Title" jdbcType="VARCHAR" property="title" />
+    <result column="Url" jdbcType="VARCHAR" property="url" />
+    <result column="TypeId" jdbcType="INTEGER" property="typeId" />
+    <result column="TypeCode" jdbcType="VARCHAR" property="typeCode" />
+    <result column="TypeName" jdbcType="VARCHAR" property="typeName" />
+    <result column="CreateUserId" jdbcType="VARCHAR" property="createUserId" />
+    <result column="CreateUserName" jdbcType="VARCHAR" property="createUserName" />
+    <result column="CreateTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CompanyId" jdbcType="INTEGER" property="companyId" />
+  </resultMap>
+</mapper>
