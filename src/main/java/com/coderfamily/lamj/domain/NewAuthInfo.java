@@ -20,4 +20,5 @@ public class NewAuthInfo extends NewAuthEntity {
     public void setOprs(List<NewOperatorEntity> oprs) {
         this.oprs = oprs;
     }
+
 }

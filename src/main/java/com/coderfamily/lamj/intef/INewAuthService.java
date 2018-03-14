@@ -1,6 +1,7 @@
 package com.coderfamily.lamj.intef;
 
 import com.coderfamily.lamj.common.data.Result;
+import com.coderfamily.lamj.domain.CompanyNewInfo;
 import com.coderfamily.lamj.domain.NewAuthInfo;
 import com.github.pagehelper.PageInfo;
 
@@ -12,7 +13,11 @@ import java.util.List;
  */
 public interface INewAuthService {
 
-    PageInfo<NewAuthInfo> select(String Name,Boolean Status,int PageSize,int CurPage);
+    PageInfo<NewAuthInfo> select(String Name, Boolean Status, int PageSize, int CurPage);
+
+    PageInfo<CompanyNewInfo> select(int CompanyId, Boolean Status, int PageSize, int CurPage);
+
+    List<CompanyNewInfo> select(int CompanyId);
 
     List<NewAuthInfo> selectAll();
 

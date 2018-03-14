@@ -4,6 +4,7 @@ import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.common.util.NullUtil;
 import com.coderfamily.lamj.common.util.TimeUtils;
 import com.coderfamily.lamj.dao.CompanyMapper;
+import com.coderfamily.lamj.intef.ITeamService;
 import com.coderfamily.lamj.model.CompanyEntity;
 import com.coderfamily.lamj.model.CompanyUserEntity;
 import com.coderfamily.lamj.intef.ICompanyService;
@@ -24,6 +25,8 @@ import java.util.List;
 public class CompanyServiceImpl implements ICompanyService {
     @Autowired
     private CompanyMapper companyMapper;
+    @Autowired
+    private ITeamService teamService;
 
     @Override
     public PageInfo<CompanyEntity> getCompanyList(String Name, String BegDate, String EndDate, int PageSize, int CurPage) {
@@ -76,6 +79,16 @@ public class CompanyServiceImpl implements ICompanyService {
     }
 
     @Override
+    public Result insertCompanyNew(int CompanyId, List<Integer> Ids) {
+        companyMapper.deleteCompanyNewByCompanyId(CompanyId);
+        if (companyMapper.insertCompanyNew(CompanyId, Ids) > 0) {
+            return Result.success();
+        } else {
+            return Result.error();
+        }
+    }
+
+    @Override
     public Result update(CompanyEntity entity) {
         CompanyEntity companyEntity = companyMapper.selectCompanyById(entity.getId());
         if (NullUtil.isNull(companyEntity)) {
@@ -93,6 +106,8 @@ public class CompanyServiceImpl implements ICompanyService {
         if (NullUtil.isNull(companyEntity)) {
             return Result.error("当前企业不存在");
         } else if (companyMapper.delete(Id) > 0) {
+            companyMapper.deleteCompanyNewByCompanyId(Id);
+            companyMapper.deleteAllCompanyUser(Id);
             return Result.success();
         } else {
             return Result.error();
@@ -101,7 +116,7 @@ public class CompanyServiceImpl implements ICompanyService {
 
     @Override
     public int deleteCompanyUser(int CompanyId, int UserId) {
-        return companyMapper.deleteCompanyUser(CompanyId,UserId);
+        return companyMapper.deleteCompanyUser(CompanyId, UserId);
     }
 
     @Override
@@ -112,5 +127,14 @@ public class CompanyServiceImpl implements ICompanyService {
     @Override
     public int deleteCompanyUserByUserId(int UserId) {
         return companyMapper.deleteCompanyUserByUserId(UserId);
+    }
+
+    @Override
+    public Result deleteCompanyNewByCompanyIdAndNewId(int CompanyId, int NewId) {
+        if (companyMapper.deleteCompanyNewByCompanyIdAndNewId(CompanyId, NewId) > 0) {
+            return Result.success();
+        } else {
+            return Result.error();
+        }
     }
 }

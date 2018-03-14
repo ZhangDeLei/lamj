@@ -32,7 +32,7 @@ public class TaskServiceImpl implements ITaskService {
 
     @Override
     public PageInfo<TaskEntity> getTaskList(int CompanyId, String Title, int StageId, int NewId, int PageSize, int CurPage) {
-        PageHelper.startPage(PageSize, CurPage);
+        PageHelper.startPage(CurPage, PageSize);
         TaskEntity entity = new TaskEntity();
         entity.setCompanyId(CompanyId);
         entity.setTitle(Title);
@@ -70,6 +70,7 @@ public class TaskServiceImpl implements ITaskService {
     @Override
     public Result delete(int Id) {
         if (taskMapper.delete(Id) > 0) {
+            teamService.deleteTeamTaskByTaskId(Id);
             return Result.success();
         } else {
             return Result.error();

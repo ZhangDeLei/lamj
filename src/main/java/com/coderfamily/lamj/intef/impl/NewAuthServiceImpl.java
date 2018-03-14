@@ -3,6 +3,7 @@ package com.coderfamily.lamj.intef.impl;
 import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.common.util.NullUtil;
 import com.coderfamily.lamj.dao.NewAuthMapper;
+import com.coderfamily.lamj.domain.CompanyNewInfo;
 import com.coderfamily.lamj.domain.NewAuthInfo;
 import com.coderfamily.lamj.model.NewAuthEntity;
 import com.coderfamily.lamj.model.NewOperatorEntity;
@@ -34,15 +35,26 @@ public class NewAuthServiceImpl implements INewAuthService {
     @Override
     public PageInfo<NewAuthInfo> select(String Name, Boolean Status, int PageSize, int CurPage) {
         PageHelper.startPage(CurPage, PageSize);
-        NewAuthEntity entity = new NewAuthEntity();
-        entity.setName(Name);
-        entity.setStatus(Status);
-        return new PageInfo<>(newAuthMapper.select(entity));
+        NewAuthInfo info = new NewAuthInfo();
+        info.setName(Name);
+        info.setStatus(Status);
+        return new PageInfo<>(newAuthMapper.select(info));
+    }
+
+    @Override
+    public PageInfo<CompanyNewInfo> select(int CompanyId, Boolean Status, int PageSize, int CurPage) {
+        PageHelper.startPage(CurPage, PageSize);
+        return new PageInfo<>(newAuthMapper.selectByCompany(CompanyId, Status));
+    }
+
+    @Override
+    public List<CompanyNewInfo> select(int CompanyId) {
+        return newAuthMapper.selectByCompany(CompanyId, true);
     }
 
     @Override
     public List<NewAuthInfo> selectAll() {
-        NewAuthEntity entity = new NewAuthEntity();
+        NewAuthInfo entity = new NewAuthInfo();
         entity.setStatus(true);
         return newAuthMapper.select(entity);
     }

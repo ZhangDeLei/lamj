@@ -33,10 +33,25 @@ public class NewAuthController {
         return Result.success(newAuthService.select(Name, Status, PageSize, CurPage));
     }
 
+    @ApiOperation(value = "获取企业授权客户端", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @GetMapping("getNewCompanyByPage")
+    public Result getNewCompanyByPage(@RequestParam(required = false) Boolean Status,
+                                      @RequestParam(required = false,defaultValue = "-1") int CompanyId,
+                                      @RequestParam int PageSize,
+                                      @RequestParam int CurPage) {
+        return Result.success(newAuthService.select(CompanyId, Status, PageSize, CurPage));
+    }
+
     @ApiOperation(value = "获取所有可用的新闻客户端列表", httpMethod = "GET", produces = "application/json", response = Result.class)
     @GetMapping("getAllNewAuthList")
     public Result getAllNewAuthList() {
         return Result.success(newAuthService.selectAll());
+    }
+
+    @ApiOperation(value = "根据企业ID获取新闻客户端列表", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @GetMapping("getNewAuthListByCompanyId")
+    public Result getNewAuthListByCompanyId(@RequestParam int CompanyId) {
+        return Result.success(newAuthService.select(CompanyId));
     }
 
     @ApiOperation(value = "获取新闻可操作类型", httpMethod = "GET", produces = "application/json", response = Result.class)

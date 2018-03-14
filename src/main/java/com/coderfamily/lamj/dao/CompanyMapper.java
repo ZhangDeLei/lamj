@@ -26,6 +26,8 @@ public interface CompanyMapper {
 
     int insertCompanyUser(CompanyUserEntity entity);
 
+    int insertCompanyNew(@Param("id") int Id, @Param("list") List<Integer> Ids);
+
     int update(CompanyEntity entity);
 
     int delete(@Param("id") int Id);
@@ -35,4 +37,8 @@ public interface CompanyMapper {
     int deleteAllCompanyUser(@Param("companyId") int CompanyId);
 
     int deleteCompanyUserByUserId(@Param("userId") int UserId);
+
+    int deleteCompanyNewByCompanyId(@Param("id") int CompanyId);
+
+    int deleteCompanyNewByCompanyIdAndNewId(@Param("companyId") int CompanyId, @Param("newId") int NewId);
 }

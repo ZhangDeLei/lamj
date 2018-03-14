@@ -73,6 +73,14 @@ public interface ICompanyService {
     int insertCompanyUser(CompanyUserEntity entity);
 
     /**
+     * 批量新增企业与新闻的关联关系
+     * @param CompanyId
+     * @param Ids
+     * @return
+     */
+    Result insertCompanyNew(int CompanyId,List<Integer> Ids);
+
+    /**
      * 修改企业
      * @param entity
      * @return
@@ -108,4 +116,11 @@ public interface ICompanyService {
      */
     int deleteCompanyUserByUserId(int UserId);
 
+    /**
+     * 根据企业ID和客户端ID删除新闻与企业的关联关系
+     * @param CompanyId
+     * @param NewId
+     * @return
+     */
+    Result deleteCompanyNewByCompanyIdAndNewId(int CompanyId,int NewId);
 }

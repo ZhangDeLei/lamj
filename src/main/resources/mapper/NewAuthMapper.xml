@@ -21,6 +21,25 @@
                     select="com.coderfamily.lamj.dao.NewOperatorMapper.selectNewOperatorByNewId"/>
     </resultMap>
 
+    <resultMap id="CompanyNewInfo" type="com.coderfamily.lamj.domain.CompanyNewInfo">
+        <result column="NewId" jdbcType="INTEGER" property="newId"/>
+        <result column="NewName" jdbcType="VARCHAR" property="newName"/>
+        <result column="CompanyId" jdbcType="INTEGER" property="companyId"/>
+        <result column="CompanyName" jdbcType="VARCHAR" property="companyName"/>
+    </resultMap>
+
+    <select id="selectByCompany" parameterType="Map" resultMap="CompanyNewInfo">
+        SELECT MT_NewAuth.Name AS NewName,MT_NewAuth.Id AS NewId,MT_Company.Name AS CompanyName,MT_Company.Id AS
+        CompanyId,MT_NewAuth.*
+        FROM MT_CompanyNew
+        LEFT JOIN MT_NewAuth ON MT_NewAuth.Id = MT_CompanyNew.NewId
+        LEFT JOIN MT_Company ON MT_Company.Id = MT_CompanyNew.CompanyId
+        <where>
+            <if test="companyId!=null and companyId>0">AND MT_Company.Id = #{companyId}</if>
+            <if test="status!=null">AND MT_NewAuth.Status=#{status}</if>
+        </where>
+    </select>
+
     <select id="select" parameterType="com.coderfamily.lamj.model.NewAuthEntity" resultMap="NewAuthEntity">
         SELECT <include refid="sql_column"></include> FROM MT_NewAuth
         <where>
@@ -92,7 +111,7 @@
 
     <sql id="sql_column">Id,Url,Name,Status,AppId,AppKey,AppSecret,AuthCode,Cls,AuthUrl,RedirectUrl</sql>
     <sql id="sql_where">
-        <if test="name!=null">AND Name=#{name}</if>
+        <if test="name!=null and name.length()>0">AND Name=#{name}</if>
         <if test="status!=null">AND Status=#{status}</if>
     </sql>
 </mapper>
