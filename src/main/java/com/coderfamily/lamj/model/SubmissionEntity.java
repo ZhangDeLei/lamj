@@ -1,9 +1,9 @@
 package com.coderfamily.lamj.model;
 
-import java.util.Date;
-
 public class SubmissionEntity {
     private Integer id;
+
+    private Integer companyId;
 
     private Integer themeId;
 
@@ -17,19 +17,9 @@ public class SubmissionEntity {
 
     private String userName;
 
-    private Date createTime;
+    private String createTime;
 
-    private Integer processId;
-
-    private String processCode;
-
-    private String processName;
-
-    private Integer examineUserId;
-
-    private String examineUserName;
-
-    private Date examineTime;
+    private Boolean status;
 
     private String path;
 
@@ -41,6 +31,14 @@ public class SubmissionEntity {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
     }
 
     public Integer getThemeId() {
@@ -91,60 +89,20 @@ public class SubmissionEntity {
         this.userName = userName == null ? null : userName.trim();
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
-    public Integer getProcessId() {
-        return processId;
+    public Boolean getStatus() {
+        return status;
     }
 
-    public void setProcessId(Integer processId) {
-        this.processId = processId;
-    }
-
-    public String getProcessCode() {
-        return processCode;
-    }
-
-    public void setProcessCode(String processCode) {
-        this.processCode = processCode == null ? null : processCode.trim();
-    }
-
-    public String getProcessName() {
-        return processName;
-    }
-
-    public void setProcessName(String processName) {
-        this.processName = processName == null ? null : processName.trim();
-    }
-
-    public Integer getExamineUserId() {
-        return examineUserId;
-    }
-
-    public void setExamineUserId(Integer examineUserId) {
-        this.examineUserId = examineUserId;
-    }
-
-    public String getExamineUserName() {
-        return examineUserName;
-    }
-
-    public void setExamineUserName(String examineUserName) {
-        this.examineUserName = examineUserName == null ? null : examineUserName.trim();
-    }
-
-    public Date getExamineTime() {
-        return examineTime;
-    }
-
-    public void setExamineTime(Date examineTime) {
-        this.examineTime = examineTime;
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 
     public String getPath() {

@@ -19,7 +19,7 @@ public class ArticleEntity {
 
     private String createUserName;
 
-    private Date createTime;
+    private String createTime;
 
     private Integer companyId;
 
@@ -87,11 +87,11 @@ public class ArticleEntity {
         this.createUserName = createUserName == null ? null : createUserName.trim();
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 

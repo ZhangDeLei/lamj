@@ -10,7 +10,7 @@
     <result column="TypeName" jdbcType="VARCHAR" property="typeName" />
     <result column="CreateUserId" jdbcType="VARCHAR" property="createUserId" />
     <result column="CreateUserName" jdbcType="VARCHAR" property="createUserName" />
-    <result column="CreateTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CreateTime" jdbcType="VARCHAR" property="createTime" />
     <result column="CompanyId" jdbcType="INTEGER" property="companyId" />
   </resultMap>
 </mapper>
