@@ -25,25 +25,25 @@ public class SubmissionController {
     @ApiOperation(value = "获取网评投稿列表", httpMethod = "GET", produces = "application/json", response = Result.class)
     @GetMapping("getSubmissionList")
     public Result getSubmissionList(@RequestParam int CompanyId,
-                                    @RequestParam(required = false) Integer ThemeId,
+                                    @RequestParam(required = false) String ThemeName,
                                     @RequestParam(required = false) String Title,
                                     @RequestParam(required = false) Integer UserId,
                                     @RequestParam(required = false) Integer ProcessId,
                                     @RequestParam int PageSize,
                                     @RequestParam int CurPage) {
-        return Result.success(submissionService.getSubmissionList(CompanyId, ThemeId, Title, UserId, ProcessId, PageSize, CurPage));
+        return Result.success(submissionService.getSubmissionList(CompanyId, ThemeName, Title, UserId, ProcessId, PageSize, CurPage));
     }
 
     @ApiOperation(value = "获取个人网评投稿列表", httpMethod = "GET", produces = "application/json", response = Result.class)
     @GetMapping("getSubmissionListByUserId")
     public Result getSubmissionListByUserId(@RequestParam int CompanyId,
-                                            @RequestParam(required = false) Integer ThemeId,
+                                            @RequestParam(required = false) String ThemeName,
                                             @RequestParam(required = false) String Title,
                                             @RequestParam Integer UserId,
                                             @RequestParam(required = false) Integer ProcessId,
                                             @RequestParam int PageSize,
                                             @RequestParam int CurPage) {
-        return Result.success(submissionService.getSubmissionList(CompanyId, ThemeId, Title, UserId, ProcessId, PageSize, CurPage));
+        return Result.success(submissionService.getSubmissionList(CompanyId, ThemeName, Title, UserId, ProcessId, PageSize, CurPage));
     }
 
     @ApiOperation(value = "根据ID获取网评投稿详细信息", httpMethod = "GET", produces = "application/json", response = Result.class)

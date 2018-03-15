@@ -24,9 +24,9 @@ public class SubmissionServiceImpl implements ISubmissionService {
     private SubmissionMapper submissionMapper;
 
     @Override
-    public PageInfo<SubmissionEntity> getSubmissionList(int ComapnyId, Integer ThemeId, String Title, Integer UserId, Integer ProcessId, int PageSize, int CurPage) {
+    public PageInfo<SubmissionEntity> getSubmissionList(int ComapnyId, String ThemeName, String Title, Integer UserId, Integer ProcessId, int PageSize, int CurPage) {
         PageHelper.startPage(CurPage, PageSize);
-        List<SubmissionEntity> mData = submissionMapper.select(ComapnyId, ThemeId, Title, UserId, ProcessId);
+        List<SubmissionEntity> mData = submissionMapper.select(ComapnyId, ThemeName, Title, UserId, ProcessId);
         return new PageInfo<>(mData);
     }
 

@@ -8,9 +8,19 @@ import java.util.List;
 
 public interface TaskMapper {
 
-    List<TaskEntity> select(TaskEntity entity);
+    List<TaskEntity> select(@Param("companyId") Integer CompanyId,
+                            @Param("title") String Title,
+                            @Param("stageId") Integer StageId,
+                            @Param("newId") Integer NewId,
+                            @Param("begDate") String BegDate,
+                            @Param("endDate") String EndDate);
 
-    List<TaskEntity> selectByTeams(@Param("list") List<Integer> teams, @Param("title") String Title, @Param("stageId") Integer StageId, @Param("newId") Integer NewId);
+    List<TaskEntity> selectByTeams(@Param("list") List<Integer> teams,
+                                   @Param("title") String Title,
+                                   @Param("stageId") Integer StageId,
+                                   @Param("newId") Integer NewId,
+                                   @Param("begDate") String BegDate,
+                                   @Param("endDate") String EndDate);
 
     TaskInfo selectById(@Param("id") int Id);
 

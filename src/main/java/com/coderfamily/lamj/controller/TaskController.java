@@ -26,11 +26,13 @@ public class TaskController {
     @GetMapping("getTaskList")
     public Result getTaskList(@RequestParam int CompanyId,
                               @RequestParam(required = false) String Title,
-                              @RequestParam(required = false, defaultValue = "-1") int StageId,
-                              @RequestParam(required = false, defaultValue = "-1") int NewId,
+                              @RequestParam(required = false) Integer StageId,
+                              @RequestParam(required = false) Integer NewId,
+                              @RequestParam(required = false) String BegDate,
+                              @RequestParam(required = false) String EndDate,
                               @RequestParam int PageSize,
                               @RequestParam int CurPage) {
-        return Result.success(taskService.getTaskList(CompanyId, Title, StageId, NewId, PageSize, CurPage));
+        return Result.success(taskService.getTaskList(CompanyId, Title, StageId, NewId, BegDate, EndDate, PageSize, CurPage));
     }
 
     @ApiOperation(value = "根据用户ID获取用户的任务列表", httpMethod = "GET", produces = "application/json", response = Result.class)
@@ -39,9 +41,11 @@ public class TaskController {
                                       @RequestParam(required = false) String Title,
                                       @RequestParam(required = false) Integer StageId,
                                       @RequestParam(required = false) Integer NewId,
+                                      @RequestParam(required = false) String BegDate,
+                                      @RequestParam(required = false) String EndDate,
                                       @RequestParam int PageSize,
                                       @RequestParam int CurPage) {
-        return Result.success(taskService.getTaskListByUserId(UserId, Title, StageId, NewId, PageSize, CurPage));
+        return Result.success(taskService.getTaskListByUserId(UserId, Title, StageId, NewId, BegDate, EndDate, PageSize, CurPage));
     }
 
     @ApiOperation(value = "根据ID获取任务信息", httpMethod = "GET", produces = "application/json", response = Result.class)

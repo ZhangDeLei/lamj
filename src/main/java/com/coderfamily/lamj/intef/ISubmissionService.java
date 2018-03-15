@@ -14,7 +14,7 @@ public interface ISubmissionService {
      * 获取网评投稿列表
      *
      * @param ComapnyId
-     * @param ThemeId
+     * @param ThemeName
      * @param Title
      * @param UserId
      * @param ProcessId
@@ -22,7 +22,7 @@ public interface ISubmissionService {
      * @param CurPage
      * @return
      */
-    PageInfo<SubmissionEntity> getSubmissionList(int ComapnyId, Integer ThemeId, String Title, Integer UserId, Integer ProcessId, int PageSize, int CurPage);
+    PageInfo<SubmissionEntity> getSubmissionList(int ComapnyId, String ThemeName, String Title, Integer UserId, Integer ProcessId, int PageSize, int CurPage);
 
     /**
      * 根据ID获取网评投稿详细信息

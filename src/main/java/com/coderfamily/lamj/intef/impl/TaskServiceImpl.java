@@ -4,6 +4,8 @@ import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.common.util.TimeUtils;
 import com.coderfamily.lamj.dao.TaskMapper;
 import com.coderfamily.lamj.domain.TaskInfo;
+import com.coderfamily.lamj.intef.IDictionaryService;
+import com.coderfamily.lamj.model.DictionaryEntity;
 import com.coderfamily.lamj.model.TaskEntity;
 import com.coderfamily.lamj.model.TeamEntity;
 import com.coderfamily.lamj.model.TeamTaskEntity;
@@ -29,27 +31,27 @@ public class TaskServiceImpl implements ITaskService {
     private TaskMapper taskMapper;
     @Autowired
     private ITeamService teamService;
+    @Autowired
+    private IDictionaryService dictionaryService;
 
     @Override
-    public PageInfo<TaskEntity> getTaskList(int CompanyId, String Title, int StageId, int NewId, int PageSize, int CurPage) {
+    public PageInfo<TaskEntity> getTaskList(int CompanyId, String Title, Integer StageId, Integer NewId, String BegDate,
+                                            String EndDate, int PageSize, int CurPage) {
         PageHelper.startPage(CurPage, PageSize);
-        TaskEntity entity = new TaskEntity();
-        entity.setCompanyId(CompanyId);
-        entity.setTitle(Title);
-        entity.setStageId(StageId);
-        entity.setNewId(NewId);
-        return new PageInfo<>(taskMapper.select(entity));
+        List<TaskEntity> mData = taskMapper.select(CompanyId, Title, StageId, NewId, BegDate, EndDate);
+        return new PageInfo<>(mData);
     }
 
     @Override
-    public PageInfo<TaskEntity> getTaskListByUserId(int UserId, String Title, int StageId, int NewId, int PageSize, int CurPage) {
+    public PageInfo<TaskEntity> getTaskListByUserId(int UserId, String Title, Integer StageId, Integer NewId,
+                                                    String BegDate, String EndDate, int PageSize, int CurPage) {
         PageHelper.startPage(CurPage, PageSize);
         List<TeamEntity> teams = teamService.getTeamListByUserId(UserId);
         List<Integer> teamIds = new ArrayList<>();
         teams.forEach(t -> {
             teamIds.add(t.getId());
         });
-        return new PageInfo<>(taskMapper.selectByTeams(teamIds, Title, StageId, NewId));
+        return new PageInfo<>(taskMapper.selectByTeams(teamIds, Title, StageId, NewId, BegDate, EndDate));
     }
 
     @Override
@@ -59,7 +61,11 @@ public class TaskServiceImpl implements ITaskService {
 
     @Override
     public Result insert(TaskInfo info) {
+        DictionaryEntity dict = dictionaryService.DictInfo("Staged", "0001");
         info.setCreateDate(TimeUtils.getCurrentDate());
+        info.setStageId(dict.getId());
+        info.setStageCode(dict.getCode());
+        info.setStageCode(dict.getLabel());
         if (taskMapper.insert(info) > 0) {
             insertTeamTask(info.getId(), info.getTeams());
             return Result.success();

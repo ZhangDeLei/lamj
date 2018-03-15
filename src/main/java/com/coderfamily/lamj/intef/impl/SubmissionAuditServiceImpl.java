@@ -3,12 +3,8 @@ package com.coderfamily.lamj.intef.impl;
 import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.common.util.TimeUtils;
 import com.coderfamily.lamj.dao.SubmissionAuditMapper;
-import com.coderfamily.lamj.intef.IDictionaryService;
-import com.coderfamily.lamj.intef.IIntegralRecordService;
-import com.coderfamily.lamj.intef.ISubmissionAuditService;
-import com.coderfamily.lamj.intef.ISubmissionService;
-import com.coderfamily.lamj.model.DictionaryEntity;
-import com.coderfamily.lamj.model.SubmissionAuditEntity;
+import com.coderfamily.lamj.intef.*;
+import com.coderfamily.lamj.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,16 +24,18 @@ public class SubmissionAuditServiceImpl implements ISubmissionAuditService {
     private ISubmissionService submissionService;
     @Autowired
     private IIntegralRecordService integralRecordService;
+    @Autowired
+    private IUserService userService;
 
     @Override
     public Result adopt(int SubmissionId, int UserId, String UserName, String Comment) {
-        DictionaryEntity dict = dictionaryService.DictInfo("", "");//已通过
+        DictionaryEntity dict = dictionaryService.DictInfo("Process", "0004");//已通过
         return insertHis(dict, SubmissionId, UserId, UserName, Comment, true);
     }
 
     @Override
     public Result back(int SubmissionId, int UserId, String UserName, String Comment) {
-        DictionaryEntity dict = dictionaryService.DictInfo("", "");//已退回
+        DictionaryEntity dict = dictionaryService.DictInfo("Process", "0003");//已退回
         return insertHis(dict, SubmissionId, UserId, UserName, Comment, false);
     }
 
@@ -76,12 +74,32 @@ public class SubmissionAuditServiceImpl implements ISubmissionAuditService {
             submissionService.updateStatus(SubmissionId, Status);
             //如果审核通过需要新增积分
             if (Status) {
-
+                insertIntegral(UserId, SubmissionId);
             }
             return Result.success();
         } else {
             return Result.error();
         }
+    }
+
+    /**
+     * 网评投稿新增积分
+     */
+    private void insertIntegral(int UserId, int SubmissionId) {
+        DictionaryEntity dict = dictionaryService.DictInfo("Source", "0002");
+        SubmissionEntity submissionEntity = submissionService.getSubmissionById(SubmissionId);
+        UserEntity userEntity = userService.selectUserById(UserId);
+        IntegralRecordEntity entity = new IntegralRecordEntity();
+        entity.setUserId(UserId);
+        entity.setCompanyId(submissionEntity.getCompanyId());
+        entity.setUserName(userEntity.getNickName());
+        entity.setIntegral(5);
+        entity.setSourceId(dict.getId());
+        entity.setSourceCode(dict.getCode());
+        entity.setSourceName(dict.getLabel());
+        entity.setSourceSubmissionId(SubmissionId);
+        entity.setCreateTime(TimeUtils.getCurrentDate());
+        integralRecordService.insert(entity);
     }
 
     /**

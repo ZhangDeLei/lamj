@@ -4,8 +4,6 @@
     <resultMap id="SubmissionEntity" type="com.coderfamily.lamj.model.SubmissionEntity">
         <result column="Id" jdbcType="INTEGER" property="id"/>
         <result column="CompanyId" jdbcType="INTEGER" property="companyId"/>
-        <result column="ThemeId" jdbcType="INTEGER" property="themeId"/>
-        <result column="ThemeCode" jdbcType="VARCHAR" property="themeCode"/>
         <result column="ThemeName" jdbcType="VARCHAR" property="themeName"/>
         <result column="Title" jdbcType="VARCHAR" property="title"/>
         <result column="UserId" jdbcType="INTEGER" property="userId"/>
@@ -20,7 +18,7 @@
         SELECT <include refid="sql_column"></include> FROM MT_Submission
         <where>
             <if test="companyId!=null and companyId>0">AND CompanyId=#{companyId}</if>
-            <if test="themeId!=null">AND ThemeId=#{themeId}</if>
+            <if test="themeName!=null and themeName.length()>0">AND ThemeName=#{themeName}</if>
             <if test="title!=null and title.length()>0">AND Title=#{title}</if>
             <if test="userId!=null">AND UserId=#{userId}</if>
             <if test="processId!=null">AND ProcessId=#{processId}</if>
@@ -37,8 +35,6 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id!=null">Id,</if>
             <if test="companyId!=null">CompanyId,</if>
-            <if test="themeId!=null">ThemeId,</if>
-            <if test="themeCode!=null">ThemeCode,</if>
             <if test="themeName!=null">ThemeName,</if>
             <if test="title!=null">Title,</if>
             <if test="userId!=null">UserId,</if>
@@ -52,8 +48,6 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id!=null">#{id},</if>
             <if test="companyId!=null">#{companyId},</if>
-            <if test="themeId!=null">#{themeId},</if>
-            <if test="themeCode!=null">#{themeCode},</if>
             <if test="themeName!=null">#{themeName},</if>
             <if test="title!=null">#{title},</if>
             <if test="userId!=null">#{userId},</if>
@@ -68,8 +62,6 @@
     <update id="update" parameterType="com.coderfamily.lamj.model.SubmissionEntity">
         UPDATE MT_Submission
         <set>
-            <if test="themeId!=null">#{themeId},</if>
-            <if test="themeCode!=null">#{themeCode},</if>
             <if test="themeName!=null">#{themeName},</if>
             <if test="title!=null">#{title},</if>
             <if test="status!=null">#{status},</if>

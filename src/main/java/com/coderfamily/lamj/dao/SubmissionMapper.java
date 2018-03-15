@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface SubmissionMapper {
-    List<SubmissionEntity> select(@Param("companyId") int ComapnyId, @Param("themeId") Integer ThemeId, @Param("title") String Title, @Param("userId") Integer UserId, @Param("processId") Integer ProcessId);
+    List<SubmissionEntity> select(@Param("companyId") int ComapnyId, @Param("themeName") String ThemeName, @Param("title") String Title, @Param("userId") Integer UserId, @Param("processId") Integer ProcessId);
 
     SubmissionEntity selectById(@Param("id") int Id);
 

@@ -5,10 +5,6 @@ public class SubmissionEntity {
 
     private Integer companyId;
 
-    private Integer themeId;
-
-    private String themeCode;
-
     private String themeName;
 
     private String title;
@@ -39,22 +35,6 @@ public class SubmissionEntity {
 
     public void setCompanyId(Integer companyId) {
         this.companyId = companyId;
-    }
-
-    public Integer getThemeId() {
-        return themeId;
-    }
-
-    public void setThemeId(Integer themeId) {
-        this.themeId = themeId;
-    }
-
-    public String getThemeCode() {
-        return themeCode;
-    }
-
-    public void setThemeCode(String themeCode) {
-        this.themeCode = themeCode == null ? null : themeCode.trim();
     }
 
     public String getThemeName() {
