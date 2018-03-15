@@ -31,7 +31,7 @@ public class SubmissionController {
                                     @RequestParam(required = false) Integer ProcessId,
                                     @RequestParam int PageSize,
                                     @RequestParam int CurPage) {
-        return Result.success();
+        return Result.success(submissionService.getSubmissionList(CompanyId, ThemeId, Title, UserId, ProcessId, PageSize, CurPage));
     }
 
     @ApiOperation(value = "获取个人网评投稿列表", httpMethod = "GET", produces = "application/json", response = Result.class)
@@ -43,25 +43,31 @@ public class SubmissionController {
                                             @RequestParam(required = false) Integer ProcessId,
                                             @RequestParam int PageSize,
                                             @RequestParam int CurPage) {
-        return Result.success();
+        return Result.success(submissionService.getSubmissionList(CompanyId, ThemeId, Title, UserId, ProcessId, PageSize, CurPage));
+    }
+
+    @ApiOperation(value = "根据ID获取网评投稿详细信息", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @GetMapping("getSubmissionById")
+    public Result getSubmissionById(@RequestParam int Id) {
+        return Result.success(submissionService.getSubmissionById(Id));
     }
 
     @ApiOperation(value = "新增网评投稿", httpMethod = "POST", produces = "application/json", response = Result.class)
     @PostMapping("insert")
     public Result insert(@RequestBody SubmissionEntity entity) {
-        return Result.success();
+        return submissionService.insert(entity);
     }
 
     @ApiOperation(value = "更新网评投稿信息", httpMethod = "POST", produces = "application/json", response = Result.class)
     @PostMapping("update")
     public Result update(@RequestBody SubmissionEntity entity) {
-        return Result.success();
+        return submissionService.update(entity);
     }
 
     @ApiOperation(value = "根据ID删除网评投稿信息", httpMethod = "POST", produces = "application/json", response = Result.class)
     @PostMapping("delete")
     public Result delete(@RequestBody Map<String, Integer> params) {
-        return Result.success();
+        return submissionService.delete(params.get("Id"));
     }
 
 }

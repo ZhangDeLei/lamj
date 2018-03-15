@@ -31,10 +31,10 @@ public class ArticleController {
                                  @RequestParam(required = false) Integer TypeId,
                                  @RequestParam int PageSize,
                                  @RequestParam int CurPage) {
-        return Result.success();
+        return Result.success(articleService.getArticleList(CompanyId, Title, UserId, TypeId, PageSize, CurPage));
     }
 
-    @ApiOperation(value = "获取跟人网评文章列表", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @ApiOperation(value = "获取个人网评文章列表", httpMethod = "GET", produces = "application/json", response = Result.class)
     @GetMapping("getArticleListByUserId")
     public Result getArticleListByUserId(@RequestParam int CompanyId,
                                          @RequestParam(required = false) String Title,
@@ -42,30 +42,30 @@ public class ArticleController {
                                          @RequestParam(required = false) Integer TypeId,
                                          @RequestParam int PageSize,
                                          @RequestParam int CurPage) {
-        return Result.success();
+        return Result.success(articleService.getArticleList(CompanyId, Title, UserId, TypeId, PageSize, CurPage));
     }
 
     @ApiOperation(value = "根据ID获取网评文章详细信息", httpMethod = "GET", produces = "application/json", response = Result.class)
     @GetMapping("getArticleById")
     public Result getArticleById(@RequestParam int Id) {
-        return Result.success();
+        return Result.success(articleService.getArticleById(Id));
     }
 
     @ApiOperation(value = "新增网评文章", httpMethod = "POST", produces = "application/json", response = Result.class)
     @PostMapping("insert")
     public Result insert(@RequestBody ArticleEntity entity) {
-        return Result.success();
+        return articleService.insert(entity);
     }
 
     @ApiOperation(value = "更新网评文章", httpMethod = "POST", produces = "application/json", response = Result.class)
     @PostMapping("update")
     public Result update(@RequestBody ArticleEntity entity) {
-        return Result.success();
+        return articleService.update(entity);
     }
 
     @ApiOperation(value = "删除网评文章", httpMethod = "POST", produces = "application/json", response = Result.class)
     @PostMapping("delete")
     public Result delete(@RequestBody Map<String, Integer> params) {
-        return Result.success();
+        return articleService.delete(params.get("Id"));
     }
 }

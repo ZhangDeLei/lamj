@@ -27,39 +27,51 @@ public class IntegralRecordController {
                                             @RequestParam(required = false) Integer SourceId,
                                             @RequestParam int PageSize,
                                             @RequestParam int CurPage) {
-        return Result.success();
+        return Result.success(integralRecordService.getIntegralRecordByUserId(UserId, SourceId, PageSize, CurPage));
     }
 
     @ApiOperation(value = "企业查询用户积分", httpMethod = "GET", produces = "application/json", response = Result.class)
     @GetMapping("getIntegralRecordByCompany")
     public Result getIntegralRecordByCompany(@RequestParam int CompanyId,
+                                             @RequestParam(required = false) Integer UserId,
                                              @RequestParam(required = false) Integer SourceId,
+                                             @RequestParam(required = false) Integer SourceUserId,
                                              @RequestParam int PageSize,
                                              @RequestParam int CurPage) {
-        return Result.success();
+        return Result.success(integralRecordService.getIntegralRecordByCompany(CompanyId, UserId, SourceId, SourceUserId, PageSize, CurPage));
     }
 
     @ApiOperation(value = "根据任务ID查询积分记录", httpMethod = "GET", produces = "application/json", response = Result.class)
     @GetMapping("getIntegralRecordByTaskId")
     public Result getIntegralRecordByTaskId(@RequestParam int TaskId) {
-        return Result.success();
+        return Result.success(integralRecordService.getIntegralRecordByTaskId(TaskId));
+    }
+
+    @ApiOperation(value = "根据任务ID及用户ID查询积分记录", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @GetMapping("getIntegralRecordByTaskIdAndUserId")
+    public Result getIntegralRecordByTaskIdAndUserId(@RequestParam int TaskId, @RequestParam int UserId) {
+        return Result.success(integralRecordService.getIntegralRecordByTaskIdAndUserId(TaskId, UserId));
     }
 
     @ApiOperation(value = "根据投稿ID查询积分记录", httpMethod = "GET", produces = "application/json", response = Result.class)
     @GetMapping("getIntegralRecordBySubmissionId")
     public Result getIntegralRecordBySubmissionId(@RequestParam int SubmissionId) {
-        return Result.success();
+        return Result.success(integralRecordService.getIntegralRecordBySubmissionId(SubmissionId));
     }
 
-    @ApiOperation(value = "新增积分", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @ApiOperation(value = "新增积分", httpMethod = "POST", produces = "application/json", response = Result.class)
     @PostMapping("insert")
     public Result insert(@RequestBody IntegralRecordEntity entity) {
-        return Result.success();
+        if (integralRecordService.insert(entity) > 0) {
+            return Result.success();
+        } else {
+            return Result.error();
+        }
     }
 
-    @ApiOperation(value = "核减积分", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @ApiOperation(value = "核减积分", httpMethod = "POST", produces = "application/json", response = Result.class)
     @PostMapping("reduce")
-    public Result reduce(@RequestBody Map<String, Integer> params) {
-        return Result.success();
+    public Result reduce(@RequestBody IntegralRecordEntity entity) {
+        return integralRecordService.reduce(entity);
     }
 }
