@@ -13,13 +13,15 @@ public interface IFileService {
 
     /**
      * 文件上传
+     *
      * @param file
      * @return
      */
-    Result fileUpload(MultipartFile file, HttpServletRequest request);
+    Result fileUpload(MultipartFile file, String Type, HttpServletRequest request);
 
     /**
      * 删除文件
+     *
      * @param filePath
      * @return
      */

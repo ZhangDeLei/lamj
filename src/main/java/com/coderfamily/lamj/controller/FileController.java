@@ -25,8 +25,8 @@ public class FileController {
 
     @ApiOperation(value = "文件上传", httpMethod = "POST", produces = "application/json", response = Result.class)
     @PostMapping(value = "fileUpload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Result fileUpload(@RequestParam MultipartFile file, HttpServletRequest request) {
-        return fileService.fileUpload(file, request);
+    public Result fileUpload(@RequestParam MultipartFile file, @RequestParam String type, HttpServletRequest request) {
+        return fileService.fileUpload(file, type, request);
     }
 
     @ApiOperation(value = "根据文件名称删除文件", httpMethod = "POST", produces = "application/json", response = Result.class)

@@ -1,6 +1,8 @@
 package com.coderfamily.lamj.intef.impl;
 
 import com.coderfamily.lamj.common.data.Result;
+import com.coderfamily.lamj.common.util.Const;
+import com.coderfamily.lamj.common.util.NullUtil;
 import com.coderfamily.lamj.intef.IFileService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,24 +22,37 @@ public class FileServiceImpl implements IFileService {
 
     @Value("#{fileProperties['file.upload.image.photo']}")
     private String FileUploadImagePhotoPath;
+    @Value("#{fileProperties['file.upload.document.article']}")
+    private String FileUploadDocumentArticle;
 
     @Override
-    public Result fileUpload(MultipartFile file, HttpServletRequest request) {
+    public Result fileUpload(MultipartFile file, String type, HttpServletRequest request) {
         Result result = null;
         if (!file.isEmpty()) {
             try {
-                String contentType = file.getContentType();
-                String fileName = getPhotoFileName();
-                String fileAttr = contentType.split("/")[1];
-                String path = request.getServletContext().getRealPath(FileUploadImagePhotoPath);
-                String fileUrl = path + File.separator + fileName + "." + fileAttr;
-                File filePath = new File(path, fileName);
-                if (!filePath.getParentFile().exists()) {
-                    filePath.getParentFile().mkdirs();
+                String path = "";
+                switch (type) {
+                    case Const.File_Type_Image:
+                        request.getServletContext().getRealPath(FileUploadImagePhotoPath);
+                        break;
+                    case Const.File_Type_Article:
+                        request.getServletContext().getRealPath(FileUploadDocumentArticle);
+                        break;
                 }
-
-                file.transferTo(new File(fileUrl));
-                result = Result.success(FileUploadImagePhotoPath + File.separator + fileName + "." + fileAttr);
+                if (NullUtil.isNull(path)) {
+                    result = Result.error("文件路径不正确，文件上传失败");
+                } else {
+                    String contentType = file.getContentType();
+                    String fileName = getPhotoFileName();
+                    String fileAttr = contentType.split("/")[1];
+                    String fileUrl = path + File.separator + fileName + "." + fileAttr;
+                    File filePath = new File(path, fileName);
+                    if (!filePath.getParentFile().exists()) {
+                        filePath.getParentFile().mkdirs();
+                    }
+                    file.transferTo(new File(fileUrl));
+                    result = Result.success(FileUploadImagePhotoPath + File.separator + fileName + "." + fileAttr);
+                }
             } catch (IOException e) {
                 result = Result.error("文件上传失败");
             }
