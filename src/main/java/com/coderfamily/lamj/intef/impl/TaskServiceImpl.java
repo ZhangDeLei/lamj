@@ -42,6 +42,17 @@ public class TaskServiceImpl implements ITaskService {
     }
 
     @Override
+    public PageInfo<TaskEntity> getTaskListByUserId(int UserId, String Title, int StageId, int NewId, int PageSize, int CurPage) {
+        PageHelper.startPage(CurPage, PageSize);
+        List<TeamEntity> teams = teamService.getTeamListByUserId(UserId);
+        List<Integer> teamIds = new ArrayList<>();
+        teams.forEach(t -> {
+            teamIds.add(t.getId());
+        });
+        return new PageInfo<>(taskMapper.selectByTeams(teamIds, Title, StageId, NewId));
+    }
+
+    @Override
     public TaskInfo getTaskById(int Id) {
         return taskMapper.selectById(Id);
     }

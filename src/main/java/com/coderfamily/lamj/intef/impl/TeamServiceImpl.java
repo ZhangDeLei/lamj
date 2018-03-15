@@ -44,6 +44,11 @@ public class TeamServiceImpl implements ITeamService {
     }
 
     @Override
+    public List<TeamEntity> getTeamListByUserId(int UserId) {
+        return teamMapper.selectByUserId(UserId);
+    }
+
+    @Override
     public Result insert(TeamEntity entity) {
         CompanyEntity companyEntity = companyService.getCompanyById(entity.getCompanyId());
         if(NullUtil.isNull(companyEntity)){

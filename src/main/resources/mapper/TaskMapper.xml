@@ -43,6 +43,16 @@
         SELECT <include refid="sql_column"></include> FROM MT_Task WHERE Id=#{id}
     </select>
 
+    <select id="selectByTeams" parameterType="Map" resultMap="TaskEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_Task LEFT JOIN MT_TeamTask ON MT_Task.Id = MT_TeamTask.TaskId
+        WHERE MT_TeamTask.TeamId IN (
+        <foreach collection="list" item="item" index="list" separator=",">${item}</foreach>
+        )
+        <if test="title!=null and title.length()>0">AND Title=#{title}</if>
+        <if test="stageId!=null">AND StageId=#{stageId}</if>
+        <if test="newId!=null">AND NewId=#{newId}</if>
+    </select>
+
     <insert id="insert" parameterType="com.coderfamily.lamj.model.TaskEntity" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO MT_Task
         <trim prefix="(" suffix=")" suffixOverrides=",">

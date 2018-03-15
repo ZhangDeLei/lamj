@@ -10,6 +10,8 @@ public interface TaskMapper {
 
     List<TaskEntity> select(TaskEntity entity);
 
+    List<TaskEntity> selectByTeams(@Param("list") List<Integer> teams, @Param("title") String Title, @Param("stageId") Integer StageId, @Param("newId") Integer NewId);
+
     TaskInfo selectById(@Param("id") int Id);
 
     int insert(TaskEntity entity);

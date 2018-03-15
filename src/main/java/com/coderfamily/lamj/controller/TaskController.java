@@ -33,6 +33,17 @@ public class TaskController {
         return Result.success(taskService.getTaskList(CompanyId, Title, StageId, NewId, PageSize, CurPage));
     }
 
+    @ApiOperation(value = "根据用户ID获取用户的任务列表", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @GetMapping("getTaskListByUserId")
+    public Result getTaskListByUserId(@RequestParam int UserId,
+                                      @RequestParam(required = false) String Title,
+                                      @RequestParam(required = false) Integer StageId,
+                                      @RequestParam(required = false) Integer NewId,
+                                      @RequestParam int PageSize,
+                                      @RequestParam int CurPage) {
+        return Result.success(taskService.getTaskListByUserId(UserId, Title, StageId, NewId, PageSize, CurPage));
+    }
+
     @ApiOperation(value = "根据ID获取任务信息", httpMethod = "GET", produces = "application/json", response = Result.class)
     @GetMapping("getTaskById")
     public Result getTaskById(@RequestParam int Id) {

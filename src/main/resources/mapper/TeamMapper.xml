@@ -25,6 +25,11 @@
         </where>
     </select>
 
+    <select id="selectByUserId" parameterType="int" resultMap="TeamEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_Team LEFT JOIN MT_TeamUser ON MT_Team.Id = MT_TeamUser.TeamId
+        WHERE MT_TeamUser.UserId = #{userId}
+    </select>
+
     <select id="selectByTaskId" parameterType="Map" resultMap="TeamEntity">
         SELECT <include refid="sql_column"></include> FROM MT_Team LEFT JOIN MT_TeamTask ON
         MT_Team.Id=MT_TeamTask.TeamId

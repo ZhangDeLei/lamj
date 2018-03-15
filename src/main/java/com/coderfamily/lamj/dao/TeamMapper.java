@@ -12,7 +12,9 @@ public interface TeamMapper {
 
     List<TeamEntity> selectTeamListByCondition(TeamEntity entity);
 
-    List<TeamEntity> selectByTaskId(@Param("taskId") int TaskId,@Param("companyId") int CompanyId);
+    List<TeamEntity> selectByTaskId(@Param("taskId") int TaskId, @Param("companyId") int CompanyId);
+
+    List<TeamEntity> selectByUserId(@Param("userId") int UserId);
 
     TeamEntity selectTeamById(@Param("id") int Id);
 

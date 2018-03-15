@@ -27,6 +27,19 @@ public interface ITaskService {
     PageInfo<TaskEntity> getTaskList(int CompanyId, String Title, int StageId, int NewId, int PageSize, int CurPage);
 
     /**
+     * 分页获取用户的任务列表
+     *
+     * @param UserId
+     * @param Title
+     * @param StageId
+     * @param NewId
+     * @param PageSize
+     * @param CurPage
+     * @return
+     */
+    PageInfo<TaskEntity> getTaskListByUserId(int UserId, String Title, int StageId, int NewId, int PageSize, int CurPage);
+
+    /**
      * 根据ID获取任务信息
      *
      * @param Id

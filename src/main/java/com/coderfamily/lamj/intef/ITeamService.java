@@ -34,6 +34,13 @@ public interface ITeamService {
     List<TeamEntity> getTeamListByCondition(TeamEntity entity);
 
     /**
+     * 根据用户ID获取队伍列表
+     * @param UserId
+     * @return
+     */
+    List<TeamEntity> getTeamListByUserId(int UserId);
+
+    /**
      * 新增队伍
      *
      * @param entity
