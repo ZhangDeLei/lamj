@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coderfamily.lamj.dao.IntegralRecordMapper">
+  <resultMap id="BaseResultMap" type="com.coderfamily.lamj.model.IntegralRecordEntity">
+    <result column="Id" jdbcType="INTEGER" property="id" />
+    <result column="CompanyId" jdbcType="INTEGER" property="companyId" />
+    <result column="UserId" jdbcType="INTEGER" property="userId" />
+    <result column="UserName" jdbcType="VARCHAR" property="userName" />
+    <result column="Integral" jdbcType="INTEGER" property="integral" />
+    <result column="SourceId" jdbcType="INTEGER" property="sourceId" />
+    <result column="SourceCode" jdbcType="VARCHAR" property="sourceCode" />
+    <result column="SourceName" jdbcType="VARCHAR" property="sourceName" />
+    <result column="SourceUserId" jdbcType="INTEGER" property="sourceUserId" />
+    <result column="SourceUserName" jdbcType="VARCHAR" property="sourceUserName" />
+    <result column="SourceTaskId" jdbcType="INTEGER" property="sourceTaskId" />
+    <result column="SourceSubmissionId" jdbcType="INTEGER" property="sourceSubmissionId" />
+    <result column="CreateTime" jdbcType="VARCHAR" property="createTime" />
+  </resultMap>
+</mapper>

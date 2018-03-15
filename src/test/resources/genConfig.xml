@@ -22,7 +22,7 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table tableName="MT_SubmissionAudit" mapperName="SubmissionAuditMapper" domainObjectName="SubmissionAuditEntity"
+        <table tableName="MT_IntegralRecord" mapperName="IntegralRecordMapper" domainObjectName="IntegralRecordEntity"
                enableSelectByExample="false"
                enableUpdateByPrimaryKey="false"
                enableInsert="false"
