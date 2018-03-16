@@ -81,5 +81,5 @@
     DELETE FROM MT_Article WHERE UserId=#{userId}
   </delete>
 
-    <sql id="sql_column">Id,Title,Url,TypeId,TypeCode,TypeName,CreateUserId,CreateUserCode,CreateUserName,CreateTime,CompanyId</sql>
+    <sql id="sql_column">Id,Title,Url,TypeId,TypeCode,TypeName,CreateUserId,CreateUserName,CreateTime,CompanyId</sql>
 </mapper>

@@ -2,6 +2,7 @@ package com.coderfamily.lamj.intef.impl;
 
 import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.common.util.NullUtil;
+import com.coderfamily.lamj.common.util.TimeUtils;
 import com.coderfamily.lamj.dao.ArticleMapper;
 import com.coderfamily.lamj.intef.IArticleService;
 import com.coderfamily.lamj.model.ArticleEntity;
@@ -37,6 +38,7 @@ public class ArticleServiceImpl implements IArticleService {
 
     @Override
     public Result insert(ArticleEntity entity) {
+        entity.setCreateTime(TimeUtils.getCurrentDate());
         if (articleMapper.insert(entity) > 0) {
             return Result.success();
         } else {
