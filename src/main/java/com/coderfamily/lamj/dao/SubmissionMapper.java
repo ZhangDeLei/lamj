@@ -1,14 +1,20 @@
 package com.coderfamily.lamj.dao;
 
+import com.coderfamily.lamj.domain.SubmissionInfo;
 import com.coderfamily.lamj.model.SubmissionEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface SubmissionMapper {
-    List<SubmissionEntity> select(@Param("companyId") int ComapnyId, @Param("themeName") String ThemeName, @Param("title") String Title, @Param("userId") Integer UserId, @Param("processId") Integer ProcessId);
+    List<SubmissionInfo> select(@Param("companyId") int ComapnyId,
+                                @Param("themeName") String ThemeName,
+                                @Param("title") String Title,
+                                @Param("userId") Integer UserId,
+                                @Param("processId") Integer ProcessId,
+                                @Param("status") Boolean Status);
 
-    SubmissionEntity selectById(@Param("id") int Id);
+    SubmissionInfo selectById(@Param("id") int Id);
 
     int insert(SubmissionEntity entity);
 

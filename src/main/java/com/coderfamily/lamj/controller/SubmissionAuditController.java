@@ -40,7 +40,7 @@ public class SubmissionAuditController {
 
     @ApiOperation(value = "审核不通过", httpMethod = "POST", produces = "application/json", response = Result.class)
     @PostMapping("back")
-    public Result back(@RequestBody Map<String, Integer> params) {
+    public Result back(@RequestBody Map<String, Object> params) {
         int SubmissionId = NumberUtil.toInt(params.get("SubmissionId") + "");
         int UserId = NumberUtil.toInt(params.get("UserId") + "");
         String UserName = StringUtil.toStr(params.get("UserName"));

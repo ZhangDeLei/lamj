@@ -1,6 +1,7 @@
 package com.coderfamily.lamj.intef;
 
 import com.coderfamily.lamj.common.data.Result;
+import com.coderfamily.lamj.domain.SubmissionInfo;
 import com.coderfamily.lamj.model.SubmissionEntity;
 import com.github.pagehelper.PageInfo;
 
@@ -22,7 +23,7 @@ public interface ISubmissionService {
      * @param CurPage
      * @return
      */
-    PageInfo<SubmissionEntity> getSubmissionList(int ComapnyId, String ThemeName, String Title, Integer UserId, Integer ProcessId, int PageSize, int CurPage);
+    PageInfo<SubmissionInfo> getSubmissionList(int ComapnyId, String ThemeName, String Title, Integer UserId, Integer ProcessId, Boolean Status, int PageSize, int CurPage);
 
     /**
      * 根据ID获取网评投稿详细信息
@@ -30,7 +31,7 @@ public interface ISubmissionService {
      * @param Id
      * @return
      */
-    SubmissionEntity getSubmissionById(int Id);
+    SubmissionInfo getSubmissionById(int Id);
 
     /**
      * 新增网评投稿信息
@@ -74,9 +75,11 @@ public interface ISubmissionService {
 
     /**
      * 更新状态
+     *
      * @param Id
      * @param Status
      * @return
      */
-    int updateStatus(int Id, boolean Status);
+    int updateStatus(int Id, int ProcessId, String ProcessCode, String ProcessName, boolean Status);
+
 }

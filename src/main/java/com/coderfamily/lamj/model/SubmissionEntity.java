@@ -21,6 +21,12 @@ public class SubmissionEntity {
 
     private String url;
 
+    private Integer processId;
+
+    private String processCode;
+
+    private String processName;
+
     public Integer getId() {
         return id;
     }
@@ -99,5 +105,29 @@ public class SubmissionEntity {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Integer getProcessId() {
+        return processId;
+    }
+
+    public void setProcessId(Integer processId) {
+        this.processId = processId;
+    }
+
+    public String getProcessCode() {
+        return processCode;
+    }
+
+    public void setProcessCode(String processCode) {
+        this.processCode = processCode;
+    }
+
+    public String getProcessName() {
+        return processName;
+    }
+
+    public void setProcessName(String processName) {
+        this.processName = processName;
     }
 }

@@ -29,9 +29,10 @@ public class SubmissionController {
                                     @RequestParam(required = false) String Title,
                                     @RequestParam(required = false) Integer UserId,
                                     @RequestParam(required = false) Integer ProcessId,
+                                    @RequestParam(required = false) Boolean Status,
                                     @RequestParam int PageSize,
                                     @RequestParam int CurPage) {
-        return Result.success(submissionService.getSubmissionList(CompanyId, ThemeName, Title, UserId, ProcessId, PageSize, CurPage));
+        return Result.success(submissionService.getSubmissionList(CompanyId, ThemeName, Title, UserId, ProcessId, Status, PageSize, CurPage));
     }
 
     @ApiOperation(value = "获取个人网评投稿列表", httpMethod = "GET", produces = "application/json", response = Result.class)
@@ -41,9 +42,10 @@ public class SubmissionController {
                                             @RequestParam(required = false) String Title,
                                             @RequestParam Integer UserId,
                                             @RequestParam(required = false) Integer ProcessId,
+                                            @RequestParam(required = false) Boolean Status,
                                             @RequestParam int PageSize,
                                             @RequestParam int CurPage) {
-        return Result.success(submissionService.getSubmissionList(CompanyId, ThemeName, Title, UserId, ProcessId, PageSize, CurPage));
+        return Result.success(submissionService.getSubmissionList(CompanyId, ThemeName, Title, UserId, ProcessId, Status, PageSize, CurPage));
     }
 
     @ApiOperation(value = "根据ID获取网评投稿详细信息", httpMethod = "GET", produces = "application/json", response = Result.class)

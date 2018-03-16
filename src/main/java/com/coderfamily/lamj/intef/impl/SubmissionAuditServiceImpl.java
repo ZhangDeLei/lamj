@@ -41,6 +41,7 @@ public class SubmissionAuditServiceImpl implements ISubmissionAuditService {
 
     @Override
     public int insert(SubmissionAuditEntity entity) {
+        entity.setOrderNum(getMaxNum(entity.getSubmissionId()));
         return submissionAuditMapper.insert(entity);
     }
 
@@ -71,7 +72,7 @@ public class SubmissionAuditServiceImpl implements ISubmissionAuditService {
         entity.setProcessCode(dict.getCode());
         entity.setProcessName(dict.getLabel());
         if (submissionAuditMapper.insert(entity) > 0) {
-            submissionService.updateStatus(SubmissionId, Status);
+            submissionService.updateStatus(SubmissionId, dict.getId(), dict.getCode(), dict.getLabel(), Status);
             //如果审核通过需要新增积分
             if (Status) {
                 insertIntegral(UserId, SubmissionId);

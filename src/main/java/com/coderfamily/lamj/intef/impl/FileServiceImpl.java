@@ -30,28 +30,29 @@ public class FileServiceImpl implements IFileService {
         Result result = null;
         if (!file.isEmpty()) {
             try {
-                String path = "";
+                String path = "", returnPath = "";
                 switch (type) {
                     case Const.File_Type_Image:
-                        request.getServletContext().getRealPath(FileUploadImagePhotoPath);
+                        returnPath = FileUploadImagePhotoPath;
+                        path = request.getServletContext().getRealPath(FileUploadImagePhotoPath);
                         break;
                     case Const.File_Type_Article:
-                        request.getServletContext().getRealPath(FileUploadDocumentArticle);
+                        returnPath = FileUploadDocumentArticle;
+                        path = request.getServletContext().getRealPath(FileUploadDocumentArticle);
                         break;
                 }
                 if (NullUtil.isNull(path)) {
                     result = Result.error("文件路径不正确，文件上传失败");
                 } else {
-                    String contentType = file.getContentType();
-                    String fileName = getPhotoFileName();
-                    String fileAttr = contentType.split("/")[1];
-                    String fileUrl = path + File.separator + fileName + "." + fileAttr;
+                    String fileName = getFileName(type);
+                    String fileAttr = file.getOriginalFilename().substring(file.getOriginalFilename().indexOf('.'), file.getOriginalFilename().length());
+                    String fileUrl = path + File.separator + fileName + fileAttr;
                     File filePath = new File(path, fileName);
                     if (!filePath.getParentFile().exists()) {
                         filePath.getParentFile().mkdirs();
                     }
                     file.transferTo(new File(fileUrl));
-                    result = Result.success(FileUploadImagePhotoPath + File.separator + fileName + "." + fileAttr);
+                    result = Result.success(returnPath + File.separator + fileName + fileAttr);
                 }
             } catch (IOException e) {
                 result = Result.error("文件上传失败");
@@ -69,12 +70,20 @@ public class FileServiceImpl implements IFileService {
     }
 
     /**
-     * 获取头像文件名称
+     * 获取文件名称
      *
      * @return
      */
-    private String getPhotoFileName() {
-        String fileName = "photo_" + new Date().getTime();
+    private String getFileName(String type) {
+        String fileName = "";
+        switch (type) {
+            case Const.File_Type_Article:
+                fileName = "article_" + new Date().getTime();
+                break;
+            case Const.File_Type_Image:
+                fileName = "photo_" + new Date().getTime();
+                break;
+        }
         return fileName;
     }
 }

@@ -25,7 +25,7 @@
     </select>
 
     <select id="selectMaxOrderNumBySubmissionId" parameterType="int" resultType="int">
-        SELECT MAX(OrderNum) FROM MT_SubmissionAudit WHERE SubmissionId=#{id}
+        SELECT IFNULL(MAX(OrderNum),0) FROM MT_SubmissionAudit WHERE SubmissionId=#{id}
     </select>
     
     <insert id="insert" parameterType="com.coderfamily.lamj.model.SubmissionAuditEntity">

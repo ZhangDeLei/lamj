@@ -13,7 +13,7 @@ public interface SubmissionAuditMapper {
 
     SubmissionAuditEntity selectByNew(@Param("id") int SubmissionId);
 
-    int selectMaxOrderNumBySubmissionId(@Param("id") int SubmissionId);
+    Integer selectMaxOrderNumBySubmissionId(@Param("id") int SubmissionId);
 
     int deleteBySubmissionId(@Param("submissionId") int SubmissionId);
 

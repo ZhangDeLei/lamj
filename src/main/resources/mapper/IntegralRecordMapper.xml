@@ -1,19 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.coderfamily.lamj.dao.IntegralRecordMapper">
-  <resultMap id="BaseResultMap" type="com.coderfamily.lamj.model.IntegralRecordEntity">
-    <result column="Id" jdbcType="INTEGER" property="id" />
-    <result column="CompanyId" jdbcType="INTEGER" property="companyId" />
-    <result column="UserId" jdbcType="INTEGER" property="userId" />
-    <result column="UserName" jdbcType="VARCHAR" property="userName" />
-    <result column="Integral" jdbcType="INTEGER" property="integral" />
-    <result column="SourceId" jdbcType="INTEGER" property="sourceId" />
-    <result column="SourceCode" jdbcType="VARCHAR" property="sourceCode" />
-    <result column="SourceName" jdbcType="VARCHAR" property="sourceName" />
-    <result column="SourceUserId" jdbcType="INTEGER" property="sourceUserId" />
-    <result column="SourceUserName" jdbcType="VARCHAR" property="sourceUserName" />
-    <result column="SourceTaskId" jdbcType="INTEGER" property="sourceTaskId" />
-    <result column="SourceSubmissionId" jdbcType="INTEGER" property="sourceSubmissionId" />
-    <result column="CreateTime" jdbcType="VARCHAR" property="createTime" />
-  </resultMap>
+    <resultMap id="IntegralRecordEntity" type="com.coderfamily.lamj.model.IntegralRecordEntity">
+        <result column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="CompanyId" jdbcType="INTEGER" property="companyId"/>
+        <result column="UserId" jdbcType="INTEGER" property="userId"/>
+        <result column="UserName" jdbcType="VARCHAR" property="userName"/>
+        <result column="Integral" jdbcType="INTEGER" property="integral"/>
+        <result column="SourceId" jdbcType="INTEGER" property="sourceId"/>
+        <result column="SourceCode" jdbcType="VARCHAR" property="sourceCode"/>
+        <result column="SourceName" jdbcType="VARCHAR" property="sourceName"/>
+        <result column="SourceUserId" jdbcType="INTEGER" property="sourceUserId"/>
+        <result column="SourceUserName" jdbcType="VARCHAR" property="sourceUserName"/>
+        <result column="SourceTaskId" jdbcType="INTEGER" property="sourceTaskId"/>
+        <result column="SourceSubmissionId" jdbcType="INTEGER" property="sourceSubmissionId"/>
+        <result column="CreateTime" jdbcType="VARCHAR" property="createTime"/>
+    </resultMap>
+
+    <select id="select" parameterType="com.coderfamily.lamj.model.IntegralRecordEntity"
+            resultMap="IntegralRecordEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_IntegralRecord
+        <where>
+            <if test="companyId!=null">CompanyId=#{companyId}</if>
+            <if test="userId!=null">UserId=#{userId}</if>
+            <if test="sourceId!=null">SourceId=#{sourceId}</if>
+            <if test="sourceUserId!=null">SourceUserId=#{sourceUserId}</if>
+            <if test="sourceTaskId!=null">SourceTaskId=#{sourceTaskId}</if>
+            <if test="sourceSubmissionId!=null">SourceSubmissionId=#{sourceSubmissionId}</if>
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="com.coderfamily.lamj.model.IntegralRecordEntity">
+        INSERT INTO MT_IntegralRecord
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">Id,</if>
+            <if test="companyId!=null">CompanyId,</if>
+            <if test="userId!=null">UserId,</if>
+            <if test="userName!=null">UserName,</if>
+            <if test="integral!=null">Integral,</if>
+            <if test="sourceId!=null">SourceId,</if>
+            <if test="sourceCode!=null">SourceCode,</if>
+            <if test="sourceName!=null">SourceName,</if>
+            <if test="sourceUserId!=null">SourceUserId,</if>
+            <if test="sourceUserName!=null">SourceUserName,</if>
+            <if test="sourceTaskId!=null">SourceTaskId,</if>
+            <if test="sourceSubmissionId!=null">SourceSubmissionId,</if>
+            <if test="createTime!=null">CreateTime,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">#{id},</if>
+            <if test="companyId!=null">#{companyId},</if>
+            <if test="userId!=null">#{userId},</if>
+            <if test="userName!=null">#{userName},</if>
+            <if test="integral!=null">#{integral},</if>
+            <if test="sourceId!=null">#{sourceId},</if>
+            <if test="sourceCode!=null">#{sourceCode},</if>
+            <if test="sourceName!=null">#{sourceName},</if>
+            <if test="sourceUserId!=null">#{sourceUserId},</if>
+            <if test="sourceUserName!=null">#{sourceUserName},</if>
+            <if test="sourceTaskId!=null">#{sourceTaskId},</if>
+            <if test="sourceSubmissionId!=null">#{sourceSubmissionId},</if>
+            <if test="createTime!=null">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <sql id="sql_column">Id,CompanyId,UserId,UserName,Integral,SourceId,SourceCode,SourceName,SourceuserId,SourceUserName,SourceTaskId,SourceSubmissionId,CreateTime</sql>
 </mapper>
