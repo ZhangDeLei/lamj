@@ -1,7 +1,9 @@
 package com.coderfamily.lamj.controller;
 
 import com.coderfamily.lamj.common.data.Result;
+import com.coderfamily.lamj.intef.IDictionaryService;
 import com.coderfamily.lamj.intef.IIntegralRecordService;
+import com.coderfamily.lamj.model.DictionaryEntity;
 import com.coderfamily.lamj.model.IntegralRecordEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,6 +22,8 @@ import java.util.Map;
 public class IntegralRecordController {
     @Autowired
     private IIntegralRecordService integralRecordService;
+    @Autowired
+    private IDictionaryService dictionaryService;
 
     @ApiOperation(value = "个人积分查询", httpMethod = "GET", produces = "application/json", response = Result.class)
     @GetMapping("getIntegralRecordByUserId")
@@ -62,6 +66,10 @@ public class IntegralRecordController {
     @ApiOperation(value = "新增积分", httpMethod = "POST", produces = "application/json", response = Result.class)
     @PostMapping("insert")
     public Result insert(@RequestBody IntegralRecordEntity entity) {
+        DictionaryEntity dict = dictionaryService.DictInfo("Source","0003");
+        entity.setSourceName(dict.getLabel());
+        entity.setSourceCode(dict.getCode());
+        entity.setSourceId(dict.getId());
         if (integralRecordService.insert(entity) > 0) {
             return Result.success();
         } else {

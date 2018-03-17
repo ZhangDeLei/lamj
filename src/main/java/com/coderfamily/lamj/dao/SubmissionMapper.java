@@ -12,6 +12,7 @@ public interface SubmissionMapper {
                                 @Param("title") String Title,
                                 @Param("userId") Integer UserId,
                                 @Param("processId") Integer ProcessId,
+                                @Param("levelId") Integer LevelId,
                                 @Param("status") Boolean Status);
 
     SubmissionInfo selectById(@Param("id") int Id);

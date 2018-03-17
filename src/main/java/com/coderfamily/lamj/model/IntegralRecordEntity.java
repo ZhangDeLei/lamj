@@ -27,6 +27,8 @@ public class IntegralRecordEntity {
 
     private String createTime;
 
+    private String comment;
+
     public Integer getId() {
         return id;
     }
@@ -129,5 +131,13 @@ public class IntegralRecordEntity {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime == null ? null : createTime.trim();
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

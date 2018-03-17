@@ -50,6 +50,13 @@ public class UserController {
         return Result.success(userService.selectAllUser());
     }
 
+    @ApiOperation(value = "获取企业的所有用户列表", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @ResponseBody
+    @GetMapping("getAllUserListByCompanyId")
+    public Result getAllUserListByCompanyId(@RequestParam int CompanyId) {
+        return Result.success(userService.selectAllUserByCompanyId(CompanyId));
+    }
+
     @ApiOperation(value = "根据ID查询用户信息", httpMethod = "GET", produces = "application/json", response = Result.class)
     @ResponseBody
     @GetMapping("getUserById")
@@ -76,8 +83,9 @@ public class UserController {
         if (isExists) {
             return new Result(ResponseCode.user_already_exists.getCode(), ResponseCode.user_already_exists.getMsg());
         }
-        return userService.insert(entity,false);
+        return userService.insert(entity, false);
     }
+
     /**
      * 用户新增(用户业务账户新增)
      *
@@ -87,26 +95,26 @@ public class UserController {
     @ApiOperation(value = "新增用户", httpMethod = "POST", produces = "application/json", response = Result.class)
     @ResponseBody
     @PostMapping("insertCustom")
-    public Result insertCustom(@RequestBody UserDetail user){
+    public Result insertCustom(@RequestBody UserDetail user) {
         boolean isExists = userService.existsUserByUserAccount(user.getUserAccount());
         if (isExists) {
             return new Result(ResponseCode.user_already_exists.getCode(), ResponseCode.user_already_exists.getMsg());
         }
-        return userService.insert(user,true);
+        return userService.insert(user, true);
     }
 
     @ApiOperation(value = "更新用户", httpMethod = "POST", produces = "application/json", response = Result.class)
     @ResponseBody
     @PostMapping("update")
     public Result update(@RequestBody UserDetail entity) {
-        return userService.update(entity,false);
+        return userService.update(entity, false);
     }
 
     @ApiOperation(value = "更新用户", httpMethod = "POST", produces = "application/json", response = Result.class)
     @ResponseBody
     @PostMapping("updateCustom")
     public Result updateCustom(@RequestBody UserDetail entity) {
-        return userService.update(entity,true);
+        return userService.update(entity, true);
     }
 
     @ApiOperation(value = "更新密码", httpMethod = "POST", produces = "application/json", response = Result.class)

@@ -19,11 +19,12 @@ public interface ISubmissionService {
      * @param Title
      * @param UserId
      * @param ProcessId
+     * @param LevelId
      * @param PageSize
      * @param CurPage
      * @return
      */
-    PageInfo<SubmissionInfo> getSubmissionList(int ComapnyId, String ThemeName, String Title, Integer UserId, Integer ProcessId, Boolean Status, int PageSize, int CurPage);
+    PageInfo<SubmissionInfo> getSubmissionList(int ComapnyId, String ThemeName, String Title, Integer UserId, Integer ProcessId, Integer LevelId, Boolean Status, int PageSize, int CurPage);
 
     /**
      * 根据ID获取网评投稿详细信息

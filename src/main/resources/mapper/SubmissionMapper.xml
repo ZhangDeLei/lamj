@@ -15,6 +15,9 @@
         <result column="ProcessId" jdbcType="INTEGER" property="processId"/>
         <result column="ProcessCode" jdbcType="VARCHAR" property="processCode"/>
         <result column="ProcessName" jdbcType="VARCHAR" property="processName"/>
+        <result column="LevelId" jdbcType="INTEGER" property="levelId"/>
+        <result column="LevelCode" jdbcType="VARCHAR" property="levelCode"/>
+        <result column="LevelName" jdbcType="VARCHAR" property="levelName"/>
     </resultMap>
 
     <resultMap type="com.coderfamily.lamj.domain.SubmissionInfo" id="SubmissionInfo" extends="SubmissionEntity">
@@ -28,11 +31,12 @@
     <select id="select" parameterType="Map" resultMap="SubmissionInfo">
         SELECT <include refid="sql_column"></include> FROM MT_Submission
         WHERE CompanyId=#{companyId}
-            <if test="themeName!=null and themeName.length()>0">AND ThemeName=#{themeName}</if>
-            <if test="title!=null and title.length()>0">AND Title=#{title}</if>
-            <if test="userId!=null">AND UserId=#{userId}</if>
-            <if test="processId!=null">AND ProcessId=#{processId}</if>
-            <if test="status!=null">AND Status=#{status}</if>
+        <if test="themeName!=null and themeName.length()>0">AND ThemeName=#{themeName}</if>
+        <if test="title!=null and title.length()>0">AND Title=#{title}</if>
+        <if test="userId!=null">AND UserId=#{userId}</if>
+        <if test="processId!=null">AND ProcessId=#{processId}</if>
+        <if test="status!=null">AND Status=#{status}</if>
+        <if test="levelId!=null">AND LevelId=#{levelId}</if>
         ORDER BY Status,ProcessCode,CreateTime ASC
     </select>
 
@@ -57,6 +61,9 @@
             <if test="processId!=null">ProcessId,</if>
             <if test="processCode!=null">ProcessCode,</if>
             <if test="processName!=null">ProcessName,</if>
+            <if test="levelId!=null">LevelId,</if>
+            <if test="levelCode!=null">LevelCode,</if>
+            <if test="levelName!=null">LevelName,</if>
         </trim>
         VALUES
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -73,6 +80,9 @@
             <if test="processId!=null">#{processId},</if>
             <if test="processCode!=null">#{processCode},</if>
             <if test="processName!=null">#{processName},</if>
+            <if test="levelId!=null">#{levelId},</if>
+            <if test="levelCode!=null">#{levelCode},</if>
+            <if test="levelName!=null">#{levelName},</if>
         </trim>
     </insert>
 
@@ -87,6 +97,9 @@
             <if test="processId!=null">ProcessId=#{processId},</if>
             <if test="processCode!=null">ProcessCode=#{processCode},</if>
             <if test="processName!=null">ProcessName=#{processName},</if>
+            <if test="levelId!=null">LevelId=#{levelId},</if>
+            <if test="levelCode!=null">LevelCode=#{levelCode},</if>
+            <if test="levelName!=null">LevelName=#{levelName},</if>
         </set>
         WHERE Id=#{id}
     </update>
@@ -103,5 +116,6 @@
         DELETE FROM MT_Submission WHERE UserId=#{userId}
     </delete>
 
-    <sql id="sql_column">Id,CompanyId,ThemeName,Title,UserId,UserName,CreateTime,Status,Path,Url,ProcessId,ProcessCode,ProcessName</sql>
+    <sql id="sql_column">Id,CompanyId,ThemeName,Title,UserId,UserName,CreateTime,Status,Path,Url,ProcessId,ProcessCode,ProcessName,
+      LevelId,LevelCode,LevelName</sql>
 </mapper>

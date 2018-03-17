@@ -39,11 +39,12 @@ public class SubmissionServiceImpl implements ISubmissionService {
                                                       String Title,
                                                       Integer UserId,
                                                       Integer ProcessId,
+                                                      Integer LevelId,
                                                       Boolean Status,
                                                       int PageSize,
                                                       int CurPage) {
         PageHelper.startPage(CurPage, PageSize);
-        List<SubmissionInfo> mData = submissionMapper.select(ComapnyId, ThemeName, Title, UserId, ProcessId, Status);
+        List<SubmissionInfo> mData = submissionMapper.select(ComapnyId, ThemeName, Title, UserId, ProcessId, LevelId, Status);
         return new PageInfo<>(mData);
     }
 

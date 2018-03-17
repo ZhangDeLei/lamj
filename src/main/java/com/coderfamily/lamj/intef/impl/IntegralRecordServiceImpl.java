@@ -1,8 +1,10 @@
 package com.coderfamily.lamj.intef.impl;
 
 import com.coderfamily.lamj.common.data.Result;
+import com.coderfamily.lamj.common.util.TimeUtils;
 import com.coderfamily.lamj.dao.IntegralRecordMapper;
 import com.coderfamily.lamj.intef.IIntegralRecordService;
+import com.coderfamily.lamj.model.DictionaryEntity;
 import com.coderfamily.lamj.model.IntegralRecordEntity;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -24,6 +26,7 @@ public class IntegralRecordServiceImpl implements IIntegralRecordService {
 
     @Override
     public int insert(IntegralRecordEntity entity) {
+        entity.setCreateTime(TimeUtils.getCurrentDate());
         return integralRecordMapper.insert(entity);
     }
 

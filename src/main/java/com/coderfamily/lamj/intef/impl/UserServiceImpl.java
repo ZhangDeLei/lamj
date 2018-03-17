@@ -68,6 +68,14 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public List<UserDetail> selectAllUserByCompanyId(int CompanyId) {
+        UserDetail entity = new UserDetail();
+        entity.setCompanyId(CompanyId);
+        List<UserDetail> mData = userMapper.selectUserListByCondition(entity);
+        return mData;
+    }
+
+    @Override
     public UserDetail selectUserByUserAccount(String UserAccount) {
         return userMapper.selectUserByUserAccount(UserAccount);
     }

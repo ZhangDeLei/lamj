@@ -38,6 +38,12 @@ public interface IUserService {
     List<UserDetail> selectAllUser();
 
     /**
+     * 获取企业的所有用户列表
+     * @return
+     */
+    List<UserDetail> selectAllUserByCompanyId(int CompanyId);
+
+    /**
      * 根据用户名获取用户信息
      *
      * @param UserAccount

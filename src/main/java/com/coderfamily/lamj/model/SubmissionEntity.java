@@ -27,6 +27,12 @@ public class SubmissionEntity {
 
     private String processName;
 
+    private Integer levelId;
+
+    private String levelCode;
+
+    private String levelName;
+
     public Integer getId() {
         return id;
     }
@@ -129,5 +135,29 @@ public class SubmissionEntity {
 
     public void setProcessName(String processName) {
         this.processName = processName;
+    }
+
+    public Integer getLevelId() {
+        return levelId;
+    }
+
+    public void setLevelId(Integer levelId) {
+        this.levelId = levelId;
+    }
+
+    public String getLevelCode() {
+        return levelCode;
+    }
+
+    public void setLevelCode(String levelCode) {
+        this.levelCode = levelCode;
+    }
+
+    public String getLevelName() {
+        return levelName;
+    }
+
+    public void setLevelName(String levelName) {
+        this.levelName = levelName;
     }
 }

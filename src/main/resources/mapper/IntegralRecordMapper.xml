@@ -15,18 +15,19 @@
         <result column="SourceTaskId" jdbcType="INTEGER" property="sourceTaskId"/>
         <result column="SourceSubmissionId" jdbcType="INTEGER" property="sourceSubmissionId"/>
         <result column="CreateTime" jdbcType="VARCHAR" property="createTime"/>
+        <result column="Comment" jdbcType="VARCHAR" property="comment"/>
     </resultMap>
 
     <select id="select" parameterType="com.coderfamily.lamj.model.IntegralRecordEntity"
             resultMap="IntegralRecordEntity">
         SELECT <include refid="sql_column"></include> FROM MT_IntegralRecord
         <where>
-            <if test="companyId!=null">CompanyId=#{companyId}</if>
-            <if test="userId!=null">UserId=#{userId}</if>
-            <if test="sourceId!=null">SourceId=#{sourceId}</if>
-            <if test="sourceUserId!=null">SourceUserId=#{sourceUserId}</if>
-            <if test="sourceTaskId!=null">SourceTaskId=#{sourceTaskId}</if>
-            <if test="sourceSubmissionId!=null">SourceSubmissionId=#{sourceSubmissionId}</if>
+            <if test="companyId!=null">AND CompanyId=#{companyId}</if>
+            <if test="userId!=null">AND UserId=#{userId}</if>
+            <if test="sourceId!=null">AND SourceId=#{sourceId}</if>
+            <if test="sourceUserId!=null">AND SourceUserId=#{sourceUserId}</if>
+            <if test="sourceTaskId!=null">AND SourceTaskId=#{sourceTaskId}</if>
+            <if test="sourceSubmissionId!=null">AND SourceSubmissionId=#{sourceSubmissionId}</if>
         </where>
     </select>
 
@@ -46,6 +47,7 @@
             <if test="sourceTaskId!=null">SourceTaskId,</if>
             <if test="sourceSubmissionId!=null">SourceSubmissionId,</if>
             <if test="createTime!=null">CreateTime,</if>
+            <if test="comment!=null">Comment,</if>
         </trim>
         VALUES
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -62,8 +64,10 @@
             <if test="sourceTaskId!=null">#{sourceTaskId},</if>
             <if test="sourceSubmissionId!=null">#{sourceSubmissionId},</if>
             <if test="createTime!=null">#{createTime},</if>
+            <if test="comment!=null">#{comment},</if>
         </trim>
     </insert>
 
-    <sql id="sql_column">Id,CompanyId,UserId,UserName,Integral,SourceId,SourceCode,SourceName,SourceuserId,SourceUserName,SourceTaskId,SourceSubmissionId,CreateTime</sql>
+    <sql id="sql_column">Id,CompanyId,UserId,UserName,Integral,SourceId,SourceCode,SourceName,SourceuserId,SourceUserName,
+SourceTaskId,SourceSubmissionId,CreateTime,Comment</sql>
 </mapper>
