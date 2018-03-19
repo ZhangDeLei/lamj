@@ -3,6 +3,8 @@ package com.coderfamily.lamj.intef.impl;
 import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.common.util.TimeUtils;
 import com.coderfamily.lamj.dao.IntegralRecordMapper;
+import com.coderfamily.lamj.domain.IntegralList;
+import com.coderfamily.lamj.domain.IntegralRecordPerson;
 import com.coderfamily.lamj.intef.IIntegralRecordService;
 import com.coderfamily.lamj.model.DictionaryEntity;
 import com.coderfamily.lamj.model.IntegralRecordEntity;
@@ -40,23 +42,30 @@ public class IntegralRecordServiceImpl implements IIntegralRecordService {
     }
 
     @Override
-    public PageInfo<IntegralRecordEntity> getIntegralRecordByUserId(int UserId, Integer SourceId, int PageSize, int CurPage) {
+    public IntegralRecordPerson getIntegralRecordByUserId(int UserId, Integer SourceId, int PageSize, int CurPage) {
         PageHelper.startPage(CurPage, PageSize);
         IntegralRecordEntity entity = new IntegralRecordEntity();
         entity.setUserId(UserId);
         entity.setSourceId(SourceId);
-        return new PageInfo<>(integralRecordMapper.select(entity));
+        PageInfo<IntegralRecordEntity> pageInfo = new PageInfo<>(integralRecordMapper.select(entity));
+
+        int totalIntegral = integralRecordMapper.selectTotalIntegral(UserId);
+
+        IntegralRecordPerson person = new IntegralRecordPerson();
+        person.setmPageInfo(pageInfo);
+        person.setTotal(totalIntegral);
+        return person;
     }
 
     @Override
-    public PageInfo<IntegralRecordEntity> getIntegralRecordByCompany(int CompanyId, Integer UserId, Integer SourceId, Integer SourceUserId, int PageSize, int CurPage) {
+    public PageInfo<IntegralList> getIntegralRecordByCompany(int CompanyId, Integer UserId, Integer SourceId, Integer SourceUserId, int PageSize, int CurPage) {
         PageHelper.startPage(CurPage, PageSize);
         IntegralRecordEntity entity = new IntegralRecordEntity();
         entity.setCompanyId(CompanyId);
         entity.setUserId(UserId);
         entity.setSourceId(SourceId);
         entity.setSourceUserId(SourceUserId);
-        return new PageInfo<>(integralRecordMapper.select(entity));
+        return new PageInfo<>(integralRecordMapper.selectPersonTotal(entity));
     }
 
     @Override

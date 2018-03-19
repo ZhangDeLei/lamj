@@ -18,6 +18,12 @@
         <result column="Comment" jdbcType="VARCHAR" property="comment"/>
     </resultMap>
 
+    <resultMap id="IntegralList" type="com.coderfamily.lamj.domain.IntegralList">
+        <result column="UserId" jdbcType="INTEGER" property="userId"/>
+        <result column="UserName" jdbcType="VARCHAR" property="userName"/>
+        <result column="TotalIntegral" jdbcType="INTEGER" property="totalIntegral"/>
+    </resultMap>
+
     <select id="select" parameterType="com.coderfamily.lamj.model.IntegralRecordEntity"
             resultMap="IntegralRecordEntity">
         SELECT <include refid="sql_column"></include> FROM MT_IntegralRecord
@@ -29,6 +35,24 @@
             <if test="sourceTaskId!=null">AND SourceTaskId=#{sourceTaskId}</if>
             <if test="sourceSubmissionId!=null">AND SourceSubmissionId=#{sourceSubmissionId}</if>
         </where>
+        ORDER BY CreateTime DESC
+    </select>
+
+    <select id="selectTotalIntegral" parameterType="int" resultType="int">
+        SELECT IFNULL(SUM(Integral),0) TotalIntegral FROM MT_IntegralRecord WHERE UserId=#{userId}
+    </select>
+
+    <select id="selectPersonTotal" parameterType="com.coderfamily.lamj.model.IntegralRecordEntity" resultMap="IntegralList">
+        SELECT IFNULL(SUM(Integral),0) TotalIntegral,UserId,UserName FROM MT_IntegralRecord
+        <where>
+            <if test="companyId!=null">AND CompanyId=#{companyId}</if>
+            <if test="userId!=null">AND UserId=#{userId}</if>
+            <if test="sourceId!=null">AND SourceId=#{sourceId}</if>
+            <if test="sourceUserId!=null">AND SourceUserId=#{sourceUserId}</if>
+            <if test="sourceTaskId!=null">AND SourceTaskId=#{sourceTaskId}</if>
+            <if test="sourceSubmissionId!=null">AND SourceSubmissionId=#{sourceSubmissionId}</if>
+        </where>
+        Group By UserId,UserName
     </select>
 
     <insert id="insert" parameterType="com.coderfamily.lamj.model.IntegralRecordEntity">

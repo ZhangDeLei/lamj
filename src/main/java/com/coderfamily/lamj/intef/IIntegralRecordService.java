@@ -1,6 +1,8 @@
 package com.coderfamily.lamj.intef;
 
 import com.coderfamily.lamj.common.data.Result;
+import com.coderfamily.lamj.domain.IntegralList;
+import com.coderfamily.lamj.domain.IntegralRecordPerson;
 import com.coderfamily.lamj.model.IntegralRecordEntity;
 import com.github.pagehelper.PageInfo;
 
@@ -32,14 +34,14 @@ public interface IIntegralRecordService {
      *
      * @return
      */
-    PageInfo<IntegralRecordEntity> getIntegralRecordByUserId(int UserId, Integer SourceId, int PageSize, int CurPage);
+    IntegralRecordPerson getIntegralRecordByUserId(int UserId, Integer SourceId, int PageSize, int CurPage);
 
     /**
      * 获取企业用户所有的积分记录
      *
      * @return
      */
-    PageInfo<IntegralRecordEntity> getIntegralRecordByCompany(int CompanyId, Integer UserId, Integer SourceId, Integer SourceUserId, int PageSize, int CurPage);
+    PageInfo<IntegralList> getIntegralRecordByCompany(int CompanyId, Integer UserId, Integer SourceId, Integer SourceUserId, int PageSize, int CurPage);
 
     /**
      * 根据任务ID获取积分记录

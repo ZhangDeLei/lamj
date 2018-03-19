@@ -21,7 +21,7 @@
         <result column="FinishDate" jdbcType="VARCHAR" property="finishDate"/>
         <result column="CreateUserId" jdbcType="INTEGER" property="createUserId"/>
         <result column="CreateUserName" jdbcType="VARCHAR" property="createUserName"/>
-        <result column="StageId" jdbcType="INTEGER" property="stageid"/>
+        <result column="StageId" jdbcType="INTEGER" property="stageId"/>
         <result column="StageCode" jdbcType="VARCHAR" property="stageCode"/>
         <result column="StageName" jdbcType="VARCHAR" property="stageName"/>
     </resultMap>
