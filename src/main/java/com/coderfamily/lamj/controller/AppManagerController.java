@@ -31,10 +31,16 @@ public class AppManagerController {
         return Result.success(appManagerService.getAppList(Name,TypeId, PageSize, CurPage));
     }
 
-    @ApiOperation(value = "获取最新的APP信息", httpMethod = "GET", produces = "application/json", response = Result.class)
-    @GetMapping("getAppByNew")
-    public Result getAppByNew(@RequestParam int TypeId) {
-        return Result.success(appManagerService.getAppByNew(TypeId));
+    @ApiOperation(value = "获取最新的APP信息(iOS)", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @GetMapping("getAppByNewForiOS")
+    public Result getAppByNewForiOS() {
+        return Result.success(appManagerService.getAppByNewForiOS());
+    }
+
+    @ApiOperation(value = "获取最新的APP信息(Android)", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @GetMapping("getAppByNewForAndroid")
+    public Result getAppByNewForAndroid() {
+        return Result.success(appManagerService.getAppByNewForAndroid());
     }
 
     @ApiOperation(value = "新增APP更新记录", httpMethod = "POST", produces = "application/json", response = Result.class)

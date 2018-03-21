@@ -5,8 +5,10 @@ import com.coderfamily.lamj.common.util.NullUtil;
 import com.coderfamily.lamj.common.util.TimeUtils;
 import com.coderfamily.lamj.dao.AppManagerMapper;
 import com.coderfamily.lamj.intef.IAppManagerService;
+import com.coderfamily.lamj.intef.IDictionaryService;
 import com.coderfamily.lamj.intef.IFileService;
 import com.coderfamily.lamj.model.AppManagerEntity;
+import com.coderfamily.lamj.model.DictionaryEntity;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ public class AppManagerServiceImpl implements IAppManagerService {
     private AppManagerMapper appManagerMapper;
     @Autowired
     private IFileService fileService;
+    @Autowired
+    private IDictionaryService dictionaryService;
 
     @Override
     public PageInfo<AppManagerEntity> getAppList(String Name, Integer TypeId, int PageSize, int CurPage) {
@@ -35,8 +39,15 @@ public class AppManagerServiceImpl implements IAppManagerService {
     }
 
     @Override
-    public AppManagerEntity getAppByNew(int TypeId) {
-        return appManagerMapper.selectByNew(TypeId);
+    public AppManagerEntity getAppByNewForiOS() {
+        DictionaryEntity entity = dictionaryService.DictInfo("App_Type", "0001");
+        return appManagerMapper.selectByNew(entity.getId());
+    }
+
+    @Override
+    public AppManagerEntity getAppByNewForAndroid() {
+        DictionaryEntity entity = dictionaryService.DictInfo("App_Type", "0002");
+        return appManagerMapper.selectByNew(entity.getId());
     }
 
     @Override

@@ -19,10 +19,16 @@ public interface IAppManagerService {
     PageInfo<AppManagerEntity> getAppList(String Name,Integer TypeId, int PageSize, int CurPage);
 
     /**
-     * 获取最新的app用于更新
+     * 获取最新的app用于更新(iOS)
      * @return
      */
-    AppManagerEntity getAppByNew(int TypeId);
+    AppManagerEntity getAppByNewForiOS();
+
+    /**
+     * 获取最新的app用于更新(Android)
+     * @return
+     */
+    AppManagerEntity getAppByNewForAndroid();
 
     /**
      * 新增
