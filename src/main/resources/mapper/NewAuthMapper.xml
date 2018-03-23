@@ -13,6 +13,7 @@
         <result column="Cls" jdbcType="VARCHAR" property="cls"/>
         <result column="AuthUrl" jdbcType="VARCHAR" property="authUrl"/>
         <result column="RedirectUrl" jdbcType="VARCHAR" property="redirectUrl"/>
+        <result column="Icon" jdbcType="VARCHAR" property="icon"/>
     </resultMap>
 
     <resultMap id="NewAuthInfo" type="com.coderfamily.lamj.domain.NewAuthInfo" extends="NewAuthEntity">
@@ -70,6 +71,7 @@
             <if test="cls!=null">Cls,</if>
             <if test="authUrl!=null">AuthUrl,</if>
             <if test="redirectUrl!=null">RedirectUrl,</if>
+            <if test="icon!=null">Icon,</if>
         </trim>
         VALUES
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -84,6 +86,7 @@
             <if test="cls!=null">#{cls},</if>
             <if test="authUrl!=null">#{authUrl},</if>
             <if test="redirectUrl!=null">#{redirectUrl},</if>
+            <if test="icon!=null">#{icon}</if>
         </trim>
     </insert>
 
@@ -101,6 +104,7 @@
             <if test="cls!=null">Cls=#{cls},</if>
             <if test="authUrl!=null">AuthUrl=#{authUrl},</if>
             <if test="redirectUrl!=null">RedirectUrl=#{redirectUrl},</if>
+            <if test="icon!=null">Icon=#{icon},</if>
         </set>
         WHERE Id=#{id}
     </update>
@@ -109,7 +113,7 @@
         DELETE FROM MT_NewAuth WHERE Id=#{id}
     </delete>
 
-    <sql id="sql_column">Id,Url,Name,Status,AppId,AppKey,AppSecret,AuthCode,Cls,AuthUrl,RedirectUrl</sql>
+    <sql id="sql_column">Id,Url,Name,Status,AppId,AppKey,AppSecret,AuthCode,Cls,AuthUrl,RedirectUrl,Icon</sql>
     <sql id="sql_where">
         <if test="name!=null and name.length()>0">AND Name=#{name}</if>
         <if test="status!=null">AND Status=#{status}</if>

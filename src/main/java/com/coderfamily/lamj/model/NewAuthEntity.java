@@ -23,6 +23,8 @@ public class NewAuthEntity {
 
     private String redirectUrl;
 
+    private String icon;
+
     public Integer getId() {
         return id;
     }
@@ -109,5 +111,13 @@ public class NewAuthEntity {
 
     public void setRedirectUrl(String redirectUrl) {
         this.redirectUrl = redirectUrl;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }
