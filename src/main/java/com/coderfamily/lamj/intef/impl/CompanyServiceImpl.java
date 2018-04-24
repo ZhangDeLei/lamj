@@ -81,7 +81,9 @@ public class CompanyServiceImpl implements ICompanyService {
     @Override
     public Result insertCompanyNew(int CompanyId, List<Integer> Ids) {
         companyMapper.deleteCompanyNewByCompanyId(CompanyId);
-        if (companyMapper.insertCompanyNew(CompanyId, Ids) > 0) {
+        if (Ids.size() == 0) {
+            return Result.success();
+        } else if (companyMapper.insertCompanyNew(CompanyId, Ids) > 0) {
             return Result.success();
         } else {
             return Result.error();
@@ -136,5 +138,10 @@ public class CompanyServiceImpl implements ICompanyService {
         } else {
             return Result.error();
         }
+    }
+
+    @Override
+    public CompanyEntity getCompanyDetailByUserId(int UserId) {
+        return companyMapper.selectCompanyByUserId(UserId);
     }
 }

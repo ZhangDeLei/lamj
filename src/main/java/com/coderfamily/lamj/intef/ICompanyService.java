@@ -123,4 +123,11 @@ public interface ICompanyService {
      * @return
      */
     Result deleteCompanyNewByCompanyIdAndNewId(int CompanyId,int NewId);
+
+    /**
+     * 根据用户ID获取用户所在的企业详细信息
+     * @param UserId
+     * @return
+     */
+    CompanyEntity getCompanyDetailByUserId(int UserId);
 }

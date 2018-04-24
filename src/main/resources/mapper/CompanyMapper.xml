@@ -42,6 +42,10 @@
         ]]>
   </select>
 
+    <select id="selectCompanyByUserId" parameterType="int" resultMap="CompanyEntity">
+        SELECT MT_Company.* FROM MT_Company LEFT JOIN MT_CompanyUser ON MT_Company.Id = MT_CompanyUser.CompanyId WHERE MT_CompanyUser.UserId = #{userId} LIMIT 1
+    </select>
+
     <select id="existsCompanyByMaxNum" parameterType="int" resultType="boolean">
         <![CDATA[SELECT EXISTS(SELECT 1 FROM MT_Company C WHERE C.MaxNumUser<(SELECT Count(1) FROM MT_CompanyUser U WHERE C.Id=U.CompanyId) AND C.Id=#{id})]]>
     </select>

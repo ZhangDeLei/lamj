@@ -65,7 +65,7 @@ public class TaskServiceImpl implements ITaskService {
         info.setCreateDate(TimeUtils.getCurrentDate());
         info.setStageId(dict.getId());
         info.setStageCode(dict.getCode());
-        info.setStageCode(dict.getLabel());
+        info.setStageName(dict.getLabel());
         if (taskMapper.insert(info) > 0) {
             insertTeamTask(info.getId(), info.getTeams());
             return Result.success();

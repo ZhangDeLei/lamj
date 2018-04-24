@@ -55,6 +55,7 @@ public class AuthorizedController {
         } else {
             userService.updateLastLoginTime(user.getId());
             userInfo.setUser(user);
+            userInfo.setCompany(companyService.getCompanyDetailByUserId(user.getId()));
             userInfo.setToken(TokenUtil.sign(UserAccount, Password));
         }
         return Result.success(userInfo);

@@ -41,4 +41,6 @@ public interface CompanyMapper {
     int deleteCompanyNewByCompanyId(@Param("id") int CompanyId);
 
     int deleteCompanyNewByCompanyIdAndNewId(@Param("companyId") int CompanyId, @Param("newId") int NewId);
+
+    CompanyEntity selectCompanyByUserId(@Param("userId") int UserId);
 }
