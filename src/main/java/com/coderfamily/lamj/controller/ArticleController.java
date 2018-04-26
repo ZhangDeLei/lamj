@@ -29,9 +29,26 @@ public class ArticleController {
                                  @RequestParam(required = false) String Title,
                                  @RequestParam(required = false) Integer UserId,
                                  @RequestParam(required = false) Integer TypeId,
+                                 @RequestParam(required = false) Integer LevelId,
                                  @RequestParam int PageSize,
                                  @RequestParam int CurPage) {
-        return Result.success(articleService.getArticleList(CompanyId, Title, UserId, TypeId, PageSize, CurPage));
+        return Result.success(articleService.getArticleList(CompanyId, Title, UserId, TypeId, LevelId, PageSize, CurPage));
+    }
+
+    @ApiOperation(value = "获取网评文章列表(App接口)", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @GetMapping("getArticleListForApp")
+    public Result getArticleListForApp(@RequestParam int CompanyId,
+                                       @RequestParam(required = false) String Title,
+                                       @RequestParam int LevelId,
+                                       @RequestParam int PageSize,
+                                       @RequestParam int CurPage) {
+        return Result.success(articleService.getArticleListForApp(CompanyId, Title, LevelId, PageSize, CurPage));
+    }
+
+    @ApiOperation(value = "获取网评网站合集列表(App接口)", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @GetMapping("getArticleTypeForApp")
+    public Result getArticleTypeForApp(@RequestParam int CompanyId) {
+        return Result.success(articleService.getArticleTypeForApp(CompanyId));
     }
 
     @ApiOperation(value = "获取个人网评文章列表", httpMethod = "GET", produces = "application/json", response = Result.class)
@@ -40,9 +57,10 @@ public class ArticleController {
                                          @RequestParam(required = false) String Title,
                                          @RequestParam Integer UserId,
                                          @RequestParam(required = false) Integer TypeId,
+                                         @RequestParam(required = false) Integer LevelId,
                                          @RequestParam int PageSize,
                                          @RequestParam int CurPage) {
-        return Result.success(articleService.getArticleList(CompanyId, Title, UserId, TypeId, PageSize, CurPage));
+        return Result.success(articleService.getArticleList(CompanyId, Title, UserId, TypeId, LevelId, PageSize, CurPage));
     }
 
     @ApiOperation(value = "根据ID获取网评文章详细信息", httpMethod = "GET", produces = "application/json", response = Result.class)

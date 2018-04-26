@@ -1,7 +1,5 @@
 package com.coderfamily.lamj.model;
 
-import java.util.Date;
-
 public class ArticleEntity {
     private Integer id;
 
@@ -22,6 +20,10 @@ public class ArticleEntity {
     private String createTime;
 
     private Integer companyId;
+
+    private Integer levelId;
+
+    private String levelName;
 
     public Integer getId() {
         return id;
@@ -101,5 +103,21 @@ public class ArticleEntity {
 
     public void setCompanyId(Integer companyId) {
         this.companyId = companyId;
+    }
+
+    public Integer getLevelId() {
+        return levelId;
+    }
+
+    public void setLevelId(Integer levelId) {
+        this.levelId = levelId;
+    }
+
+    public String getLevelName() {
+        return levelName;
+    }
+
+    public void setLevelName(String levelName) {
+        this.levelName = levelName;
     }
 }

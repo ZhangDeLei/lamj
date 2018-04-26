@@ -29,7 +29,7 @@
         </where>
         ORDER BY VersionCode DESC
     </select>
-
+    
     <select id="selectById" parameterType="int" resultMap="AppManagerEntity">
         SELECT <include refid="sql_column"></include> FROM MT_AppManager WHERE Id=#{id}
     </select>
@@ -82,7 +82,6 @@
         </set>
         WHERE Id=#{id}
     </update>
-
     <delete id="delete" parameterType="int">
     DELETE FROM MT_AppManager WHERE Id=#{id}
   </delete>

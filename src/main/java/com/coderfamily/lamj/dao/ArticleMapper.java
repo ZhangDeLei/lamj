@@ -6,7 +6,11 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface ArticleMapper {
-    List<ArticleEntity> select(@Param("companyId") int CompanyId,@Param("title") String Title,@Param("userId") Integer UserId,@Param("typeId") Integer TypeId);
+    List<ArticleEntity> select(@Param("companyId") int CompanyId,
+                               @Param("title") String Title,
+                               @Param("userId") Integer UserId,
+                               @Param("typeId") Integer TypeId,
+                               @Param("levelId") Integer LevelId);
 
     ArticleEntity selectById(@Param("id") int Id);
 

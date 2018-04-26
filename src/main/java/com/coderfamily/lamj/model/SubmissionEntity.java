@@ -29,8 +29,6 @@ public class SubmissionEntity {
 
     private Integer levelId;
 
-    private String levelCode;
-
     private String levelName;
 
     public Integer getId() {
@@ -143,14 +141,6 @@ public class SubmissionEntity {
 
     public void setLevelId(Integer levelId) {
         this.levelId = levelId;
-    }
-
-    public String getLevelCode() {
-        return levelCode;
-    }
-
-    public void setLevelCode(String levelCode) {
-        this.levelCode = levelCode;
     }
 
     public String getLevelName() {

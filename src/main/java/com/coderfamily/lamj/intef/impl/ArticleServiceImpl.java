@@ -5,7 +5,9 @@ import com.coderfamily.lamj.common.util.NullUtil;
 import com.coderfamily.lamj.common.util.TimeUtils;
 import com.coderfamily.lamj.dao.ArticleMapper;
 import com.coderfamily.lamj.intef.IArticleService;
+import com.coderfamily.lamj.intef.IDictionaryService;
 import com.coderfamily.lamj.model.ArticleEntity;
+import com.coderfamily.lamj.model.DictionaryEntity;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +25,31 @@ import java.util.List;
 public class ArticleServiceImpl implements IArticleService {
     @Autowired
     private ArticleMapper articleMapper;
+    @Autowired
+    private IDictionaryService dictionaryService;
 
     @Override
-    public PageInfo<ArticleEntity> getArticleList(int CompanyId, String Title, Integer UserId, Integer TypeId, int PageSize, int CurPage) {
+    public PageInfo<ArticleEntity> getArticleList(int CompanyId, String Title, Integer UserId, Integer TypeId, Integer LevelId, int PageSize, int CurPage) {
         PageHelper.startPage(CurPage, PageSize);
-        List<ArticleEntity> mData = articleMapper.select(CompanyId, Title, UserId, TypeId);
+        List<ArticleEntity> mData = articleMapper.select(CompanyId, Title, UserId, TypeId, LevelId);
         return new PageInfo<>(mData);
+    }
+
+    @Override
+    public PageInfo<ArticleEntity> getArticleListForApp(int CompanyId, String Title, int LevelId, int PageSize, int CurPage) {
+        PageHelper.startPage(CurPage, PageSize);
+        //网评文章
+        DictionaryEntity dictionaryEntity = dictionaryService.DictInfo("Article_Type", "0002");
+        List<ArticleEntity> mData = articleMapper.select(CompanyId, Title, null, dictionaryEntity.getId(), LevelId);
+        return new PageInfo<>(mData);
+    }
+
+    @Override
+    public List<ArticleEntity> getArticleTypeForApp(int CompanyId) {
+        //网站合集
+        DictionaryEntity dictionaryEntity = dictionaryService.DictInfo("Article_Type", "0001");
+        List<ArticleEntity> mData = articleMapper.select(CompanyId, null, null, dictionaryEntity.getId(), null);
+        return mData;
     }
 
     @Override

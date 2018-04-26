@@ -12,6 +12,8 @@
         <result column="CreateUserName" jdbcType="VARCHAR" property="createUserName"/>
         <result column="CreateTime" jdbcType="VARCHAR" property="createTime"/>
         <result column="CompanyId" jdbcType="INTEGER" property="companyId"/>
+        <result column="LevelId" jdbcType="INTEGER" property="levelId"/>
+        <result column="LevelName" jdbcType="VARCHAR" property="levelName"/>
     </resultMap>
 
     <select id="select" parameterType="Map" resultMap="ArticleEntity">
@@ -19,8 +21,9 @@
         <where>
             <if test="companyId!=null and companyId>0">AND CompanyId=#{companyId}</if>
             <if test="title!=null and title.length()>0">AND Title LIKE CONCAT('%',#{title},'#')</if>
-            <if test="userId!=null">AND UserId=#{userId}</if>
-            <if test="typeId!=null">AND TypeId=#{typeId}</if>
+            <if test="userId!=null and userId>0">AND UserId=#{userId}</if>
+            <if test="typeId!=null and typeId>0">AND TypeId=#{typeId}</if>
+            <if test="levelId!=null and levelId>0">AND LevelId=#{levelId}</if>
         </where>
     </select>
 
@@ -41,6 +44,8 @@
             <if test="createUserName!=null">CreateUserName,</if>
             <if test="createTime!=null">CreateTime,</if>
             <if test="companyId!=null">CompanyId,</if>
+            <if test="levelId!=null">LevelId,</if>
+            <if test="levelName!=null">LevelName,</if>
         </trim>
         VALUES
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -54,6 +59,8 @@
             <if test="createUserName!=null">#{createUserName},</if>
             <if test="createTime!=null">#{createTime},</if>
             <if test="companyId!=null">#{companyId},</if>
+            <if test="levelId!=null">#{levelId},</if>
+            <if test="levelName!=null">#{levelName},</if>
         </trim>
     </insert>
 
@@ -65,6 +72,8 @@
             <if test="typeId!=null">TypeId=#{typeId},</if>
             <if test="typeCode!=null">TypeCode=#{typeCode},</if>
             <if test="typeName!=null">TypeName=#{typeName},</if>
+            <if test="levelId!=null">LevelId=#{levelId},</if>
+            <if test="levelName!=null">LevelName=#{levelName},</if>
         </set>
         WHERE Id=#{id}
     </update>
@@ -81,5 +90,5 @@
     DELETE FROM MT_Article WHERE UserId=#{userId}
   </delete>
 
-    <sql id="sql_column">Id,Title,Url,TypeId,TypeCode,TypeName,CreateUserId,CreateUserName,CreateTime,CompanyId</sql>
+    <sql id="sql_column">Id,Title,Url,TypeId,TypeCode,TypeName,CreateUserId,CreateUserName,CreateTime,CompanyId,LevelId,LevelName</sql>
 </mapper>

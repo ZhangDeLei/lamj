@@ -16,7 +16,6 @@
         <result column="ProcessCode" jdbcType="VARCHAR" property="processCode"/>
         <result column="ProcessName" jdbcType="VARCHAR" property="processName"/>
         <result column="LevelId" jdbcType="INTEGER" property="levelId"/>
-        <result column="LevelCode" jdbcType="VARCHAR" property="levelCode"/>
         <result column="LevelName" jdbcType="VARCHAR" property="levelName"/>
     </resultMap>
 
@@ -62,7 +61,6 @@
             <if test="processCode!=null">ProcessCode,</if>
             <if test="processName!=null">ProcessName,</if>
             <if test="levelId!=null">LevelId,</if>
-            <if test="levelCode!=null">LevelCode,</if>
             <if test="levelName!=null">LevelName,</if>
         </trim>
         VALUES
@@ -81,7 +79,6 @@
             <if test="processCode!=null">#{processCode},</if>
             <if test="processName!=null">#{processName},</if>
             <if test="levelId!=null">#{levelId},</if>
-            <if test="levelCode!=null">#{levelCode},</if>
             <if test="levelName!=null">#{levelName},</if>
         </trim>
     </insert>
@@ -98,7 +95,6 @@
             <if test="processCode!=null">ProcessCode=#{processCode},</if>
             <if test="processName!=null">ProcessName=#{processName},</if>
             <if test="levelId!=null">LevelId=#{levelId},</if>
-            <if test="levelCode!=null">LevelCode=#{levelCode},</if>
             <if test="levelName!=null">LevelName=#{levelName},</if>
         </set>
         WHERE Id=#{id}
@@ -117,5 +113,5 @@
     </delete>
 
     <sql id="sql_column">Id,CompanyId,ThemeName,Title,UserId,UserName,CreateTime,Status,Path,Url,ProcessId,ProcessCode,ProcessName,
-      LevelId,LevelCode,LevelName</sql>
+      LevelId,LevelName</sql>
 </mapper>
