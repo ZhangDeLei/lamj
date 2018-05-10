@@ -14,10 +14,11 @@ public interface IUserNewAuthService {
     /**
      * 根据用户ID查询用户授权列表
      *
+     * @param CompanyId
      * @param UserId
      * @return
      */
-    List<UserNewAuthEntity> getUserNewAuthList(int UserId);
+    List<UserNewAuthEntity> getUserNewAuthList(int CompanyId, int UserId);
 
     /**
      * 新增用户授权记录

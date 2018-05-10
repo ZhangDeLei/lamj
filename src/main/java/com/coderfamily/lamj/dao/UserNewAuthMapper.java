@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UserNewAuthMapper {
 
-    List<UserNewAuthEntity> selectUserNewAuthList(@Param("userId") int UserId);
+    List<UserNewAuthEntity> selectUserNewAuthList(@Param("companyId") int CompanyId, @Param("userId") int UserId);
 
     UserNewAuthEntity selectById(@Param("id") int Id);
 

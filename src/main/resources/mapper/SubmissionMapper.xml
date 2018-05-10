@@ -39,6 +39,10 @@
         ORDER BY Status,ProcessCode,CreateTime ASC
     </select>
 
+    <select id="selectTotalByUserId" parameterType="int" resultType="int">
+        SELECT COUNT(1) FROM MT_Submission S WHERE S.UserId=#{id} AND S.ProcessCode = '0004'
+    </select>
+
     <select id="selectById" parameterType="int" resultMap="SubmissionInfo">
         SELECT <include refid="sql_column"></include> FROM MT_Submission WHERE Id=#{id}
     </select>

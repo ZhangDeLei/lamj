@@ -13,9 +13,11 @@
         <result column="RefreshToken" jdbcType="VARCHAR" property="refreshToken"/>
     </resultMap>
 
-    <select id="selectUserNewAuthList" parameterType="int" resultMap="UserNewAuthEntity">
-      SELECT U.Id,U.UserId,N.Id NewId,N.Name NewName,U.NewAccount,U.IsAuth,U.AuthToken,U.AuthTokenExpire,U.RefreshToken
-      FROM MT_UserNewAuth U RIGHT JOIN MT_NewAuth N ON U.NewId = N.Id WHERE N.Status=1 AND U.UserId=#{userId}
+    <select id="selectUserNewAuthList" parameterType="Map" resultMap="UserNewAuthEntity">
+      SELECT U.Id,U.UserId,N.NewId,A.Name NewName,U.NewAccount,U.IsAuth,U.AuthToken,U.AuthTokenExpire,U.RefreshToken FROM MT_CompanyNew N
+      LEFT JOIN MT_NewAuth A ON N.NewId = A.Id
+      LEFT JOIN MT_UserNewAuth U ON N.NewId = U.NewId AND U.UserId = #{userId}
+      WHERE N.CompanyId = #{companyId}
     </select>
 
     <select id="selectById" parameterType="int" resultMap="UserNewAuthEntity">

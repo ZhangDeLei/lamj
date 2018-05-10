@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coderfamily.lamj.dao.UserCommentMapper">
+  <resultMap id="UserCommentEntity" type="com.coderfamily.lamj.model.UserCommentEntity">
+    <result column="Id" jdbcType="INTEGER" property="id" />
+    <result column="CompanyId" jdbcType="INTEGER" property="companyId" />
+    <result column="TaskId" jdbcType="INTEGER" property="taskId" />
+    <result column="UserId" jdbcType="INTEGER" property="userId" />
+    <result column="Content" jdbcType="VARCHAR" property="content" />
+    <result column="CreateTime" jdbcType="VARCHAR" property="createTime" />
+    <result column="ImageUrl" jdbcType="VARCHAR" property="imageUrl" />
+  </resultMap>
+
+  <select id="selectUserCommentList" parameterType="Map" resultMap="UserCommentEntity">
+    SELECT <include refid="sql_column"></include> FROM MT_UserComment
+    <where>
+      <include refid="sql_where"></include>
+    </where>
+  </select>
+  
+  <select id="selectTotalComment" parameterType="int" resultType="int">
+    SELECT COUNT(1) FROM MT_UserComment UC WHERE UC.UserId = #{id} AND UC.ExecTypeCode = '0002'
+  </select>
+
+  <select id="selectTotalCommentTask" parameterType="int" resultType="int">
+    SELECT COUNT(1) FROM (SELECT TaskId FROM MT_UserComment UT WHERE UT.UserId = #{id} GROUP BY TaskId) Task
+  </select>
+
+  <insert id="insert" parameterType="com.coderfamily.lamj.model.UserCommentEntity">
+    INSERT INTO MT_UserComment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id!=null">Id,</if>
+      <if test="companyId!=null">CompanyId,</if>
+      <if test="taskId!=null">TaskId,</if>
+      <if test="userId!=null">UserId,</if>
+      <if test="content!=null">Content,</if>
+      <if test="createTime!=null">CreateTime,</if>
+      <if test="imageUrl!=null">ImageUrl,</if>
+    </trim>
+    VALUES
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id!=null">#{id},</if>
+      <if test="companyId!=null">#{companyId},</if>
+      <if test="taskId!=null">#{taskId},</if>
+      <if test="userId!=null">#{userId},</if>
+      <if test="content!=null">#{content},</if>
+      <if test="createTime!=null">#{createTime},</if>
+      <if test="imageUrl!=null">#{imageUrl},</if>
+    </trim>
+  </insert>
+
+  <update id="update" parameterType="com.coderfamily.lamj.model.UserCommentEntity">
+    UPDATE MT_UserComment
+    <set>
+      <if test="content!=null">Content=#{content},</if>
+      <if test="createTime!=null">CreateTime=#{createTime},</if>
+      <if test="imageUrl!=null">ImageUrl=#{imageUrl},</if>
+    </set>
+    WHERE Id=#{id}
+  </update>
+
+  <delete id="delete" parameterType="int">
+    DELETE MT_UserComment WHERE Id=#{id}
+  </delete>
+
+  <sql id="sql_column">
+    Id,CompanyId,TaskId,UserId,Content,CreateTime,ImageUrl
+  </sql>
+  <sql id="sql_where">
+    <if test="companyId!=null"> AND CompanyId=#{companyId}</if>
+    <if test="taskId!=null"> AND TaskId=#{taskId}</if>
+    <if test="userId!=null"> AND UserId=#{userId}</if>
+  </sql>
+</mapper>

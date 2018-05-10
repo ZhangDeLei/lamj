@@ -28,6 +28,15 @@
         <result column="PermissionId" jdbcType="INTEGER" property="permissionId"/>
     </resultMap>
 
+    <resultMap id="UserStatisticsInfo" type="com.coderfamily.lamj.domain.UserStatisticsInfo">
+        <result column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="NickName" jdbcType="VARCHAR" property="nickName"/>
+        <result column="TeamName" jdbcType="VARCHAR" property="teamName"/>
+        <association property="totalSub" select="" column="Id" javaType="int"/>
+        <association property="totalFollow" select="" column="Id" javaType="int"/>
+        <association property="totalTask" select="" column="Id" javaType="int"/>
+    </resultMap>
+
     <select id="selectUserListByCondition" parameterType="com.coderfamily.lamj.domain.UserDetail"
             resultMap="UserDetail">
         SELECT <include refid="sql_column"></include>,MT_Team.Name AS TeamName,MT_Team.Id AS TeamId,

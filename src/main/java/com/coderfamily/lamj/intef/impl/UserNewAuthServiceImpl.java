@@ -22,8 +22,8 @@ public class UserNewAuthServiceImpl implements IUserNewAuthService {
     private UserNewAuthMapper userNewAuthMapper;
 
     @Override
-    public List<UserNewAuthEntity> getUserNewAuthList(int UserId) {
-        return userNewAuthMapper.selectUserNewAuthList(UserId);
+    public List<UserNewAuthEntity> getUserNewAuthList(int CompanyId, int UserId) {
+        return userNewAuthMapper.selectUserNewAuthList(CompanyId, UserId);
     }
 
     @Override

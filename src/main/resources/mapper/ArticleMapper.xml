@@ -20,7 +20,7 @@
         SELECT <include refid="sql_column"></include> FROM MT_Article
         <where>
             <if test="companyId!=null and companyId>0">AND CompanyId=#{companyId}</if>
-            <if test="title!=null and title.length()>0">AND Title LIKE CONCAT('%',#{title},'#')</if>
+            <if test="title!=null and title.length()>0">AND Title LIKE CONCAT('%',#{title},'%')</if>
             <if test="userId!=null and userId>0">AND UserId=#{userId}</if>
             <if test="typeId!=null and typeId>0">AND TypeId=#{typeId}</if>
             <if test="levelId!=null and levelId>0">AND LevelId=#{levelId}</if>

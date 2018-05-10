@@ -21,8 +21,8 @@ public class UserNewAuthController {
 
     @ApiOperation(value = "根据用户ID获取授权列表", httpMethod = "GET", produces = "application/json", response = Result.class)
     @GetMapping("getUserNewAuthList")
-    public Result getUserNewAuthList(@RequestParam int UserId) {
-        return Result.success(userNewAuthService.getUserNewAuthList(UserId));
+    public Result getUserNewAuthList(@RequestParam int CompanyId, @RequestParam int UserId) {
+        return Result.success(userNewAuthService.getUserNewAuthList(CompanyId, UserId));
     }
 
     @ApiOperation(value = "新增用户授权信息", httpMethod = "POST", produces = "application/json", response = Result.class)
