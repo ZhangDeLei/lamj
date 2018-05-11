@@ -11,6 +11,10 @@
     <result column="ImageUrl" jdbcType="VARCHAR" property="imageUrl" />
   </resultMap>
 
+  <select id="selectCountByUserId" parameterType="int" resultType="int">
+    SELECT COUNT(1) FROM MT_UserComment WHERE UserId=#{id}
+  </select>
+
   <select id="selectUserCommentList" parameterType="Map" resultMap="UserCommentEntity">
     SELECT <include refid="sql_column"></include> FROM MT_UserComment
     <where>

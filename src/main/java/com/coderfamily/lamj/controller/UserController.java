@@ -69,6 +69,13 @@ public class UserController {
         }
     }
 
+    @ApiOperation(value = "根据ID统计用户相关信息", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @ResponseBody
+    @GetMapping("getUserStatictis")
+    public Result getUserStatictis(@RequestParam int Id) {
+        return Result.success(userService.selectStatistics(Id));
+    }
+
     /**
      * 用户新增
      *

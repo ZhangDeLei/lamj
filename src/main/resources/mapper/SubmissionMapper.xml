@@ -27,6 +27,10 @@
                     select="com.coderfamily.lamj.dao.SubmissionAuditMapper.selectByNew"/>
     </resultMap>
 
+    <select id="selectCountByUserId" parameterType="int" resultType="int">
+        SELECT COUNT(1) FROM MT_Submission WHERE UserId = #{id}
+    </select>
+
     <select id="select" parameterType="Map" resultMap="SubmissionInfo">
         SELECT <include refid="sql_column"></include> FROM MT_Submission
         WHERE CompanyId=#{companyId}

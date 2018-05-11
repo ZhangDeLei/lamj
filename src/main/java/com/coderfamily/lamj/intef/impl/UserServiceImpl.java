@@ -7,6 +7,7 @@ import com.coderfamily.lamj.common.util.PasUtil;
 import com.coderfamily.lamj.common.util.TimeUtils;
 import com.coderfamily.lamj.dao.UserMapper;
 import com.coderfamily.lamj.domain.UserDetail;
+import com.coderfamily.lamj.domain.UserStatisticsInfo;
 import com.coderfamily.lamj.model.*;
 import com.coderfamily.lamj.intef.*;
 import com.github.pagehelper.PageHelper;
@@ -88,6 +89,11 @@ public class UserServiceImpl implements IUserService {
     @Override
     public UserEntity login(String UserAccount, String Password) {
         return userMapper.login(UserAccount, Password);
+    }
+
+    @Override
+    public UserStatisticsInfo selectStatistics(int Id) {
+        return userMapper.selectUserByStatistics(Id);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.coderfamily.lamj.dao;
 
 import com.coderfamily.lamj.domain.UserDetail;
+import com.coderfamily.lamj.domain.UserStatisticsInfo;
 import com.coderfamily.lamj.model.UserEntity;
 import org.apache.ibatis.annotations.Param;
 
@@ -37,6 +38,13 @@ public interface UserMapper {
      * @return
      */
     UserEntity login(@Param("userAccount") String userAccount, @Param("password") String password);
+
+    /**
+     * 获取用户统计信息
+     * @param Id
+     * @return
+     */
+    UserStatisticsInfo selectUserByStatistics(@Param("id") int Id);
 
     /**
      * 判断当前账号是否已存在

@@ -32,10 +32,16 @@
         <result column="Id" jdbcType="INTEGER" property="id"/>
         <result column="NickName" jdbcType="VARCHAR" property="nickName"/>
         <result column="TeamName" jdbcType="VARCHAR" property="teamName"/>
-        <association property="totalSub" select="" column="Id" javaType="int"/>
-        <association property="totalFollow" select="" column="Id" javaType="int"/>
-        <association property="totalTask" select="" column="Id" javaType="int"/>
+        <association property="totalSub" select="com.coderfamily.lamj.dao.SubmissionMapper.selectCountByUserId" column="Id" javaType="int"/>
+        <association property="totalFollow" select="com.coderfamily.lamj.dao.UserCommentMapper.selectCountByUserId" column="Id" javaType="int"/>
+        <association property="totalTask" select="com.coderfamily.lamj.dao.TaskMapper.selectCountByUserId" column="Id" javaType="int"/>
     </resultMap>
+
+    <select id="selectUserByStatistics" parameterType="int" resultMap="UserStatisticsInfo">
+        SELECT MT_User.Id,MT_User.NickName,MT_Team.Name AS TeamName FROM MT_User
+        LEFT JOIN MT_TeamUser ON MT_TeamUser.UserId = MT_User.Id
+        LEFT JOIN MT_Team ON MT_Team.Id = MT_TeamUser.TeamId WHERE MT_User.Id=#{id}
+    </select>
 
     <select id="selectUserListByCondition" parameterType="com.coderfamily.lamj.domain.UserDetail"
             resultMap="UserDetail">

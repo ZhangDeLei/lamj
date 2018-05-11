@@ -2,6 +2,7 @@ package com.coderfamily.lamj.intef;
 
 import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.domain.UserDetail;
+import com.coderfamily.lamj.domain.UserStatisticsInfo;
 import com.coderfamily.lamj.model.UserEntity;
 import com.github.pagehelper.PageInfo;
 
@@ -67,6 +68,13 @@ public interface IUserService {
      * @return
      */
     UserEntity login(String UserAccount, String Password);
+
+    /**
+     * 获取用户统计信息
+     * @param Id
+     * @return
+     */
+    UserStatisticsInfo selectStatistics(int Id);
 
     /**
      * 判断是否已经有该权限

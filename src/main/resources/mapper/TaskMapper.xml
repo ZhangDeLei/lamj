@@ -32,6 +32,13 @@
                     select="com.coderfamily.lamj.dao.TeamMapper.selectByTaskId"/>
     </resultMap>
 
+    <select id="selectCountByUserId" parameterType="int" resultType="int">
+        SELECT COUNT(1) FROM MT_Task
+        LEFT JOIN MT_TeamTask ON MT_Task.Id = MT_TeamTask.TaskId
+        LEFT JOIN MT_TeamUser ON MT_TeamTask.TeamId = MT_TeamUser.TeamId
+        WHERE MT_TeamUser.UserId = #{id} AND MT_Task.StageCode = '0003'
+    </select>
+
     <select id="select" parameterType="com.coderfamily.lamj.model.TaskEntity" resultMap="TaskEntity">
         SELECT <include refid="sql_column"></include> FROM MT_Task
         <where>
