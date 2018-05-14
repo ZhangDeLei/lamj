@@ -6,6 +6,7 @@ import com.coderfamily.lamj.common.util.TimeUtils;
 import com.coderfamily.lamj.dao.SubmissionMapper;
 import com.coderfamily.lamj.domain.SubmissionInfo;
 import com.coderfamily.lamj.intef.IDictionaryService;
+import com.coderfamily.lamj.intef.IFileService;
 import com.coderfamily.lamj.intef.ISubmissionAuditService;
 import com.coderfamily.lamj.intef.ISubmissionService;
 import com.coderfamily.lamj.model.DictionaryEntity;
@@ -32,6 +33,8 @@ public class SubmissionServiceImpl implements ISubmissionService {
     private ISubmissionAuditService submissionAuditService;
     @Autowired
     private IDictionaryService dictionaryService;
+    @Autowired
+    private IFileService fileService;
 
     @Override
     public PageInfo<SubmissionInfo> getSubmissionList(int ComapnyId,
