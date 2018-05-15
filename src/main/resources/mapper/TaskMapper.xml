@@ -55,7 +55,7 @@
         WHERE MT_TeamTask.TeamId IN (
         <foreach collection="list" item="item" index="list" separator=",">${item}</foreach>
         )
-        <if test="title!=null and title.length()>0">AND Title=#{title}</if>
+        <if test="title!=null and title.length()>0">AND Title LIKE CONCAT('%',#{title},'%')</if>
         <if test="stageId!=null and title.length()>0">AND StageId=#{stageId}</if>
         <if test="newId!=null">AND NewId=#{newId}</if>
         <if test="begDate!=null and begDate!='null' and begDate.length()>0">AND CreateDate>=#{begDate}</if>
