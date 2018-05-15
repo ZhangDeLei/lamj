@@ -3,6 +3,7 @@ package com.coderfamily.lamj.intef.impl;
 import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.common.util.TimeUtils;
 import com.coderfamily.lamj.dao.TaskMapper;
+import com.coderfamily.lamj.domain.TaskDetail;
 import com.coderfamily.lamj.domain.TaskInfo;
 import com.coderfamily.lamj.intef.IDictionaryService;
 import com.coderfamily.lamj.model.DictionaryEntity;
@@ -43,7 +44,7 @@ public class TaskServiceImpl implements ITaskService {
     }
 
     @Override
-    public PageInfo<TaskEntity> getTaskListByUserId(int UserId, String Title, Integer StageId, Integer NewId,
+    public PageInfo<TaskDetail> getTaskListByUserId(int UserId, String Title, Integer StageId, Integer NewId,
                                                     String BegDate, String EndDate, int PageSize, int CurPage) {
         PageHelper.startPage(CurPage, PageSize);
         List<TeamEntity> teams = teamService.getTeamListByUserId(UserId);
@@ -52,6 +53,11 @@ public class TaskServiceImpl implements ITaskService {
             teamIds.add(t.getId());
         });
         return new PageInfo<>(taskMapper.selectByTeams(teamIds, Title, StageId, NewId, BegDate, EndDate));
+    }
+
+    @Override
+    public List<TaskDetail> getTaskListByNew(int CompanyId) {
+        return taskMapper.selectByNew(CompanyId);
     }
 
     @Override

@@ -48,6 +48,12 @@ public class TaskController {
         return Result.success(taskService.getTaskListByUserId(UserId, Title, StageId, NewId, BegDate, EndDate, PageSize, CurPage));
     }
 
+    @ApiOperation(value = "获取最新的任务列表", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @GetMapping("getTaskListByNew")
+    public Result getTaskListByNew(@RequestParam int CompanyId) {
+        return Result.success(taskService.getTaskListByNew(CompanyId));
+    }
+
     @ApiOperation(value = "根据ID获取任务信息", httpMethod = "GET", produces = "application/json", response = Result.class)
     @GetMapping("getTaskById")
     public Result getTaskById(@RequestParam int Id) {

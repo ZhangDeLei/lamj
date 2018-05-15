@@ -1,6 +1,7 @@
 package com.coderfamily.lamj.intef;
 
 import com.coderfamily.lamj.common.data.Result;
+import com.coderfamily.lamj.domain.TaskDetail;
 import com.coderfamily.lamj.domain.TaskInfo;
 import com.coderfamily.lamj.model.TaskEntity;
 import com.github.pagehelper.PageInfo;
@@ -41,7 +42,14 @@ public interface ITaskService {
      * @param CurPage
      * @return
      */
-    PageInfo<TaskEntity> getTaskListByUserId(int UserId, String Title, Integer StageId, Integer NewId, String BegDate, String EndDate, int PageSize, int CurPage);
+    PageInfo<TaskDetail> getTaskListByUserId(int UserId, String Title, Integer StageId, Integer NewId, String BegDate, String EndDate, int PageSize, int CurPage);
+
+    /**
+     * 获取最新的任务列表
+     * @param CompanyId
+     * @return
+     */
+    List<TaskDetail> getTaskListByNew(int CompanyId);
 
     /**
      * 根据ID获取任务信息

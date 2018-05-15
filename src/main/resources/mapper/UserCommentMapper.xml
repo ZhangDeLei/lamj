@@ -15,6 +15,14 @@
     SELECT COUNT(1) FROM MT_UserComment WHERE UserId=#{id}
   </select>
 
+  <select id="selectCountByTaskId" parameterType="int" resultType="int">
+    SELECT COUNT(1) FROM MT_UserComment WHERE TaskId=#{id}
+  </select>
+
+  <select id="selectTotalByTaskId" parameterType="int" resultType="int">
+    SELECT COUNT(1) FROM (SELECT UserId FROM MT_UserComment WHERE TaskId = #{id} GROUP BY UserId) A
+  </select>
+
   <select id="selectUserCommentList" parameterType="Map" resultMap="UserCommentEntity">
     SELECT <include refid="sql_column"></include> FROM MT_UserComment
     <where>

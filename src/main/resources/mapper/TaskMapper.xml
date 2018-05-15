@@ -32,6 +32,11 @@
                     select="com.coderfamily.lamj.dao.TeamMapper.selectByTaskId"/>
     </resultMap>
 
+    <resultMap id="TaskDetail" type="com.coderfamily.lamj.domain.TaskDetail" extends="TaskEntity">
+        <association property="total" select="com.coderfamily.lamj.dao.UserCommentMapper.selectTotalByTaskId" javaType="int" column="Id"/>
+        <association property="commentTotal" select="com.coderfamily.lamj.dao.UserCommentMapper.selectCountByTaskId" javaType="int" column="Id"/>
+    </resultMap>
+
     <select id="selectCountByUserId" parameterType="int" resultType="int">
         SELECT COUNT(1) FROM MT_Task
         LEFT JOIN MT_TeamTask ON MT_Task.Id = MT_TeamTask.TaskId
@@ -50,8 +55,13 @@
         SELECT <include refid="sql_column"></include> FROM MT_Task WHERE Id=#{id}
     </select>
 
-    <select id="selectByTeams" parameterType="Map" resultMap="TaskEntity">
-        SELECT <include refid="sql_column"></include> FROM MT_Task LEFT JOIN MT_TeamTask ON MT_Task.Id = MT_TeamTask.TaskId
+    <select id="selectByNew" parameterType="int"  resultMap="TaskDetail">
+        SELECT * FROM MT_Task WHERE CompanyId = #{companyId} ORDER BY CreateDate DESC LIMIT 10
+    </select>
+
+    <select id="selectByTeams" parameterType="Map" resultMap="TaskDetail">
+        SELECT <include refid="sql_column"></include> FROM MT_Task LEFT JOIN MT_TeamTask ON MT_Task.Id =
+        MT_TeamTask.TaskId
         WHERE MT_TeamTask.TeamId IN (
         <foreach collection="list" item="item" index="list" separator=",">${item}</foreach>
         )
