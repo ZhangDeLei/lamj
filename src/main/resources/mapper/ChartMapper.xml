@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coderfamily.lamj.dao.ChartMapper">
+    <resultMap id="ChartInfo" type="com.coderfamily.lamj.domain.ChartInfo">
+        <result column="Name" jdbcType="VARCHAR" property="label"/>
+        <result column="Total" jdbcType="INTEGER" property="total"/>
+    </resultMap>
+
+    <!--统计队伍人数信息-->
+    <select id="selectTeam" parameterType="int" resultMap="ChartInfo">
+        SELECT COUNT(1) AS Total,Name FROM MT_TeamUser LEFT JOIN MT_Team ON TeamId=Id WHERE CompanyId = #{companyId} GROUP BY TeamId
+    </select>
+    <!--统计任务分布信息-->
+    <select id="selectTask" parameterType="int" resultMap="ChartInfo">
+        SELECT COUNT(1) AS Total,NewName AS Name FROM MT_Task WHERE CompanyId = #{companyId} GROUP BY NewName
+        UNION ALL
+        SELECT COUNT(1) AS Total,ExecTypeName AS Name FROM MT_UserComment WHERE CompanyId=#{companyId} GROUP BY ExecTypeName
+    </select>
+    <!--统计队伍积分信息-->
+    <select id="selectIntegralByTeam" parameterType="int" resultMap="ChartInfo">
+        SELECT A.Name,SUM(A.Integral) AS Total FROM (
+        SELECT MT_Team.Name,SUM(MT_IntegralRecord.Integral) AS Integral,MT_IntegralRecord.UserName
+        FROM MT_TeamUser
+        LEFT JOIN MT_Team ON MT_TeamUser.TeamId = MT_Team.Id
+        LEFT JOIN MT_IntegralRecord ON MT_IntegralRecord.UserId=MT_TeamUser.UserId
+        WHERE MT_Team.CompanyId=#{companyId} GROUP BY MT_Team.Name,MT_IntegralRecord.UserName
+        ) A GROUP BY A.Name ORDER BY A.Name
+    </select>
+    <!--统计队伍中最高积分-->
+    <select id="selectIntegralByMaxUser" parameterType="int" resultMap="ChartInfo">
+        SELECT A.UserName AS Name,A.Integral AS Total FROM (SELECT MT_Team.Name,SUM(MT_IntegralRecord.Integral) AS Integral,MT_IntegralRecord.UserName
+        FROM MT_TeamUser
+        LEFT JOIN MT_Team ON MT_TeamUser.TeamId = MT_Team.Id
+        LEFT JOIN MT_IntegralRecord ON MT_IntegralRecord.UserId=MT_TeamUser.UserId
+        WHERE MT_Team.CompanyId=#{companyId} GROUP BY MT_Team.Name,MT_IntegralRecord.UserName) A
+        WHERE A.Integral = (SELECT MAX(B.Integral) FROM (
+        SELECT MT_Team.Name,SUM(MT_IntegralRecord.Integral) AS Integral,MT_IntegralRecord.UserName
+        FROM MT_TeamUser
+        LEFT JOIN MT_Team ON MT_TeamUser.TeamId = MT_Team.Id
+        LEFT JOIN MT_IntegralRecord ON MT_IntegralRecord.UserId=MT_TeamUser.UserId
+        WHERE MT_Team.CompanyId=#{companyId} GROUP BY MT_Team.Name,MT_IntegralRecord.UserName
+        ) B WHERE B.Name = A.Name Group By B.Name) ORDER BY A.Name
+    </select>
+</mapper>
