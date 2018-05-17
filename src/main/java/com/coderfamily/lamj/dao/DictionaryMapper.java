@@ -16,6 +16,39 @@ public interface DictionaryMapper {
     List<DictionaryEntity> selectDictByCondition(DictionaryEntity dictionaryEntity);
 
     /**
+     * 获取最大的编码
+     *
+     * @param EnName
+     * @return
+     */
+    String selectMaxCode(@Param("enName") String EnName);
+
+    /**
+     * 根据英文名称和编码获取字典值信息
+     * @param EnName
+     * @param Code
+     * @return
+     */
+    DictionaryEntity selectDictByEnNameAndCode(@Param("enName") String EnName,@Param("code") String Code);
+
+    /**
+     * 根据ID查询字典详细信息
+     *
+     * @param Id
+     * @return
+     */
+    DictionaryEntity selectDictById(@Param("id") int Id);
+
+    /**
+     * 根据名称和value判断当前字典值是否重复
+     *
+     * @param EnName
+     * @param Code
+     * @return
+     */
+    boolean existsByNameAndCode(@Param("enName") String EnName, @Param("code") String Code);
+
+    /**
      * 新增字典值
      *
      * @param dictionaryEntity

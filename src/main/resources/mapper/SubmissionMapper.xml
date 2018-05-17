@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coderfamily.lamj.dao.SubmissionMapper">
+    <resultMap id="SubmissionEntity" type="com.coderfamily.lamj.model.SubmissionEntity">
+        <result column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="CompanyId" jdbcType="INTEGER" property="companyId"/>
+        <result column="ThemeName" jdbcType="VARCHAR" property="themeName"/>
+        <result column="Title" jdbcType="VARCHAR" property="title"/>
+        <result column="UserId" jdbcType="INTEGER" property="userId"/>
+        <result column="UserName" jdbcType="VARCHAR" property="userName"/>
+        <result column="CreateTime" jdbcType="VARCHAR" property="createTime"/>
+        <result column="Status" jdbcType="INTEGER" property="status"/>
+        <result column="Path" jdbcType="VARCHAR" property="path"/>
+        <result column="Url" jdbcType="VARCHAR" property="url"/>
+        <result column="ProcessId" jdbcType="INTEGER" property="processId"/>
+        <result column="ProcessCode" jdbcType="VARCHAR" property="processCode"/>
+        <result column="ProcessName" jdbcType="VARCHAR" property="processName"/>
+        <result column="LevelId" jdbcType="INTEGER" property="levelId"/>
+        <result column="LevelName" jdbcType="VARCHAR" property="levelName"/>
+    </resultMap>
+
+    <resultMap type="com.coderfamily.lamj.domain.SubmissionInfo" id="SubmissionInfo" extends="SubmissionEntity">
+        <collection property="process"
+                    column="id"
+                    javaType="com.coderfamily.lamj.model.SubmissionAuditEntity"
+                    ofType="com.coderfamily.lamj.model.SubmissionAuditEntity"
+                    select="com.coderfamily.lamj.dao.SubmissionAuditMapper.selectByNew"/>
+    </resultMap>
+
+    <select id="selectCountByUserId" parameterType="int" resultType="int">
+        SELECT COUNT(1) FROM MT_Submission WHERE UserId = #{id}
+    </select>
+
+    <select id="select" parameterType="Map" resultMap="SubmissionInfo">
+        SELECT <include refid="sql_column"></include> FROM MT_Submission
+        WHERE CompanyId=#{companyId}
+        <if test="themeName!=null and themeName.length()>0">AND ThemeName=#{themeName}</if>
+        <if test="title!=null and title.length()>0">AND Title=#{title}</if>
+        <if test="userId!=null">AND UserId=#{userId}</if>
+        <if test="processId!=null">AND ProcessId=#{processId}</if>
+        <if test="status!=null">AND Status=#{status}</if>
+        <if test="levelId!=null">AND LevelId=#{levelId}</if>
+        ORDER BY Status,ProcessCode,CreateTime ASC
+    </select>
+
+    <select id="selectTotalByUserId" parameterType="int" resultType="int">
+        SELECT COUNT(1) FROM MT_Submission S WHERE S.UserId=#{id} AND S.ProcessCode = '0004'
+    </select>
+
+    <select id="selectById" parameterType="int" resultMap="SubmissionInfo">
+        SELECT <include refid="sql_column"></include> FROM MT_Submission WHERE Id=#{id}
+    </select>
+
+    <insert id="insert" parameterType="com.coderfamily.lamj.model.SubmissionEntity" useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO MT_Submission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">Id,</if>
+            <if test="companyId!=null">CompanyId,</if>
+            <if test="themeName!=null">ThemeName,</if>
+            <if test="title!=null">Title,</if>
+            <if test="userId!=null">UserId,</if>
+            <if test="userName!=null">UserName,</if>
+            <if test="createTime!=null">CreateTime,</if>
+            <if test="status!=null">Status,</if>
+            <if test="path!=null">Path,</if>
+            <if test="url!=null">Url,</if>
+            <if test="processId!=null">ProcessId,</if>
+            <if test="processCode!=null">ProcessCode,</if>
+            <if test="processName!=null">ProcessName,</if>
+            <if test="levelId!=null">LevelId,</if>
+            <if test="levelName!=null">LevelName,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">#{id},</if>
+            <if test="companyId!=null">#{companyId},</if>
+            <if test="themeName!=null">#{themeName},</if>
+            <if test="title!=null">#{title},</if>
+            <if test="userId!=null">#{userId},</if>
+            <if test="userName!=null">#{userName},</if>
+            <if test="createTime!=null">#{createTime},</if>
+            <if test="status!=null">#{status},</if>
+            <if test="path!=null">#{path},</if>
+            <if test="url!=null">#{url},</if>
+            <if test="processId!=null">#{processId},</if>
+            <if test="processCode!=null">#{processCode},</if>
+            <if test="processName!=null">#{processName},</if>
+            <if test="levelId!=null">#{levelId},</if>
+            <if test="levelName!=null">#{levelName},</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.coderfamily.lamj.model.SubmissionEntity">
+        UPDATE MT_Submission
+        <set>
+            <if test="themeName!=null">ThemeName=#{themeName},</if>
+            <if test="title!=null">Title=#{title},</if>
+            <if test="status!=null">Status=#{status},</if>
+            <if test="path!=null">Path=#{path},</if>
+            <if test="url!=null">Url=#{url},</if>
+            <if test="processId!=null">ProcessId=#{processId},</if>
+            <if test="processCode!=null">ProcessCode=#{processCode},</if>
+            <if test="processName!=null">ProcessName=#{processName},</if>
+            <if test="levelId!=null">LevelId=#{levelId},</if>
+            <if test="levelName!=null">LevelName=#{levelName},</if>
+        </set>
+        WHERE Id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM MT_Submission WHERE Id=#{id}
+    </delete>
+
+    <delete id="deleteByCompanyId" parameterType="int">
+        DELETE FROM MT_Submission WHERE CompanyId=#{companyId}
+    </delete>
+
+    <delete id="deleteByUserId" parameterType="int">
+        DELETE FROM MT_Submission WHERE UserId=#{userId}
+    </delete>
+
+    <sql id="sql_column">Id,CompanyId,ThemeName,Title,UserId,UserName,CreateTime,Status,Path,Url,ProcessId,ProcessCode,ProcessName,
+      LevelId,LevelName</sql>
+</mapper>

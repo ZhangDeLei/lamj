@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coderfamily.lamj.dao.CaliberMapper">
+    <resultMap id="CaliberEntity" type="com.coderfamily.lamj.model.CaliberEntity">
+        <result column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="Name" jdbcType="VARCHAR" property="name"/>
+        <result column="Status" jdbcType="BIT" property="status"/>
+        <result column="CreateTime" jdbcType="VARCHAR" property="createTime"/>
+    </resultMap>
+
+    <select id="select" parameterType="com.coderfamily.lamj.model.CaliberEntity" resultMap="CaliberEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_Caliber
+        <where>
+            <include refid="sql_where"></include>
+        </where>
+    </select>
+
+    <select id="existsCaliberByName" parameterType="String" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM MT_Caliber WHERE Name=#{name})
+    </select>
+
+    <select id="selectById" parameterType="int" resultMap="CaliberEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_Caliber WHERE Id=#{id}
+    </select>
+
+    <insert id="insert" parameterType="com.coderfamily.lamj.model.CaliberEntity">
+        INSERT INTO MT_Caliber
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">Id,</if>
+            <if test="name!=null">Name,</if>
+            <if test="status!=null">Status,</if>
+            <if test="createTime!=null">CreateTime,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">#{id},</if>
+            <if test="name!=null">#{name},</if>
+            <if test="status!=null">#{status},</if>
+            <if test="createTime!=null">#{createDate},</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.coderfamily.lamj.model.CaliberEntity">
+        UPDATE MT_Caliber
+        <set>
+            <if test="name!=null">Name=#{name},</if>
+            <if test="status!=null">Status=#{status},</if>
+            <if test="createTime!=null">CreateTime=#{createTime},</if>
+        </set>
+        WHERE Id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+      DELETE FROM MT_Caliber WHERE Id=#{id}
+    </delete>
+
+    <sql id="sql_column">Id,Name,Status,CreateTime</sql>
+    <sql id="sql_where">
+        <if test="name!=null">AND Name=#{name}</if>
+        <if test="status!=null">AND Status=#{status}</if>
+    </sql>
+</mapper>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coderfamily.lamj.dao.ArticleMapper">
+    <resultMap id="ArticleEntity" type="com.coderfamily.lamj.model.ArticleEntity">
+        <result column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="Title" jdbcType="VARCHAR" property="title"/>
+        <result column="Url" jdbcType="VARCHAR" property="url"/>
+        <result column="TypeId" jdbcType="INTEGER" property="typeId"/>
+        <result column="TypeCode" jdbcType="VARCHAR" property="typeCode"/>
+        <result column="TypeName" jdbcType="VARCHAR" property="typeName"/>
+        <result column="CreateUserId" jdbcType="VARCHAR" property="createUserId"/>
+        <result column="CreateUserName" jdbcType="VARCHAR" property="createUserName"/>
+        <result column="CreateTime" jdbcType="VARCHAR" property="createTime"/>
+        <result column="CompanyId" jdbcType="INTEGER" property="companyId"/>
+        <result column="LevelId" jdbcType="INTEGER" property="levelId"/>
+        <result column="LevelName" jdbcType="VARCHAR" property="levelName"/>
+    </resultMap>
+
+    <select id="select" parameterType="Map" resultMap="ArticleEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_Article
+        <where>
+            <if test="companyId!=null and companyId>0">AND CompanyId=#{companyId}</if>
+            <if test="title!=null and title.length()>0">AND Title LIKE CONCAT('%',#{title},'%')</if>
+            <if test="userId!=null and userId>0">AND UserId=#{userId}</if>
+            <if test="typeId!=null and typeId>0">AND TypeId=#{typeId}</if>
+            <if test="levelId!=null and levelId>0">AND LevelId=#{levelId}</if>
+        </where>
+    </select>
+
+    <select id="selectById" parameterType="int" resultMap="ArticleEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_Article WHERE Id=#{id}
+    </select>
+
+    <insert id="insert" parameterType="com.coderfamily.lamj.model.ArticleEntity">
+        INSERT INTO MT_Article
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">Id,</if>
+            <if test="title!=null">Title,</if>
+            <if test="url!=null">url,</if>
+            <if test="typeId!=null">TypeId,</if>
+            <if test="typeCode!=null">TypeCode,</if>
+            <if test="typeName!=null">typeName,</if>
+            <if test="createUserId!=null">CreateUserId,</if>
+            <if test="createUserName!=null">CreateUserName,</if>
+            <if test="createTime!=null">CreateTime,</if>
+            <if test="companyId!=null">CompanyId,</if>
+            <if test="levelId!=null">LevelId,</if>
+            <if test="levelName!=null">LevelName,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">#{id},</if>
+            <if test="title!=null">#{title},</if>
+            <if test="url!=null">#{url},</if>
+            <if test="typeId!=null">#{typeId},</if>
+            <if test="typeCode!=null">#{typeCode},</if>
+            <if test="typeName!=null">#{typeName},</if>
+            <if test="createUserId!=null">#{createUserId},</if>
+            <if test="createUserName!=null">#{createUserName},</if>
+            <if test="createTime!=null">#{createTime},</if>
+            <if test="companyId!=null">#{companyId},</if>
+            <if test="levelId!=null">#{levelId},</if>
+            <if test="levelName!=null">#{levelName},</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.coderfamily.lamj.model.ArticleEntity">
+        UPDATE MT_Article
+        <set>
+            <if test="title!=null">Title=#{title},</if>
+            <if test="url!=null">Url=#{url},</if>
+            <if test="typeId!=null">TypeId=#{typeId},</if>
+            <if test="typeCode!=null">TypeCode=#{typeCode},</if>
+            <if test="typeName!=null">TypeName=#{typeName},</if>
+            <if test="levelId!=null">LevelId=#{levelId},</if>
+            <if test="levelName!=null">LevelName=#{levelName},</if>
+        </set>
+        WHERE Id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+    DELETE FROM MT_Article WHERE Id=#{id}
+  </delete>
+
+    <delete id="deleteByCompanyId" parameterType="int">
+    DELETE FROM MT_Article WHERE CompanyId=#{companyId}
+  </delete>
+
+    <delete id="deleteByUserId" parameterType="int">
+    DELETE FROM MT_Article WHERE UserId=#{userId}
+  </delete>
+
+    <sql id="sql_column">Id,Title,Url,TypeId,TypeCode,TypeName,CreateUserId,CreateUserName,CreateTime,CompanyId,LevelId,LevelName</sql>
+</mapper>

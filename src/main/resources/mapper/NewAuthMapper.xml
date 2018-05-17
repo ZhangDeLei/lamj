@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coderfamily.lamj.dao.NewAuthMapper">
+    <resultMap id="NewAuthEntity" type="com.coderfamily.lamj.model.NewAuthEntity">
+        <result column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="Url" jdbcType="VARCHAR" property="url"/>
+        <result column="Name" jdbcType="VARCHAR" property="name"/>
+        <result column="Status" jdbcType="BIT" property="status"/>
+        <result column="AppId" jdbcType="VARCHAR" property="appId"/>
+        <result column="AppKey" jdbcType="VARCHAR" property="appKey"/>
+        <result column="AppSecret" jdbcType="VARCHAR" property="appSecret"/>
+        <result column="AuthCode" jdbcType="VARCHAR" property="authCode"/>
+        <result column="Cls" jdbcType="VARCHAR" property="cls"/>
+        <result column="AuthUrl" jdbcType="VARCHAR" property="authUrl"/>
+        <result column="RedirectUrl" jdbcType="VARCHAR" property="redirectUrl"/>
+        <result column="Icon" jdbcType="VARCHAR" property="icon"/>
+    </resultMap>
+
+    <resultMap id="NewAuthInfo" type="com.coderfamily.lamj.domain.NewAuthInfo" extends="NewAuthEntity">
+        <collection property="oprs" javaType="java.util.ArrayList" column="id"
+                    ofType="com.coderfamily.lamj.model.NewOperatorEntity"
+                    select="com.coderfamily.lamj.dao.NewOperatorMapper.selectNewOperatorByNewId"/>
+    </resultMap>
+
+    <resultMap id="CompanyNewInfo" type="com.coderfamily.lamj.domain.CompanyNewInfo">
+        <result column="NewId" jdbcType="INTEGER" property="newId"/>
+        <result column="NewName" jdbcType="VARCHAR" property="newName"/>
+        <result column="CompanyId" jdbcType="INTEGER" property="companyId"/>
+        <result column="CompanyName" jdbcType="VARCHAR" property="companyName"/>
+    </resultMap>
+
+    <select id="selectByCompany" parameterType="Map" resultMap="CompanyNewInfo">
+        SELECT MT_NewAuth.Name AS NewName,MT_NewAuth.Id AS NewId,MT_Company.Name AS CompanyName,MT_Company.Id AS
+        CompanyId,MT_NewAuth.*
+        FROM MT_CompanyNew
+        LEFT JOIN MT_NewAuth ON MT_NewAuth.Id = MT_CompanyNew.NewId
+        LEFT JOIN MT_Company ON MT_Company.Id = MT_CompanyNew.CompanyId
+        <where>
+            <if test="companyId!=null and companyId>0">AND MT_Company.Id = #{companyId}</if>
+            <if test="status!=null">AND MT_NewAuth.Status=#{status}</if>
+        </where>
+    </select>
+
+    <select id="select" parameterType="com.coderfamily.lamj.model.NewAuthEntity" resultMap="NewAuthEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_NewAuth
+        <where>
+            <include refid="sql_where"></include>
+        </where>
+    </select>
+
+    <select id="selectById" parameterType="int" resultMap="NewAuthInfo">
+        SELECT <include refid="sql_column"></include> FROM MT_NewAuth WHERE Id=#{id}
+    </select>
+
+    <select id="existsNewAuthByName" parameterType="String" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM MT_NewAuth WHERE Name=#{name})
+    </select>
+
+    <insert id="insert" parameterType="com.coderfamily.lamj.model.NewAuthEntity" useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO MT_NewAuth
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">Id,</if>
+            <if test="url!=null">Url,</if>
+            <if test="name!=null">Name,</if>
+            <if test="status!=null">Status,</if>
+            <if test="appId!=null">AppId,</if>
+            <if test="appKey!=null">AppKey,</if>
+            <if test="appSecret!=null">AppSecret,</if>
+            <if test="authCode!=null">AuthCode,</if>
+            <if test="cls!=null">Cls,</if>
+            <if test="authUrl!=null">AuthUrl,</if>
+            <if test="redirectUrl!=null">RedirectUrl,</if>
+            <if test="icon!=null">Icon,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">#{id},</if>
+            <if test="url!=null">#{url},</if>
+            <if test="name!=null">#{name},</if>
+            <if test="status!=null">#{status},</if>
+            <if test="appId!=null">#{appId},</if>
+            <if test="appKey!=null">#{appKey},</if>
+            <if test="appSecret!=null">#{appSecret},</if>
+            <if test="authCode!=null">#{authCode},</if>
+            <if test="cls!=null">#{cls},</if>
+            <if test="authUrl!=null">#{authUrl},</if>
+            <if test="redirectUrl!=null">#{redirectUrl},</if>
+            <if test="icon!=null">#{icon}</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.coderfamily.lamj.model.NewAuthEntity">
+        UPDATE MT_NewAuth
+        <set>
+            <if test="id!=null">Id=#{id},</if>
+            <if test="url!=null">Url=#{url},</if>
+            <if test="name!=null">Name=#{name},</if>
+            <if test="status!=null">Status=#{status},</if>
+            <if test="appId!=null">AppId=#{appId},</if>
+            <if test="appKey!=null">AppKey=#{appKey},</if>
+            <if test="appSecret!=null">AppSecret=#{appSecret},</if>
+            <if test="authCode!=null">AuthCode=#{authCode},</if>
+            <if test="cls!=null">Cls=#{cls},</if>
+            <if test="authUrl!=null">AuthUrl=#{authUrl},</if>
+            <if test="redirectUrl!=null">RedirectUrl=#{redirectUrl},</if>
+            <if test="icon!=null">Icon=#{icon},</if>
+        </set>
+        WHERE Id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM MT_NewAuth WHERE Id=#{id}
+    </delete>
+
+    <sql id="sql_column">Id,Url,Name,Status,AppId,AppKey,AppSecret,AuthCode,Cls,AuthUrl,RedirectUrl,Icon</sql>
+    <sql id="sql_where">
+        <if test="name!=null and name.length()>0">AND Name=#{name}</if>
+        <if test="status!=null">AND Status=#{status}</if>
+    </sql>
+</mapper>

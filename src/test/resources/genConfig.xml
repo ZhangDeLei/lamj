@@ -22,7 +22,7 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table tableName="MT_PermissionMenu" mapperName="PermissionMenuMapper" domainObjectName="PermissionMenuEntity"
+        <table tableName="MT_UserComment" mapperName="UserCommentMapper" domainObjectName="UserCommentEntity"
                enableSelectByExample="false"
                enableUpdateByPrimaryKey="false"
                enableInsert="false"

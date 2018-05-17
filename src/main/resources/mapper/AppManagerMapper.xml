@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coderfamily.lamj.dao.AppManagerMapper">
+    <resultMap id="AppManagerEntity" type="com.coderfamily.lamj.model.AppManagerEntity">
+        <result column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="Name" jdbcType="VARCHAR" property="name"/>
+        <result column="Version" jdbcType="VARCHAR" property="version"/>
+        <result column="VersionCode" jdbcType="INTEGER" property="versionCode"/>
+        <result column="Comment" jdbcType="VARCHAR" property="comment"/>
+        <result column="Url" jdbcType="VARCHAR" property="url"/>
+        <result column="UploadTime" jdbcType="VARCHAR" property="uploadTime"/>
+        <result column="UploadUserId" jdbcType="INTEGER" property="uploadUserId"/>
+        <result column="UploadUserName" jdbcType="VARCHAR" property="uploadUserName"/>
+        <result column="TypeId" jdbcType="INTEGER" property="typeId"/>
+        <result column="TypeCode" jdbcType="VARCHAR" property="typeCode"/>
+        <result column="TypeName" jdbcType="VARCHAR" property="typeName"/>
+    </resultMap>
+
+    <select id="selectByNew" resultMap="AppManagerEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_AppManager WHERE TypeId=#{typeId} ORDER BY VersionCode DESC
+        LIMIT 1
+    </select>
+
+    <select id="select" parameterType="Map" resultMap="AppManagerEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_AppManager
+        <where>
+            <if test="name!=null and name.length()>0">AND Name=#{name}</if>
+            <if test="typeId!=null">AND TypeId=#{typeId}</if>
+        </where>
+        ORDER BY VersionCode DESC
+    </select>
+    
+    <select id="selectById" parameterType="int" resultMap="AppManagerEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_AppManager WHERE Id=#{id}
+    </select>
+
+    <insert id="insert" parameterType="com.coderfamily.lamj.model.AppManagerEntity">
+        INSERT INTO MT_AppManager
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">Id,</if>
+            <if test="name!=null">Name,</if>
+            <if test="version!=null">Version,</if>
+            <if test="versionCode!=null">VersionCode,</if>
+            <if test="comment!=null">Comment,</if>
+            <if test="url!=null">Url,</if>
+            <if test="uploadTime!=null">UploadTime,</if>
+            <if test="uploadUserId!=null">UploadUserId,</if>
+            <if test="uploadUserName!=null">UploadUserName,</if>
+            <if test="typeId!=null">TypeId,</if>
+            <if test="typeCode!=null">TypeCode,</if>
+            <if test="typeName!=null">TypeName,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">#{id},</if>
+            <if test="name!=null">#{name},</if>
+            <if test="version!=null">#{version},</if>
+            <if test="versionCode!=null">#{versionCode},</if>
+            <if test="comment!=null">#{comment},</if>
+            <if test="url!=null">#{url},</if>
+            <if test="uploadTime!=null">#{uploadTime},</if>
+            <if test="uploadUserId!=null">#{uploadUserId},</if>
+            <if test="uploadUserName!=null">#{uploadUserName},</if>
+            <if test="typeId!=null">#{typeId},</if>
+            <if test="typeCode!=null">#{typeCode},</if>
+            <if test="typeName!=null">#{typeName},</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.coderfamily.lamj.model.AppManagerEntity">
+        UPDATE MT_AppManager
+        <set>
+            <if test="name!=null">Name=#{name},</if>
+            <if test="version!=null">Version=#{version},</if>
+            <if test="versionCode!=null">VersionCode=#{versionCode},</if>
+            <if test="comment!=null">Comment=#{comment},</if>
+            <if test="url!=null">Url=#{url},</if>
+            <if test="uploadTime!=null">UploadTime=#{uploadTime},</if>
+            <if test="typeId!=null">TypeId=#{typeId},</if>
+            <if test="typeCode!=null">TypeCode=#{typeCode},</if>
+            <if test="typeName!=null">TypeName=#{typeName},</if>
+        </set>
+        WHERE Id=#{id}
+    </update>
+    <delete id="delete" parameterType="int">
+    DELETE FROM MT_AppManager WHERE Id=#{id}
+  </delete>
+
+    <sql id="sql_column">Id,Name,Version,VersionCode,Comment,Url,UploadTime,UploadUserId,UploadUserName,TypeId,TypeCode,TypeName</sql>
+</mapper>

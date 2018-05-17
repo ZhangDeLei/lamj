@@ -24,6 +24,13 @@ public interface MenuMapper {
     List<MenuInfo> selectMenuByTree();
 
     /**
+     * 根据权限ID获取树形菜单列表
+     * @param PermissionId
+     * @return
+     */
+    List<MenuInfo> selectPermissionMenuByTree(@Param("permissionId")int PermissionId);
+
+    /**
      * 根据ParentId获取菜单列表
      *
      * @param ParentId
@@ -62,6 +69,13 @@ public interface MenuMapper {
      * @return
      */
     String selectMenuCodeToMaxByParentId(@Param("parentId") int ParentId);
+
+    /**
+     * 判断是否存在子菜单
+     * @param Id
+     * @return
+     */
+    boolean selectHasChildMenu(@Param("Id")int Id);
 
     /**
      * 判断是否已经存在该菜单名称

@@ -2,8 +2,6 @@ package com.coderfamily.lamj.common.security.shiro;
 
 import com.coderfamily.lamj.common.util.TokenUtil;
 import com.coderfamily.lamj.dao.UserMapper;
-import com.coderfamily.lamj.model.UserEntity;
-import com.coderfamily.lamj.service.IUserService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;

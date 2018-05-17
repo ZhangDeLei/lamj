@@ -11,7 +11,9 @@ public enum ResponseCode {
     unknown_account(201, "账户不存在"),
     password_incorrect(202, "密码错误"),
     unauthenticated(203, "未登录"),
-    result_null(204, "查询结果为空");
+    result_null(204, "查询结果为空"),
+    expired(205, "有效期已过，请续费"),
+    user_stop(206, "用户已停用");
 
     private int code;
     private String msg;

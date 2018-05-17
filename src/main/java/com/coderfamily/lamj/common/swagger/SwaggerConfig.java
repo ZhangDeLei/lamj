@@ -27,6 +27,6 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         Contact contact = new Contact("ZhangDL", "", "15156888276@139.com");
-        return new ApiInfo("Lamj接口文档", "", "v1.0.0", "", contact, "", "", new ArrayList<>());
+        return new ApiInfo("网评管理系统接口文档", "", "v1.0.0", "", contact, "", "", new ArrayList<>());
     }
 }

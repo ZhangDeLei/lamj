@@ -2,18 +2,17 @@ package com.coderfamily.lamj.controller;
 
 import com.coderfamily.lamj.common.data.ResponseCode;
 import com.coderfamily.lamj.common.data.Result;
-import com.coderfamily.lamj.common.util.PasUtil;
+import com.coderfamily.lamj.common.util.NullUtil;
+import com.coderfamily.lamj.domain.UserDetail;
 import com.coderfamily.lamj.model.UserEntity;
-import com.coderfamily.lamj.service.IUserService;
+import com.coderfamily.lamj.intef.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * @author ZhangDL
@@ -26,38 +25,123 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
+    @ApiOperation(value = "根据条件查询用户列表", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @ResponseBody
+    @GetMapping("getUserListByCondition")
+    public Result getUserListByCondition(@RequestParam(required = false) String Name,
+                                         @RequestParam(required = false, defaultValue = "-1") int StarLevelId,
+                                         @RequestParam(required = false, defaultValue = "-1") int TypeId,
+                                         @RequestParam(required = false) Boolean Status,
+                                         @RequestParam(required = false) String Tel,
+                                         @RequestParam(required = false, defaultValue = "-1") int Sex,
+                                         @RequestParam(required = false) String UserAccount,
+                                         @RequestParam(required = false, defaultValue = "-1") int CompanyId,
+                                         @RequestParam(required = false, defaultValue = "-1") int TeamId,
+                                         @RequestParam(required = false, defaultValue = "10") int PageSize,
+                                         @RequestParam(required = false, defaultValue = "1") int CurPage) {
+        return Result.success(userService.selectUserListByCondition(Name, UserAccount, Tel, StarLevelId, TypeId, Status,
+                Sex, CompanyId, TeamId, PageSize, CurPage));
+    }
+
+    @ApiOperation(value = "获取所有用户列表", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @ResponseBody
+    @GetMapping("getAllUser")
+    public Result getAllUser() {
+        return Result.success(userService.selectAllUser());
+    }
+
+    @ApiOperation(value = "获取企业的所有用户列表", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @ResponseBody
+    @GetMapping("getAllUserListByCompanyId")
+    public Result getAllUserListByCompanyId(@RequestParam int CompanyId) {
+        return Result.success(userService.selectAllUserByCompanyId(CompanyId));
+    }
+
+    @ApiOperation(value = "根据ID查询用户信息", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @ResponseBody
+    @GetMapping("getUserById")
+    public Result getUserById(@RequestParam int Id) {
+        UserEntity entity = userService.selectUserById(Id);
+        if (NullUtil.isNotNull(entity)) {
+            return Result.success(entity);
+        } else {
+            return Result.error("用户不存在");
+        }
+    }
+
+    @ApiOperation(value = "根据ID统计用户相关信息", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @ResponseBody
+    @GetMapping("getUserStatictis")
+    public Result getUserStatictis(@RequestParam int Id) {
+        return Result.success(userService.selectStatistics(Id));
+    }
+
     /**
      * 用户新增
-     * @param UserAccount
-     * @param Password
-     * @param NickName
-     * @param Tel
-     * @param Sex
-     * @param PhotoUrl
+     *
+     * @param entity
      * @return
      */
     @ApiOperation(value = "新增用户", httpMethod = "POST", produces = "application/json", response = Result.class)
     @ResponseBody
-    @RequestMapping(value = "insert", method = RequestMethod.POST)
-    public Result insert(@RequestParam String UserAccount,
-                         @RequestParam String Password,
-                         @RequestParam String NickName,
-                         @RequestParam String Tel,
-                         @RequestParam(defaultValue = "1", required = false) int Sex,
-                         @RequestParam(defaultValue = "", required = false) String PhotoUrl) {
-        boolean isExists = userService.existsUserByUserAccount(UserAccount);
+    @PostMapping("insert")
+    public Result insert(@RequestBody UserDetail entity) {
+        boolean isExists = userService.existsUserByUserAccount(entity.getUserAccount());
         if (isExists) {
             return new Result(ResponseCode.user_already_exists.getCode(), ResponseCode.user_already_exists.getMsg());
         }
+        return userService.insert(entity, false);
+    }
 
-        UserEntity user = new UserEntity();
-        user.setUserAccount(UserAccount);
-        user.setNickName(NickName);
-        user.setSex(Sex);
-        user.setPassword(PasUtil.createPassword(Password));
-        user.setPhotoUrl(PhotoUrl);
-        user.setTel(Tel);
-        int id = userService.insert(user);
-        return Result.success(id);
+    /**
+     * 用户新增(用户业务账户新增)
+     *
+     * @param user
+     * @return
+     */
+    @ApiOperation(value = "新增用户", httpMethod = "POST", produces = "application/json", response = Result.class)
+    @ResponseBody
+    @PostMapping("insertCustom")
+    public Result insertCustom(@RequestBody UserDetail user) {
+        boolean isExists = userService.existsUserByUserAccount(user.getUserAccount());
+        if (isExists) {
+            return new Result(ResponseCode.user_already_exists.getCode(), ResponseCode.user_already_exists.getMsg());
+        }
+        return userService.insert(user, true);
+    }
+
+    @ApiOperation(value = "更新用户", httpMethod = "POST", produces = "application/json", response = Result.class)
+    @ResponseBody
+    @PostMapping("update")
+    public Result update(@RequestBody UserDetail entity) {
+        return userService.update(entity, false);
+    }
+
+    @ApiOperation(value = "更新用户", httpMethod = "POST", produces = "application/json", response = Result.class)
+    @ResponseBody
+    @PostMapping("updateCustom")
+    public Result updateCustom(@RequestBody UserDetail entity) {
+        return userService.update(entity, true);
+    }
+
+    @ApiOperation(value = "更新密码", httpMethod = "POST", produces = "application/json", response = Result.class)
+    @ResponseBody
+    @PostMapping("updatePassword")
+    public Result updatePassword(@RequestBody Map<String, String> params) {
+        return userService.updatePassword(params);
+    }
+
+    @ApiOperation(value = "更新头像", httpMethod = "POST", produces = "application/json", response = Result.class)
+    @ResponseBody
+    @PostMapping("updatePhoto")
+    public Result updatePhoto(@RequestBody Map<String, String> params) {
+        return userService.updatePhoto(params);
+    }
+
+    @ApiOperation(value = "删除用户", httpMethod = "POST", produces = "application/json", response = Result.class)
+    @ResponseBody
+    @PostMapping("delete")
+    public Result delete(@RequestBody Map<String, Integer> params) {
+        return userService.delete(params.get("Id"));
     }
 }

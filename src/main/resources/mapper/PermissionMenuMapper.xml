@@ -9,19 +9,25 @@
   <select id="existsRelat" parameterType="Map" resultType="boolean">
     SELECT EXISTS(SELECT 1 FROM MT_PermissionMenu WHERE MenuId=#{menuId} AND PermissionId=#{permissionId})
   </select>
-
+  <!--判断当前菜单是否有权限关联-->
   <select id="checkDeleteByMenuId" parameterType="int" resultType="boolean">
     SELECT EXISTS(SELECT 1 FROM MT_PermissionMenu WHERE MenuId=#{menuId})
   </select>
 
-  <insert id="insert" parameterType="com.coderfamily.lamj.model.PermissionMenuEntity">
-    INSERT INTO MT_PermissionMenu(MenuId,PermissionId) VALUES(#{menuId},#{permissionId})
+  <insert id="insert" parameterType="java.util.List">
+    INSERT INTO MT_PermissionMenu(MenuId,PermissionId) VALUES
+    <foreach collection="list" item="item" index="list" separator=",">
+      (#{item.menuId},#{item.permissionId})
+    </foreach>
   </insert>
 
   <delete id="delete" parameterType="Map">
     DELETE FROM MT_PermissionMenu WHERE MenuId=#{menuId} AND PermissionId=#{permissionId}
   </delete>
 
+  <delete id="deleteByPermissionId" parameterType="int">
+    DELETE FROM MT_PermissionMenu WHERE PermissionId=#{permissionId}
+  </delete>
   <delete id="deleteByMenuId" parameterType="int">
     DELETE FROM MT_PermissionMenu WHERE MenuId=#{menuId}
   </delete>

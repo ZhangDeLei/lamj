@@ -10,70 +10,131 @@
         <result column="Sex" jdbcType="INTEGER" property="sex"/>
         <result column="PhotoUrl" jdbcType="VARCHAR" property="photoUrl"/>
         <result column="Status" jdbcType="INTEGER" property="status"/>
+        <result column="TypeId" jdbcType="INTEGER" property="typeId"/>
+        <result column="TypeCode" jdbcType="VARCHAR" property="typeCode"/>
+        <result column="TypeName" jdbcType="VARCHAR" property="typeName"/>
+        <result column="Email" jdbcType="VARCHAR" property="email"/>
+        <result column="StarLevelId" jdbcType="INTEGER" property="starLevelId"/>
+        <result column="StarLevelCode" jdbcType="VARCHAR" property="starLevelCode"/>
+        <result column="StarLevelName" jdbcType="VARCHAR" property="starLevelName"/>
+        <result column="CreateDateTime" jdbcType="VARCHAR" property="createDateTime"/>
+        <result column="LastLoginTime" jdbcType="VARCHAR" property="lastLoginTime"/>
     </resultMap>
 
-    <insert id="insert" parameterType="com.coderfamily.lamj.model.UserEntity" useGeneratedKeys="true" keyProperty="Id">
+    <resultMap id="UserDetail" type="com.coderfamily.lamj.domain.UserDetail" extends="UserEntity">
+        <result column="CompanyId" jdbcType="INTEGER" property="companyId"/>
+        <result column="TeamId" jdbcType="INTEGER" property="teamId"/>
+        <result column="TeamName" jdbcType="VARCHAR" property="teamName"/>
+        <result column="PermissionId" jdbcType="INTEGER" property="permissionId"/>
+    </resultMap>
+
+    <resultMap id="UserStatisticsInfo" type="com.coderfamily.lamj.domain.UserStatisticsInfo">
+        <result column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="NickName" jdbcType="VARCHAR" property="nickName"/>
+        <result column="TeamName" jdbcType="VARCHAR" property="teamName"/>
+        <association property="totalSub" select="com.coderfamily.lamj.dao.SubmissionMapper.selectCountByUserId" column="Id" javaType="int"/>
+        <association property="totalFollow" select="com.coderfamily.lamj.dao.UserCommentMapper.selectCountByUserId" column="Id" javaType="int"/>
+        <association property="totalTask" select="com.coderfamily.lamj.dao.TaskMapper.selectCountByUserId" column="Id" javaType="int"/>
+    </resultMap>
+
+    <select id="selectUserByStatistics" parameterType="int" resultMap="UserStatisticsInfo">
+        SELECT MT_User.Id,MT_User.NickName,MT_Team.Name AS TeamName FROM MT_User
+        LEFT JOIN MT_TeamUser ON MT_TeamUser.UserId = MT_User.Id
+        LEFT JOIN MT_Team ON MT_Team.Id = MT_TeamUser.TeamId WHERE MT_User.Id=#{id}
+    </select>
+
+    <select id="selectUserListByCondition" parameterType="com.coderfamily.lamj.domain.UserDetail"
+            resultMap="UserDetail">
+        SELECT <include refid="sql_column"></include>,MT_Team.Name AS TeamName,MT_Team.Id AS TeamId,
+        MT_CompanyUser.CompanyId FROM MT_User
+        LEFT JOIN MT_CompanyUser ON MT_CompanyUser.UserId=MT_User.Id
+        LEFT JOIN MT_TeamUser ON MT_TeamUser.UserId=MT_User.Id
+        LEFT JOIN MT_Team ON MT_TeamUser.TeamId = MT_Team.Id
+        WHERE 1=1
+        <include refid="sql_where"></include>
+    </select>
+
+    <select id="selectUserById" parameterType="int" resultMap="UserEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_User WHERE Id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.coderfamily.lamj.model.UserEntity" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO MT_User
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id!=null">Id,</if>
-            <if test="userAccount!=null and userAccount.length()!=0">UserAccount,</if>
-            <if test="password!=null and password.length()!=0">Password,</if>
-            <if test="nickName!=null and nickName.length()!=0">NickName,</if>
-            <if test="tel!=null and tel.length()!=0">Tel,</if>
-            <if test="sex!=null">Sex,</if>
-            <if test="photoUrl!=null and photoUrl.length()!=0">PhotoUrl,</if>
-            <if test="status!=null">Status,</if>
+            <if test="userAccount!=null">UserAccount,</if>
+            <if test="password!=null">Password,</if>
+            <if test="nickName!=null">NickName,</if>
+            <if test="tel!=null">Tel,</if>
+            <if test="sex!=-1 and sex!=null">Sex,</if>
+            <if test="photoUrl!=null">PhotoUrl,</if>
+            <if test="status!=-1 and status!=null">Status,</if>
+            <if test="typeId!='' and typeId!=null">TypeId,</if>
+            <if test="typeCode!=null">TypeCode,</if>
+            <if test="typeName!=null">TypeName,</if>
+            <if test="email!=null">Email,</if>
+            <if test="starLevelId!=-1 and starLevelId!=null">StarLevelId,</if>
+            <if test="starLevelCode!=null">StarLevelCode,</if>
+            <if test="starLevelName!=null">StarLevelName,</if>
+            <if test="createDateTime!=null">CreateDateTime,</if>
+            <if test="lastLoginTime!=null">LastLoginTime,</if>
         </trim>
         VALUES
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id!=null">#{id},</if>
-            <if test="userAccount!=null and userAccount.length()!=0">#{userAccount},</if>
-            <if test="password!=null and password.length()!=0">#{password},</if>
-            <if test="nickName!=null and nickName.length()!=0">#{nickName},</if>
-            <if test="tel!=null and tel.length()!=0">#{tel},</if>
-            <if test="sex!=null">#{sex},</if>
-            <if test="photoUrl!=null and photoUrl.length()!=0">#{photoUrl},</if>
-            <if test="status!=null">#{Status},</if>
+            <if test="userAccount!=null">#{userAccount},</if>
+            <if test="password!=null">#{password},</if>
+            <if test="nickName!=null">#{nickName},</if>
+            <if test="tel!=null">#{tel},</if>
+            <if test="sex!=-1 and sex!=null">#{sex},</if>
+            <if test="photoUrl!=null">#{photoUrl},</if>
+            <if test="status!=-1 and status!=null">#{status},</if>
+            <if test="typeId!=-1 and typeId!=null">#{typeId},</if>
+            <if test="typeCode!=null">#{typeCode},</if>
+            <if test="typeName!=null">#{typeName},</if>
+            <if test="email!=null">#{email},</if>
+            <if test="starLevelId!=-1 and starLevelId!=null">#{starLevelId},</if>
+            <if test="starLevelCode!=null">#{starLevelCode},</if>
+            <if test="starLevelName!=null">#{starLevelName},</if>
+            <if test="createDateTime!=null">#{createDateTime},</if>
+            <if test="lastLoginTime!=null">#{lastLoginTime},</if>
         </trim>
-    </insert>
-
-    <insert id="insertGroupRelation" parameterType="Map">
-        INSERT INTO MT_UserGroup(UserId,GroupId) VALUES(#{userId},#{groupId})
-    </insert>
-
-    <insert id="insertPermissionRelation" parameterType="Map">
-        INSERT INTO MT_UserPermission(UserId,PermissionId) VALUES (#{userId},#{permissionId})
     </insert>
 
     <update id="update" parameterType="com.coderfamily.lamj.model.UserEntity">
         UPDATE MT_User
         <set>
-            <if test="id!=null">Id=#{id},</if>
-            <if test="userAccount!=null AND userAccount.length()!=0">UserAccount=#{userAccount},</if>
-            <if test="password!=null AND password.length()!=0">Password=#{password},</if>
-            <if test="nickName!=null AND nickName.length()!=0">NickName=#{nickName},</if>
-            <if test="tel!=null AND tel.length()!=0">Tel=#{tel},</if>
-            <if test="sex!=null AND sex.length()!=0">Sex=#{sex},</if>
-            <if test="photoUrl!=null AND photoUrl.length()!=0">PhotoUrl=#{photoUrl},</if>
-            <if test="status!=null">Status=#{status},</if>
+            <if test="userAccount!=null">UserAccount=#{userAccount},</if>
+            <if test="password!=null">Password=#{password},</if>
+            <if test="nickName!=null">NickName=#{nickName},</if>
+            <if test="tel!=null">Tel=#{tel},</if>
+            <if test="sex!=-1 and sex!=null">Sex=#{sex},</if>
+            <if test="photoUrl!=null">PhotoUrl=#{photoUrl},</if>
+            <if test="status!=-1 and status!=null">Status=#{status},</if>
+            <if test="typeId!=-1 and typeId!=null">TypeId=#{typeId},</if>
+            <if test="typeCode!=null">TypeCode=#{typeCode},</if>
+            <if test="typeName!=null">TypeName=#{typeName},</if>
+            <if test="email!=null">Email=#{email},</if>
+            <if test="starLevelId!=-1 and starLevelId!=null">StarLevelId=#{starLevelId},</if>
+            <if test="starLevelCode!=null">StarLevelCode=#{starLevelCode},</if>
+            <if test="starLevelName!=null">StarLevelName=#{starLevelName},</if>
+            <if test="createDateTime!=null">CreateDateTime=#{createDateTime},</if>
+            <if test="lastLoginTime!=null">LastLoginTime=#{lastLoginTime},</if>
         </set>
-        WHERE Id=#{Id}
+        WHERE Id=#{id}
     </update>
 
     <delete id="delete" parameterType="int">
         DELETE FROM MT_User WHERE Id=#{id}
     </delete>
 
-    <delete id="deleteGroupRelation" parameterType="Map">
-        DELETE FROM MT_UserGroup WHERE UserId=#{userId} AND GroupId=#{groupId}
-    </delete>
-
-    <delete id="deletePermissionRelation" parameterType="Map">
-        DELETE FROM MT_UserPermission WHERE UserId=#{userId} AND PermissionId=#{permissionId}
-    </delete>
-
-    <select id="selectUserByUserAccount" parameterType="String" resultMap="UserEntity">
-        SELECT <include refid="sql_column"></include> FROM MT_User WHERE UserAccount=#{userAccount}
+    <select id="selectUserByUserAccount" parameterType="String" resultMap="UserDetail">
+        SELECT MT_User.*,MT_CompanyUser.CompanyId,MT_TeamUser.TeamId,MT_UserPermission.PermissionId
+        FROM MT_User
+        LEFT JOIN MT_CompanyUser ON MT_User.Id=MT_CompanyUser.UserId
+        LEFT JOIN MT_TeamUser ON MT_User.Id=MT_TeamUser.UserId
+        LEFT JOIN MT_UserPermission ON MT_User.Id=MT_UserPermission.UserId
+        WHERE UserAccount=#{userAccount}
     </select>
 
     <select id="login" parameterType="String" resultMap="UserEntity">
@@ -84,23 +145,31 @@
         SELECT EXISTS (SELECT 1 FROM MT_User WHERE UserAccount=#{userAccount})
     </select>
 
-    <select id="existsUserRelationGroup" parameterType="Map" resultType="boolean">
-        SELECT EXISTS (SELECT 1 FROM MT_UserGroup WHERE UserId=#{userId} AND GroupId=#{groupId})
-    </select>
-
     <select id="existsUserRelationPermission" parameterType="Map" resultType="boolean">
         SELECT EXISTS (SELECT 1 FROM MT_UserPermission WHERE UserId=#{userId} AND PermissionId=#{permissionId})
     </select>
 
-    <sql id="sql_column">Id,UserAccount,Password,NickName,Tel,Sex,PhotoUrl,Status</sql>
+    <sql id="sql_column">MT_User.Id,UserAccount,Password,NickName,Tel,Sex,PhotoUrl,MT_User.Status,TypeId,TypeCode,TypeName,
+                        Email,StarLevelId,StarLevelCode,StarLevelName,CreateDateTime,LastLoginTime</sql>
     <sql id="sql_where">
         <if test="id!=null">AND Id=#{id}</if>
-        <if test="userAccount!=null and userAccount.length()!=0">AND UserAccount=#{userAccount}</if>
-        <if test="password!=null and password.length()!=0">AND Password=#{password}</if>
-        <if test="nickName!=null and nickName.length()!=0">AND NickName=#{nickName}</if>
-        <if test="tel!=null and tel.length()!=0">AND Tel=#{tel}</if>
-        <if test="sex!=null">AND Sex=#{sex}</if>
-        <if test="photoUrl!=null and photoUrl.length()!=0">AND PhotoUrl=#{photoUrl}</if>
-        <if test="status!=null">#{Status},</if>
+        <if test="userAccount!=null">AND UserAccount=#{userAccount}</if>
+        <if test="password!=null">AND Password=#{password}</if>
+        <if test="nickName!=null and nickName.length()>0">AND NickName=#{nickName}</if>
+        <if test="tel!=null">AND Tel=#{tel}</if>
+        <if test="sex!=-1 and sex!=null">AND Sex=#{sex}</if>
+        <if test="photoUrl!=null">AND PhotoUrl=#{photoUrl}</if>
+        <if test="status!=-1 and status!=null">AND Status=#{status}</if>
+        <if test="typeId!=-1 and typeId!=null">AND TypeId=#{typeId}</if>
+        <if test="typeCode!=null">AND TypeCode=#{typeCode}</if>
+        <if test="typeName!=null">AND TypeName=#{typeName}</if>
+        <if test="email!=null">AND Email=#{email}</if>
+        <if test="starLevelId!=-1 and starLevelId!=null">AND StarLevelId=#{starLevelId}</if>
+        <if test="starLevelCode!=null">AND StarLevelCode=#{starLevelCode}</if>
+        <if test="starLevelName!=null">AND StarLevelName=#{starLevelName}</if>
+        <if test="createDateTime!=null">AND CreateDateTime=#{createDateTime}</if>
+        <if test="lastLoginTime!=null">AND LastLoginTime=#{lastLoginTime}</if>
+        <if test="companyId!=null and companyId!=-1 and companyId!=0">AND MT_CompanyUser.CompanyId=#{companyId}</if>
+        <if test="teamId!=null and teamId!=-1 and teamId!=0">AND MT_TeamUser.TeamId=#{teamId}</if>
     </sql>
 </mapper>

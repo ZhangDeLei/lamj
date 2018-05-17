@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coderfamily.lamj.dao.ArticleLevelMapper">
+    <resultMap id="ArticleLevelEntity" type="com.coderfamily.lamj.model.ArticleLevelEntity">
+        <result column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="CompanyId" jdbcType="INTEGER" property="companyId"/>
+        <result column="Name" jdbcType="VARCHAR" property="name"/>
+        <result column="Status" jdbcType="TINYINT" property="status"/>
+        <result column="SortBy" jdbcType="INTEGER" property="sortBy"/>
+        <result column="Comment" jdbcType="VARCHAR" property="comment"/>
+        <result column="CreateTime" jdbcType="VARCHAR" property="createTime"/>
+        <result column="CreateUserId" jdbcType="INTEGER" property="createUserId"/>
+        <result column="CreateUserName" jdbcType="VARCHAR" property="createUserName"/>
+        <result column="LastUpdateTime" jdbcType="VARCHAR" property="lastUpdateTime"/>
+    </resultMap>
+
+    <select id="select" parameterType="com.coderfamily.lamj.model.ArticleLevelEntity" resultMap="ArticleLevelEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_ArticleLevel
+        <where>
+            <include refid="sql_where"></include>
+        </where>
+        ORDER BY SortBy
+    </select>
+
+    <select id="selectById" parameterType="int" resultMap="ArticleLevelEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_ArticleLevel WHERE Id=#{id}
+    </select>
+
+    <select id="existsByNameAndCompanyId" parameterType="Map" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM MT_ArticleLevel WHERE Name=#{name} AND CompanyId=#{companyId})
+    </select>
+
+    <insert id="insert" parameterType="com.coderfamily.lamj.model.ArticleLevelEntity">
+        INSERT INTO MT_ArticleLevel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">Id,</if>
+            <if test="companyId!=null">CompanyId,</if>
+            <if test="name!=null">Name,</if>
+            <if test="status!=null">Status,</if>
+            <if test="sortBy!=null">SortBy,</if>
+            <if test="comment!=null">Comment,</if>
+            <if test="createTime!=null">CreateTime,</if>
+            <if test="createUserId!=null">CreateUserId,</if>
+            <if test="createUserName!=null">CreateUserName,</if>
+            <if test="lastUpdateTime!=null">LastUpdateTime,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">#{id},</if>
+            <if test="companyId!=null">#{companyId},</if>
+            <if test="name!=null">#{name},</if>
+            <if test="status!=null">#{status},</if>
+            <if test="sortBy!=null">#{sortBy},</if>
+            <if test="comment!=null">#{comment},</if>
+            <if test="createTime!=null">#{createTime},</if>
+            <if test="createUserId!=null">#{createUserId},</if>
+            <if test="createUserName!=null">#{createUserName},</if>
+            <if test="lastUpdateTime!=null">#{lastUpdateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.coderfamily.lamj.model.ArticleLevelEntity">
+        UPDATE MT_ArticleLevel
+        <set>
+            <if test="companyId!=null">CompanyId=#{companyId},</if>
+            <if test="name!=null">Name=#{name},</if>
+            <if test="status!=null">Status=#{status},</if>
+            <if test="sortBy!=null">SortBy=#{sortBy},</if>
+            <if test="comment!=null">Comment=#{comment},</if>
+            <if test="lastUpdateTime!=null">LastUpdateTime=#{lastUpdateTime},</if>
+        </set>
+        WHERE Id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM MT_ArticleLevel WHERE Id=#{id}
+    </delete>
+
+    <sql id="sql_column">
+    Id,CompanyId,Name,Status,SortBy,Comment,CreateTime,CreateUserId,CreateUserName,LastUpdateTime
+  </sql>
+
+    <sql id="sql_where">
+        <if test="companyId!=null">AND CompanyId=#{companyId}</if>
+        <if test="name!=null and name.length()>0">AND Name=#{name}</if>
+        <if test="status!=null">AND Status=#{status}</if>
+        <if test="sortBy!=null">AND SortBy=#{sortBy}</if>
+        <if test="comment!=null">AND Comment=#{comment}</if>
+        <if test="createTime!=null">AND CreateTime=#{createTime}</if>
+        <if test="createUserId!=null">AND CreateUserId=#{createUserId}</if>
+        <if test="createUserName!=null">AND CreateUserName=#{createUserName}</if>
+        <if test="lastUpdateTime!=null">AND LastUpdateTime=#{lastUpdateTime}</if>
+    </sql>
+</mapper>

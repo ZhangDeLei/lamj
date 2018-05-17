@@ -24,7 +24,7 @@ public class Result {
     }
 
     public static Result init(int code, String msg) {
-        return new Result(code, msg);
+        return new Result(code, msg, null);
     }
 
     public static Result success() {

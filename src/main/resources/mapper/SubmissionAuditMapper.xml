@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coderfamily.lamj.dao.SubmissionAuditMapper">
+    <resultMap id="SubmissionAuditEntity" type="com.coderfamily.lamj.model.SubmissionAuditEntity">
+        <result column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="SubmissionId" jdbcType="INTEGER" property="submissionId"/>
+        <result column="OperationTime" jdbcType="VARCHAR" property="operationTime"/>
+        <result column="OperationUserId" jdbcType="INTEGER" property="operationUserId"/>
+        <result column="OperationUserName" jdbcType="VARCHAR" property="operationUserName"/>
+        <result column="ProcessId" jdbcType="INTEGER" property="processId"/>
+        <result column="ProcessCode" jdbcType="VARCHAR" property="processCode"/>
+        <result column="ProcessName" jdbcType="VARCHAR" property="processName"/>
+        <result column="OrderNum" jdbcType="INTEGER" property="orderNum"/>
+        <result column="Comment" jdbcType="VARCHAR" property="comment"/>
+    </resultMap>
+
+    <select id="selectByNew" parameterType="int" resultMap="SubmissionAuditEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_SubmissionAudit WHERE SubmissionId=#{id} ORDER BY OrderNum
+        DESC LIMIT 1
+    </select>
+
+    <select id="selectBySubmissionId" parameterType="int" resultMap="SubmissionAuditEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_SubmissionAudit WHERE SubmissionId=#{id} ORDER BY OrderNum
+        DESC
+    </select>
+
+    <select id="selectMaxOrderNumBySubmissionId" parameterType="int" resultType="int">
+        SELECT IFNULL(MAX(OrderNum),0) FROM MT_SubmissionAudit WHERE SubmissionId=#{id}
+    </select>
+    
+    <insert id="insert" parameterType="com.coderfamily.lamj.model.SubmissionAuditEntity">
+        INSERT INTO MT_SubmissionAudit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">Id,</if>
+            <if test="submissionId!=null">SubmissionId,</if>
+            <if test="operationTime!=null">OperationTime,</if>
+            <if test="operationUserId!=null">OperationUserId,</if>
+            <if test="operationUserName!=null">OperationUserName,</if>
+            <if test="processId!=null">ProcessId,</if>
+            <if test="processCode!=null">ProcessCode,</if>
+            <if test="processName!=null">ProcessName,</if>
+            <if test="orderNum!=null">OrderNum,</if>
+            <if test="comment!=null">Comment,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">#{id},</if>
+            <if test="submissionId!=null">#{submissionId},</if>
+            <if test="operationTime!=null">#{operationTime},</if>
+            <if test="operationUserId!=null">#{operationUserId},</if>
+            <if test="operationUserName!=null">#{operationUserName},</if>
+            <if test="processId!=null">#{processId},</if>
+            <if test="processCode!=null">#{processCode},</if>
+            <if test="processName!=null">#{processName},</if>
+            <if test="orderNum!=null">#{orderNum},</if>
+            <if test="comment!=null">#{comment},</if>
+        </trim>
+    </insert>
+
+    <delete id="deleteBySubmissionId" parameterType="int">
+        DELETE FROM MT_SubmissionAudit WHERE SubmissionId =#{submissionId}
+    </delete>
+    <sql id="sql_column">Id,SubmissionId,OperationTime,OperationUserId,OperationUserName,ProcessId,ProcessCode,ProcessName,OrderNum,Comment</sql>
+</mapper>

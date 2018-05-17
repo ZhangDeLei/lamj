@@ -3,14 +3,16 @@ package com.coderfamily.lamj.dao;
 import com.coderfamily.lamj.model.PermissionMenuEntity;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface PermissionMenuMapper {
     /**
      * 新增权限菜单关联关系
      *
-     * @param permissionMenuEntity
+     * @param permis
      * @return
      */
-    int insert(PermissionMenuEntity permissionMenuEntity);
+    int insert(@Param("list") List<PermissionMenuEntity> permis);
 
     /**
      * 删除菜单与权限的关联关系
@@ -27,6 +29,13 @@ public interface PermissionMenuMapper {
      * @return
      */
     int deleteByMenuId(@Param("menuId")int MenuId);
+
+    /**
+     * 根据权限ID删除权限所有与菜单的关联关系
+     * @param PermissionId
+     * @return
+     */
+    int deleteByPermissionId(@Param("permissionId")int PermissionId);
 
     /**
      * 判断是否已经存在该菜单与权限的关联关系
