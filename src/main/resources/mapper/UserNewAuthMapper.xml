@@ -13,7 +13,11 @@
         <result column="RefreshToken" jdbcType="VARCHAR" property="refreshToken"/>
     </resultMap>
 
-    <select id="selectUserNewAuthList" parameterType="Map" resultMap="UserNewAuthEntity">
+    <resultMap id="UserNewAuthInfo" type="com.coderfamily.lamj.domain.UserNewAuthInfo" extends="UserNewAuthEntity">
+        <association property="newAuthEntity" select="com.coderfamily.lamj.dao.NewAuthMapper.selectNewAuthById" column="newId" javaType="int"/>
+    </resultMap>
+
+    <select id="selectUserNewAuthList" parameterType="Map" resultMap="UserNewAuthInfo">
       SELECT U.Id,U.UserId,N.NewId,A.Name NewName,U.NewAccount,U.IsAuth,U.AuthToken,U.AuthTokenExpire,U.RefreshToken FROM MT_CompanyNew N
       LEFT JOIN MT_NewAuth A ON N.NewId = A.Id
       LEFT JOIN MT_UserNewAuth U ON N.NewId = U.NewId AND U.UserId = #{userId}

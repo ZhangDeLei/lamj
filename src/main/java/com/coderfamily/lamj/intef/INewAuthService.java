@@ -3,6 +3,7 @@ package com.coderfamily.lamj.intef;
 import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.domain.CompanyNewInfo;
 import com.coderfamily.lamj.domain.NewAuthInfo;
+import com.coderfamily.lamj.model.NewAuthEntity;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
@@ -20,6 +21,8 @@ public interface INewAuthService {
     List<CompanyNewInfo> select(int CompanyId);
 
     List<NewAuthInfo> selectAll();
+
+    NewAuthEntity selectById(int Id);
 
     Result insert(NewAuthInfo info);
 

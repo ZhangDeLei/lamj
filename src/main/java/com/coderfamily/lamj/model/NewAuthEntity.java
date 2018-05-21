@@ -19,6 +19,8 @@ public class NewAuthEntity {
 
     private String cls;
 
+    private String clientCls;
+
     private String authUrl;
 
     private String redirectUrl;
@@ -87,6 +89,14 @@ public class NewAuthEntity {
 
     public void setAuthCode(String authCode) {
         this.authCode = authCode == null ? null : authCode.trim();
+    }
+
+    public String getClientCls() {
+        return clientCls;
+    }
+
+    public void setClientCls(String clientCls) {
+        this.clientCls = clientCls;
     }
 
     public String getCls() {

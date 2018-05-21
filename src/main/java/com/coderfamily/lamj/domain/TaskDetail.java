@@ -9,6 +9,7 @@ import com.coderfamily.lamj.model.TaskEntity;
 public class TaskDetail extends TaskEntity {
     private int total;
     private int commentTotal;
+    private boolean isUserComplated;
 
     public int getTotal() {
         return total;
@@ -24,5 +25,13 @@ public class TaskDetail extends TaskEntity {
 
     public void setCommentTotal(int commentTotal) {
         this.commentTotal = commentTotal;
+    }
+
+    public boolean isUserComplated() {
+        return isUserComplated;
+    }
+
+    public void setUserComplated(boolean userComplated) {
+        isUserComplated = userComplated;
     }
 }

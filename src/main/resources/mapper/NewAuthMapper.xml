@@ -11,6 +11,7 @@
         <result column="AppSecret" jdbcType="VARCHAR" property="appSecret"/>
         <result column="AuthCode" jdbcType="VARCHAR" property="authCode"/>
         <result column="Cls" jdbcType="VARCHAR" property="cls"/>
+        <result column="ClientCls" jdbcType="VARCHAR" property="clientCls"/>
         <result column="AuthUrl" jdbcType="VARCHAR" property="authUrl"/>
         <result column="RedirectUrl" jdbcType="VARCHAR" property="redirectUrl"/>
         <result column="Icon" jdbcType="VARCHAR" property="icon"/>
@@ -28,6 +29,10 @@
         <result column="CompanyId" jdbcType="INTEGER" property="companyId"/>
         <result column="CompanyName" jdbcType="VARCHAR" property="companyName"/>
     </resultMap>
+
+    <select id="selectNewAuthById" parameterType="int" resultMap="NewAuthEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_NewAuth WHERE Id=#{id}
+    </select>
 
     <select id="selectByCompany" parameterType="Map" resultMap="CompanyNewInfo">
         SELECT MT_NewAuth.Name AS NewName,MT_NewAuth.Id AS NewId,MT_Company.Name AS CompanyName,MT_Company.Id AS
@@ -69,6 +74,7 @@
             <if test="appSecret!=null">AppSecret,</if>
             <if test="authCode!=null">AuthCode,</if>
             <if test="cls!=null">Cls,</if>
+            <if test="clientCls!=null">clientCls,</if>
             <if test="authUrl!=null">AuthUrl,</if>
             <if test="redirectUrl!=null">RedirectUrl,</if>
             <if test="icon!=null">Icon,</if>
@@ -84,9 +90,10 @@
             <if test="appSecret!=null">#{appSecret},</if>
             <if test="authCode!=null">#{authCode},</if>
             <if test="cls!=null">#{cls},</if>
+            <if test="clientCls!=null">#{clientCls},</if>
             <if test="authUrl!=null">#{authUrl},</if>
             <if test="redirectUrl!=null">#{redirectUrl},</if>
-            <if test="icon!=null">#{icon}</if>
+            <if test="icon!=null">#{icon},</if>
         </trim>
     </insert>
 
@@ -102,6 +109,7 @@
             <if test="appSecret!=null">AppSecret=#{appSecret},</if>
             <if test="authCode!=null">AuthCode=#{authCode},</if>
             <if test="cls!=null">Cls=#{cls},</if>
+            <if test="clientCls!=null">ClientCls=#{clientCls},</if>
             <if test="authUrl!=null">AuthUrl=#{authUrl},</if>
             <if test="redirectUrl!=null">RedirectUrl=#{redirectUrl},</if>
             <if test="icon!=null">Icon=#{icon},</if>
@@ -113,7 +121,7 @@
         DELETE FROM MT_NewAuth WHERE Id=#{id}
     </delete>
 
-    <sql id="sql_column">Id,Url,Name,Status,AppId,AppKey,AppSecret,AuthCode,Cls,AuthUrl,RedirectUrl,Icon</sql>
+    <sql id="sql_column">Id,Url,Name,Status,AppId,AppKey,AppSecret,AuthCode,Cls,ClientCls,AuthUrl,RedirectUrl,Icon</sql>
     <sql id="sql_where">
         <if test="name!=null and name.length()>0">AND Name=#{name}</if>
         <if test="status!=null">AND Status=#{status}</if>

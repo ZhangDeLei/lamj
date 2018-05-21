@@ -1,6 +1,7 @@
 package com.coderfamily.lamj.intef;
 
 import com.coderfamily.lamj.common.data.Result;
+import com.coderfamily.lamj.domain.UserNewAuthInfo;
 import com.coderfamily.lamj.model.UserNewAuthEntity;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public interface IUserNewAuthService {
      * @param UserId
      * @return
      */
-    List<UserNewAuthEntity> getUserNewAuthList(int CompanyId, int UserId);
+    List<UserNewAuthInfo> getUserNewAuthList(int CompanyId, int UserId);
 
     /**
      * 新增用户授权记录

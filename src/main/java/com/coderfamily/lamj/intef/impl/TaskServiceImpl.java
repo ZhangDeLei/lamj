@@ -6,10 +6,7 @@ import com.coderfamily.lamj.dao.TaskMapper;
 import com.coderfamily.lamj.domain.TaskDetail;
 import com.coderfamily.lamj.domain.TaskInfo;
 import com.coderfamily.lamj.intef.IDictionaryService;
-import com.coderfamily.lamj.model.DictionaryEntity;
-import com.coderfamily.lamj.model.TaskEntity;
-import com.coderfamily.lamj.model.TeamEntity;
-import com.coderfamily.lamj.model.TeamTaskEntity;
+import com.coderfamily.lamj.model.*;
 import com.coderfamily.lamj.intef.ITaskService;
 import com.coderfamily.lamj.intef.ITeamService;
 import com.github.pagehelper.PageHelper;
@@ -47,12 +44,7 @@ public class TaskServiceImpl implements ITaskService {
     public PageInfo<TaskDetail> getTaskListByUserId(int UserId, String Title, Integer StageId, Integer NewId,
                                                     String BegDate, String EndDate, int PageSize, int CurPage) {
         PageHelper.startPage(CurPage, PageSize);
-        List<TeamEntity> teams = teamService.getTeamListByUserId(UserId);
-        List<Integer> teamIds = new ArrayList<>();
-        teams.forEach(t -> {
-            teamIds.add(t.getId());
-        });
-        return new PageInfo<>(taskMapper.selectByTeams(teamIds, Title, StageId, NewId, BegDate, EndDate));
+        return new PageInfo<>(taskMapper.selectByTeams(UserId, Title, StageId, NewId, BegDate, EndDate));
     }
 
     @Override
@@ -129,4 +121,5 @@ public class TaskServiceImpl implements ITaskService {
             teamService.insertTeamTask(mData);
         }
     }
+
 }

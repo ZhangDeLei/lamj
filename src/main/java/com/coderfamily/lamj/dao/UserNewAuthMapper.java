@@ -1,5 +1,6 @@
 package com.coderfamily.lamj.dao;
 
+import com.coderfamily.lamj.domain.UserNewAuthInfo;
 import com.coderfamily.lamj.model.UserNewAuthEntity;
 import org.apache.ibatis.annotations.Param;
 
@@ -7,7 +8,7 @@ import java.util.List;
 
 public interface UserNewAuthMapper {
 
-    List<UserNewAuthEntity> selectUserNewAuthList(@Param("companyId") int CompanyId, @Param("userId") int UserId);
+    List<UserNewAuthInfo> selectUserNewAuthList(@Param("companyId") int CompanyId, @Param("userId") int UserId);
 
     UserNewAuthEntity selectById(@Param("id") int Id);
 

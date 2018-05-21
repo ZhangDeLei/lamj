@@ -28,6 +28,8 @@ public class FileServiceImpl implements IFileService {
     private String FileUploadApp;
     @Value("#{fileProperties['file.upload.image.newicon']}")
     private String FileUploadImageNewicon;
+    @Value("#{fileProperties['file.upload.task.image']}")
+    private String FileUploadTaskImage;
 
     @Override
     public Result fileUpload(MultipartFile file, String type, HttpServletRequest request) {
@@ -87,6 +89,10 @@ public class FileServiceImpl implements IFileService {
                 path.setPath(request.getServletContext().getRealPath(FileUploadImageNewicon));
                 path.setReturnPath(FileUploadImageNewicon);
                 break;
+            case Const.File_Type_Task:
+                path.setPath(request.getServletContext().getRealPath(FileUploadTaskImage));
+                path.setReturnPath(FileUploadTaskImage);
+                break;
         }
         return path;
     }
@@ -110,6 +116,9 @@ public class FileServiceImpl implements IFileService {
                 break;
             case Const.File_Type_Newicon:
                 fileName = "newicon_" + new Date().getTime();
+                break;
+            case Const.File_Type_Task:
+                fileName = "task_" + new Date().getTime();
                 break;
         }
         return fileName;

@@ -3,6 +3,7 @@ package com.coderfamily.lamj.intef.impl;
 import com.coderfamily.lamj.common.data.Result;
 import com.coderfamily.lamj.common.util.NullUtil;
 import com.coderfamily.lamj.dao.UserNewAuthMapper;
+import com.coderfamily.lamj.domain.UserNewAuthInfo;
 import com.coderfamily.lamj.model.UserNewAuthEntity;
 import com.coderfamily.lamj.intef.IUserNewAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class UserNewAuthServiceImpl implements IUserNewAuthService {
     private UserNewAuthMapper userNewAuthMapper;
 
     @Override
-    public List<UserNewAuthEntity> getUserNewAuthList(int CompanyId, int UserId) {
+    public List<UserNewAuthInfo> getUserNewAuthList(int CompanyId, int UserId) {
         return userNewAuthMapper.selectUserNewAuthList(CompanyId, UserId);
     }
 

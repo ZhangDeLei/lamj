@@ -11,6 +11,10 @@
     <result column="ImageUrl" jdbcType="VARCHAR" property="imageUrl" />
   </resultMap>
 
+  <select id="selectExistsByTaskId" parameterType="Map" resultType="boolean">
+    SELECT EXISTS (SELECT 1 FROM MT_UserComment WHERE TaskId=#{taskId} AND UserId=#{userId})
+  </select>
+
   <select id="selectCountByUserId" parameterType="int" resultType="int">
     SELECT COUNT(1) FROM MT_UserComment WHERE UserId=#{id}
   </select>
@@ -41,7 +45,6 @@
   <insert id="insert" parameterType="com.coderfamily.lamj.model.UserCommentEntity">
     INSERT INTO MT_UserComment
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id!=null">Id,</if>
       <if test="companyId!=null">CompanyId,</if>
       <if test="taskId!=null">TaskId,</if>
       <if test="userId!=null">UserId,</if>
@@ -51,7 +54,6 @@
     </trim>
     VALUES
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id!=null">#{id},</if>
       <if test="companyId!=null">#{companyId},</if>
       <if test="taskId!=null">#{taskId},</if>
       <if test="userId!=null">#{userId},</if>

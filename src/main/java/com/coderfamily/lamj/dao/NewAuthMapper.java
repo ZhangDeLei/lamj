@@ -12,6 +12,8 @@ public interface NewAuthMapper {
 
     NewAuthInfo selectById(@Param("id") int Id);
 
+    NewAuthEntity selectNewAuthById(@Param("id") int Id);
+
     List<CompanyNewInfo> selectByCompany(@Param("companyId") int CompanyId, @Param("status") Boolean status);
 
     boolean existsNewAuthByName(@Param("name") String Name);

@@ -48,6 +48,11 @@ public class NewAuthServiceImpl implements INewAuthService {
     }
 
     @Override
+    public NewAuthEntity selectById(int Id) {
+        return newAuthMapper.selectNewAuthById(Id);
+    }
+
+    @Override
     public List<CompanyNewInfo> select(int CompanyId) {
         return newAuthMapper.selectByCompany(CompanyId, true);
     }

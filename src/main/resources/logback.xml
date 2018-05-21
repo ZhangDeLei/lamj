@@ -1,6 +1,7 @@
 <!--product-->
 <configuration scan="true">
-    <property name="File_Url" value="/Users/anins/Documents/Project_Private_Server/lamj/logs/"/>
+    <!--<property name="File_Url" value="D:/Apache Software Foundation/Tomcat 7.0/logs/"/>-->
+    <property name="File_Url" value="F:/LizhangguiGitCoding/lamj/logs/"/>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{80}.%M\(%line\) - %msg%n</pattern>
@@ -15,7 +16,7 @@
             <onMismatch>DENY</onMismatch>
         </filter>
         <file>${File_Url}lamj-Ddebug.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRolliTimeBasedRollingPolicyngPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${File_Url}lamj-Debug-%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>90</maxHistory>
         </rollingPolicy>

@@ -38,10 +38,7 @@
     </resultMap>
 
     <select id="selectCountByUserId" parameterType="int" resultType="int">
-        SELECT COUNT(1) FROM MT_Task
-        LEFT JOIN MT_TeamTask ON MT_Task.Id = MT_TeamTask.TaskId
-        LEFT JOIN MT_TeamUser ON MT_TeamTask.TeamId = MT_TeamUser.TeamId
-        WHERE MT_TeamUser.UserId = #{id} AND MT_Task.StageCode = '0003'
+        SELECT COUNT(1) FROM (SELECT TaskId FROM MT_UserComment WHERE UserId = #{id} GROUP BY TaskId) A
     </select>
 
     <select id="select" parameterType="com.coderfamily.lamj.model.TaskEntity" resultMap="TaskEntity">
@@ -60,16 +57,17 @@
     </select>
 
     <select id="selectByTeams" parameterType="Map" resultMap="TaskDetail">
-        SELECT <include refid="sql_column"></include> FROM MT_Task LEFT JOIN MT_TeamTask ON MT_Task.Id =
-        MT_TeamTask.TaskId
-        WHERE MT_TeamTask.TeamId IN (
-        <foreach collection="list" item="item" index="list" separator=",">${item}</foreach>
-        )
+        SELECT <include refid="sql_column"></include>,MT_TeamUser.UserId,MT_Task.Id AS TaskId,ISNULL(UC.UserId) AS UserComplated FROM MT_Task
+        LEFT JOIN MT_TeamTask ON MT_Task.Id =  MT_TeamTask.TaskId
+        LEFT JOIN MT_TeamUser ON MT_TeamUser.TeamId = MT_TeamTask.TeamId
+        LEFT JOIN MT_UserComment UC ON UC.TaskId = MT_Task.Id
+        WHERE MT_TeamUser.UserId = #{userId}
         <if test="title!=null and title.length()>0">AND Title LIKE CONCAT('%',#{title},'%')</if>
         <if test="stageId!=null and title.length()>0">AND StageId=#{stageId}</if>
         <if test="newId!=null">AND NewId=#{newId}</if>
         <if test="begDate!=null and begDate!='null' and begDate.length()>0">AND CreateDate>=#{begDate}</if>
         <if test="endDate!=null and endDate!='null' and endDate.length()>0"><![CDATA[AND CreateDate<=#{endDate}]]></if>
+        ORDER BY ISNULL(UC.UserId) DESC,MT_Task.CreateDate ASC
     </select>
 
     <insert id="insert" parameterType="com.coderfamily.lamj.model.TaskEntity" useGeneratedKeys="true" keyProperty="id">
@@ -162,8 +160,8 @@
         )
     </delete>
 
-    <sql id="sql_column">Id,CompanyId,Url,Title,Comment,Integral,NewId,NewName,TypeId,TypeCode,TypeName,ExpireDate,ExecTypeId
-                        ,ExecTypeCode,ExecTypeName,CreateDate,FinishDate,CreateUserId,CreateUserName,StageId,StageCode,StageName</sql>
+    <sql id="sql_column">MT_Task.Id,MT_Task.CompanyId,MT_Task.Url,MT_Task.Title,MT_Task.Comment,MT_Task.Integral,MT_Task.NewId,MT_Task.NewName,MT_Task.TypeId,MT_Task.TypeCode,MT_Task.TypeName,MT_Task.ExpireDate,MT_Task.ExecTypeId
+                        ,MT_Task.ExecTypeCode,MT_Task.ExecTypeName,MT_Task.CreateDate,MT_Task.FinishDate,MT_Task.CreateUserId,MT_Task.CreateUserName,MT_Task.StageId,MT_Task.StageCode,MT_Task.StageName</sql>
 
     <sql id="sql_where">
         <if test="companyId!=null">AND CompanyId=#{companyId}</if>

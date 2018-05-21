@@ -16,7 +16,7 @@ public interface TaskMapper {
                             @Param("begDate") String BegDate,
                             @Param("endDate") String EndDate);
 
-    List<TaskDetail> selectByTeams(@Param("list") List<Integer> teams,
+    List<TaskDetail> selectByTeams(@Param("userId") Integer UserId,
                                    @Param("title") String Title,
                                    @Param("stageId") Integer StageId,
                                    @Param("newId") Integer NewId,
