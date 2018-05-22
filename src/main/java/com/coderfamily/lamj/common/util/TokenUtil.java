@@ -5,6 +5,9 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import org.apache.commons.codec.binary.Base64;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
@@ -27,6 +30,7 @@ public class TokenUtil {
      * @return 是否正确
      */
     public static boolean verify(String token, String username, String secret) {
+        JsonObject json = null;
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             JWTVerifier verifier = JWT.require(algorithm)
@@ -34,7 +38,20 @@ public class TokenUtil {
                     .withClaim("secret", secret)
                     .build();
             DecodedJWT jwt = verifier.verify(token);
-            return true;
+            String payload = jwt.getPayload();
+            byte[] base64 = Base64.decodeBase64(payload);
+            String jsonStr = new String(base64);
+            json = new Gson().fromJson(jsonStr, JsonObject.class);
+            long expTime = Long.parseLong(json.get("exp").toString() + "000");
+            long curTime = TimeUtils.getCurrentTimeStamp();
+            String un = json.get("username").toString().replace("\"", "");
+            String sc = json.get("secret").toString().replace("\"", "");
+            //验证用户名密码以及token有效期
+            if (username.equals(un) && secret.equals(sc) && expTime > curTime) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (Exception exception) {
             return false;
         }

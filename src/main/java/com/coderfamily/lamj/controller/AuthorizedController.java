@@ -41,12 +41,12 @@ public class AuthorizedController {
     @PostMapping("login")
     public Result login(@RequestBody Map<String, Object> param) {
         String UserAccount = StringUtil.toStr(param.get("UserAccount"));
-        String Password = StringUtil.toStr(param.get("Password"));
+        String Password = PasUtil.createPassword(StringUtil.toStr(param.get("Password")));
         UserDetail user = userService.selectUserByUserAccount(UserAccount);
         UserInfo userInfo = new UserInfo();
         if (user == null) {
             return Result.init(ResponseCode.unknown_account.getCode(), ResponseCode.unknown_account.getMsg());
-        } else if (!PasUtil.createPassword(Password).equals(user.getPassword())) {
+        } else if (!Password.equals(user.getPassword())) {
             return Result.init(ResponseCode.password_incorrect.getCode(), ResponseCode.password_incorrect.getMsg());
         } else if (user.getTypeCode().equals("1002") && companyService.isExpiredCompanyByUserId(user.getId())) {//如果是业务用户，需要判断一下是否已经超过有效期
             return Result.init(ResponseCode.expired.getCode(), ResponseCode.expired.getMsg());

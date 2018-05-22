@@ -16,7 +16,7 @@ import java.util.Map;
  */
 @Api(value = "appManager", description = "app应用管理")
 @RestController
-@RequestMapping(value = "/api/appManager/", headers = "version=1")
+@RequestMapping(value = "/api/appManager", headers = "version=1")
 public class AppManagerController {
 
     @Autowired

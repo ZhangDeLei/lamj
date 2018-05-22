@@ -30,11 +30,13 @@
         </property>
         <property name="filterChainDefinitions">
             <value>
+                /api/appManager/getAppByNewForAndroid=anon
                 /api/auth/login=anon
                 /webjars/**=anon
                 /swagger-resources/**=anon
                 /swagger-ui.html=anon
-                /**=anon
+                /v2/**=anon
+                /**=authc
             </value>
         </property>
     </bean>
