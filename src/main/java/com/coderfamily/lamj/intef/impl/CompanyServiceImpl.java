@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,8 +48,20 @@ public class CompanyServiceImpl implements ICompanyService {
     }
 
     @Override
+    public List<CompanyEntity> getCompanyByExpired() {
+        Date date = new Date();
+        date.setTime(date.getTime() + 1000 * 60 * 60 * 24 * 10);
+        return companyMapper.selectComapnyByExpired(TimeUtils.formatYYMMDDHHMMSS(date));
+    }
+
+    @Override
     public boolean isExpiredCompany(String begDate, String endDate) {
         return companyMapper.selectCompanyIsExpired(begDate, endDate);
+    }
+
+    @Override
+    public int getCompanyCount() {
+        return companyMapper.selectCount();
     }
 
     @Override

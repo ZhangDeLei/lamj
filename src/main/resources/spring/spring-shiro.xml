@@ -36,6 +36,7 @@
                 /swagger-resources/**=anon
                 /swagger-ui.html=anon
                 /v2/**=anon
+                /upload/**=anon
                 <!--/api/menu/getMenuListByUserId=authc-->
                 <!--/**=anon-->
                 /**=authc

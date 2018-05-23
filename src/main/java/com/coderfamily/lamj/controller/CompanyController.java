@@ -44,6 +44,12 @@ public class CompanyController {
         return Result.success(companyService.getCompanyListByCondition(new CompanyEntity()));
     }
 
+    @ApiOperation(value = "获取快要超过有效期的企业（前10）", httpMethod = "GET", produces = "application/json", response = Result.class)
+    @GetMapping("getCompanyByExpired")
+    public Result getCompanyByExpired() {
+        return Result.success(companyService.getCompanyByExpired());
+    }
+
     @ApiOperation(value = "根据ID获取企业信息", httpMethod = "GET", produces = "application/json", response = Result.class)
     @GetMapping("getCompanyById")
     public Result getCompanyById(@RequestParam int Id) {

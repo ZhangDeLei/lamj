@@ -14,6 +14,10 @@ public interface CompanyMapper {
 
     List<CompanyEntity> selectCompanyListByCondition(CompanyEntity entity);
 
+    List<CompanyEntity> selectComapnyByExpired(@Param("expiredDate") String ExpiredDate);
+
+    int selectCount();
+
     boolean selectCompanyIsExpired(@Param("begDate") String BegDate, @Param("endDate") String EndDate);
 
     boolean isExpiredCompanyByUserId(@Param("userId") int UserId);

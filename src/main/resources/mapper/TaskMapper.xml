@@ -37,6 +37,10 @@
         <association property="commentTotal" select="com.coderfamily.lamj.dao.UserCommentMapper.selectCountByTaskId" javaType="int" column="Id"/>
     </resultMap>
 
+    <select id="selectCount" resultType="int">
+        SELECT COUNT(1) FROM MT_Task
+    </select>
+
     <select id="selectCountByUserId" parameterType="int" resultType="int">
         SELECT COUNT(1) FROM (SELECT TaskId FROM MT_UserComment WHERE UserId = #{id} GROUP BY TaskId) A
     </select>

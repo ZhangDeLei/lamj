@@ -60,6 +60,12 @@ public interface ITaskService {
     TaskInfo getTaskById(int Id);
 
     /**
+     * 获取平台任务总数
+     * @return
+     */
+    int getTaskCount();
+
+    /**
      * 新增任务信息
      *
      * @param info

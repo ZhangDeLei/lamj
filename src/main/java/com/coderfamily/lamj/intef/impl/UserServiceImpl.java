@@ -44,7 +44,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public PageInfo<UserDetail> selectUserListByCondition(String Name, String UserAccount, String Tel, int StarLevelId,
-                                                        int TypeId, Boolean Status, int Sex, int CompanyId, int TeamId
+                                                          int TypeId, Boolean Status, int Sex, int CompanyId, int TeamId
             , int PageSize, int CurPage) {
         PageHelper.startPage(CurPage, PageSize);
         UserDetail entity = new UserDetail();
@@ -84,6 +84,11 @@ public class UserServiceImpl implements IUserService {
     @Override
     public UserEntity selectUserById(int Id) {
         return userMapper.selectUserById(Id);
+    }
+
+    @Override
+    public int getUserCount() {
+        return userMapper.selectCount();
     }
 
     @Override

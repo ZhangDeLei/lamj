@@ -58,6 +58,11 @@ public class TaskServiceImpl implements ITaskService {
     }
 
     @Override
+    public int getTaskCount() {
+        return taskMapper.selectCount();
+    }
+
+    @Override
     public Result insert(TaskInfo info) {
         DictionaryEntity dict = dictionaryService.DictInfo("Staged", "0001");
         info.setCreateDate(TimeUtils.getCurrentDate());

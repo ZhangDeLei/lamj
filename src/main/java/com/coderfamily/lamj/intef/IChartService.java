@@ -2,6 +2,7 @@ package com.coderfamily.lamj.intef;
 
 import com.coderfamily.lamj.domain.ChartInfo;
 import com.coderfamily.lamj.domain.ChartIntegralInfo;
+import com.coderfamily.lamj.domain.SystemMainInfo;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface IChartService {
     List<ChartInfo> chartTask(int CompanyId);
 
     ChartIntegralInfo chartIntegral(int CompanyId);
+
+    SystemMainInfo chartSystemMainTotal();
 }

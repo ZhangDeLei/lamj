@@ -77,6 +77,12 @@ public interface IUserService {
     UserStatisticsInfo selectStatistics(int Id);
 
     /**
+     * 获取平台用户总数
+     * @return
+     */
+    int getUserCount();
+
+    /**
      * 判断是否已经有该权限
      *
      * @param UserId

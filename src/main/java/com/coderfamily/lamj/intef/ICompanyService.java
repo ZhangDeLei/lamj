@@ -31,11 +31,23 @@ public interface ICompanyService {
     List<CompanyEntity> getCompanyListByCondition(CompanyEntity entity);
 
     /**
+     * 获取快到有效期的企业（前10）
+     * @return
+     */
+    List<CompanyEntity> getCompanyByExpired();
+
+    /**
      * 根据ID获取企业信息
      * @param Id
      * @return
      */
     CompanyEntity getCompanyById(int Id);
+
+    /**
+     * 获取企业总数
+     * @return
+     */
+    int getCompanyCount();
 
     /**
      * 判断是否超出有效期

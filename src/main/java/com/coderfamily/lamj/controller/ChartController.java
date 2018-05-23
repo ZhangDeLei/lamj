@@ -40,4 +40,10 @@ public class ChartController {
     public Result chartIntegral(@RequestParam int CompanyId) {
         return Result.success(chartService.chartIntegral(CompanyId));
     }
+
+    @ApiOperation(value = "查询系统数据信息",httpMethod = "GET",produces = "application/json",response = Result.class)
+    @GetMapping("chartSystemMainTotal")
+    public Result chartSystemMainTotal(){
+        return Result.success(chartService.chartSystemMainTotal());
+    }
 }

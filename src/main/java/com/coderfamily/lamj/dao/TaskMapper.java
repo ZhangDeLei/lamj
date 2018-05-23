@@ -27,6 +27,8 @@ public interface TaskMapper {
 
     TaskInfo selectById(@Param("id") int Id);
 
+    int selectCount();
+
     int insert(TaskEntity entity);
 
     int update(TaskEntity entity);

@@ -47,6 +47,12 @@ public interface UserMapper {
     UserStatisticsInfo selectUserByStatistics(@Param("id") int Id);
 
     /**
+     * 获取平台用户总数
+     * @return
+     */
+    int selectCount();
+
+    /**
      * 判断当前账号是否已存在
      *
      * @param userAccount

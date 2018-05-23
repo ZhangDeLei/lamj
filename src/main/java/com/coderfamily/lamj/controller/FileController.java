@@ -35,4 +35,10 @@ public class FileController {
         boolean isSuccess = fileService.deleteFile(filePath);
         return isSuccess ? Result.success() : Result.error();
     }
+
+//    @ApiOperation(value = "文件下载", httpMethod = "GET", produces = "application/json", response = Result.class)
+//    @GetMapping("download")
+//    public Result download(@RequestParam String Path, HttpServletRequest request) {
+//
+//    }
 }

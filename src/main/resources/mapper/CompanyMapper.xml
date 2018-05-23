@@ -13,6 +13,14 @@
         <result column="MaxNumUser" jdbcType="INTEGER" property="maxNumUser"/>
     </resultMap>
 
+    <select id="selectCount" resultType="int">
+        SELECT COUNT(1) FROM MT_Company
+    </select>
+
+    <select id="selectComapnyByExpired" parameterType="String" resultMap="CompanyEntity">
+        SELECT <include refid="sql_column"></include> FROM MT_Company WHERE TO_DAYS(ExpiredDate) <![CDATA[<=]]> TO_DAYS(#{expiredDate}) ORDER BY ExpiredDate LIMIT 10
+    </select>
+
     <select id="selectCompanyList" parameterType="Map" resultMap="CompanyEntity">
         SELECT <include refid="sql_column"></include> FROM MT_Company
         <where>

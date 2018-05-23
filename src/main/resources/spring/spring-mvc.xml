@@ -19,7 +19,7 @@
                 path="/**"
                 allowed-origins="*"/>
     </mvc:cors>
-
+    <mvc:resources mapping="/upload/**" location="/upload/"/>
     <aop:aspectj-autoproxy proxy-target-class="true"/>
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="true">

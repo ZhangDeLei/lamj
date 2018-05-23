@@ -62,9 +62,9 @@
     </appender>
 
     <root level="debug">
-        <!--<appender-ref ref="STDOUT"/>-->
-        <!--<appender-ref ref="FILEDEBUG"/>-->
-        <!--<appender-ref ref="FILEINFO"/>-->
-        <!--<appender-ref ref="FILEERROR"/>-->
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILEDEBUG"/>
+        <appender-ref ref="FILEINFO"/>
+        <appender-ref ref="FILEERROR"/>
     </root>
 </configuration>
