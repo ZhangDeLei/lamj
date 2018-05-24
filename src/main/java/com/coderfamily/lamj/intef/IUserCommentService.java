@@ -1,6 +1,7 @@
 package com.coderfamily.lamj.intef;
 
 import com.coderfamily.lamj.common.data.Result;
+import com.coderfamily.lamj.domain.UserCommentInfo;
 import com.coderfamily.lamj.model.UserCommentEntity;
 import com.github.pagehelper.PageInfo;
 
@@ -18,7 +19,7 @@ public interface IUserCommentService {
      * @param CurPage
      * @return
      */
-    PageInfo<UserCommentEntity> getUserCommentList(int CompanyId, int TaskId, Integer UserId, int PageSize, int CurPage);
+    PageInfo<UserCommentInfo> getUserCommentList(int CompanyId, int TaskId, Integer UserId, int PageSize, int CurPage);
 
     /**
      * 新增用户评论

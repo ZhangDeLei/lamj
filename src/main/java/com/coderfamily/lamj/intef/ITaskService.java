@@ -60,6 +60,13 @@ public interface ITaskService {
     TaskInfo getTaskById(int Id);
 
     /**
+     * 获取需要完成任务的人数
+     * @param TaskId
+     * @return
+     */
+    int getSucTask(int TaskId);
+
+    /**
      * 获取平台任务总数
      * @return
      */
@@ -80,6 +87,13 @@ public interface ITaskService {
      * @return
      */
     Result update(TaskInfo info);
+
+    /**
+     * 更新任务信息
+     * @param entity
+     * @return
+     */
+    int update(TaskEntity entity);
 
     /**
      * 根据ID删除任务

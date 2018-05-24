@@ -27,6 +27,13 @@ public interface TaskMapper {
 
     TaskInfo selectById(@Param("id") int Id);
 
+    /**
+     * 查询需要完成的任务人数
+     * @param TaskId
+     * @return
+     */
+    int selectSucTask(@Param("taskId") int TaskId);
+
     int selectCount();
 
     int insert(TaskEntity entity);

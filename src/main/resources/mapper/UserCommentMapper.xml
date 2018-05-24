@@ -11,6 +11,14 @@
     <result column="ImageUrl" jdbcType="VARCHAR" property="imageUrl" />
   </resultMap>
 
+  <resultMap id="UserCommentInfo" type="com.coderfamily.lamj.domain.UserCommentInfo" extends="UserCommentEntity">
+    <result column="NickName" jdbcType="VARCHAR" property="nickName"/>
+  </resultMap>
+
+  <select id="selectSucTask" parameterType="int" resultType="int">
+    SELECT COUNT(1) FROM MT_UserComment WHERE TaskId = #{taskId} GROUP BY UserId
+  </select>
+
   <select id="selectExistsByTaskId" parameterType="Map" resultType="boolean">
     SELECT EXISTS (SELECT 1 FROM MT_UserComment WHERE TaskId=#{taskId} AND UserId=#{userId})
   </select>
@@ -27,8 +35,9 @@
     SELECT COUNT(1) FROM (SELECT UserId FROM MT_UserComment WHERE TaskId = #{id} GROUP BY UserId) A
   </select>
 
-  <select id="selectUserCommentList" parameterType="Map" resultMap="UserCommentEntity">
-    SELECT <include refid="sql_column"></include> FROM MT_UserComment
+  <select id="selectUserCommentList" parameterType="Map" resultMap="UserCommentInfo">
+    SELECT <include refid="sql_column"></include>,MT_User.NickName FROM MT_UserComment
+    LEFT JOIN MT_User ON MT_UserComment.UserId = MT_User.Id
     <where>
       <include refid="sql_where"></include>
     </where>
@@ -78,7 +87,7 @@
   </delete>
 
   <sql id="sql_column">
-    Id,CompanyId,TaskId,UserId,Content,CreateTime,ImageUrl
+    MT_UserComment.Id,MT_UserComment.CompanyId,MT_UserComment.TaskId,MT_UserComment.UserId,MT_UserComment.Content,MT_UserComment.CreateTime,MT_UserComment.ImageUrl
   </sql>
   <sql id="sql_where">
     <if test="companyId!=null"> AND CompanyId=#{companyId}</if>

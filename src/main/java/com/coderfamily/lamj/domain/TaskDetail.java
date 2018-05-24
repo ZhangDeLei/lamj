@@ -10,6 +10,7 @@ public class TaskDetail extends TaskEntity {
     private int total;
     private int commentTotal;
     private boolean isUserComplated;
+    private String imageUrl;
 
     public int getTotal() {
         return total;
@@ -33,5 +34,13 @@ public class TaskDetail extends TaskEntity {
 
     public void setUserComplated(boolean userComplated) {
         isUserComplated = userComplated;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

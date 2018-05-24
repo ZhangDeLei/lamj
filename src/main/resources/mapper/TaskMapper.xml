@@ -33,9 +33,18 @@
     </resultMap>
 
     <resultMap id="TaskDetail" type="com.coderfamily.lamj.domain.TaskDetail" extends="TaskEntity">
-        <association property="total" select="com.coderfamily.lamj.dao.UserCommentMapper.selectTotalByTaskId" javaType="int" column="Id"/>
-        <association property="commentTotal" select="com.coderfamily.lamj.dao.UserCommentMapper.selectCountByTaskId" javaType="int" column="Id"/>
+        <result column="ImageUrl" jdbcType="VARCHAR" property="imageUrl"/>
+        <association property="total" select="com.coderfamily.lamj.dao.UserCommentMapper.selectTotalByTaskId"
+                     javaType="int" column="Id"/>
+        <association property="commentTotal" select="com.coderfamily.lamj.dao.UserCommentMapper.selectCountByTaskId"
+                     javaType="int" column="Id"/>
     </resultMap>
+
+    <select id="selectSucTask" parameterType="int" resultType="int">
+        SELECT COUNT(1) FROM (SELECT MT_TeamUser.UserId FROM MT_TeamUser
+        LEFT JOIN MT_TeamTask ON MT_TeamUser.TeamId = MT_TeamTask.TeamId
+        WHERE MT_TeamTask.TaskId = #{taskId} GROUP BY MT_TeamUser.UserId) A
+    </select>
 
     <select id="selectCount" resultType="int">
         SELECT COUNT(1) FROM MT_Task
@@ -56,13 +65,14 @@
         SELECT <include refid="sql_column"></include> FROM MT_Task WHERE Id=#{id}
     </select>
 
-    <select id="selectByNew" parameterType="int"  resultMap="TaskDetail">
+    <select id="selectByNew" parameterType="int" resultMap="TaskDetail">
         SELECT * FROM MT_Task WHERE CompanyId = #{companyId} ORDER BY CreateDate DESC LIMIT 10
     </select>
 
     <select id="selectByTeams" parameterType="Map" resultMap="TaskDetail">
-        SELECT <include refid="sql_column"></include>,MT_TeamUser.UserId,MT_Task.Id AS TaskId,ISNULL(UC.UserId) AS UserComplated FROM MT_Task
-        LEFT JOIN MT_TeamTask ON MT_Task.Id =  MT_TeamTask.TaskId
+        SELECT <include refid="sql_column"></include>,MT_TeamUser.UserId,MT_Task.Id AS TaskId,ISNULL(UC.UserId) AS
+        UserComplated,UC.ImageUrl FROM MT_Task
+        LEFT JOIN MT_TeamTask ON MT_Task.Id = MT_TeamTask.TaskId
         LEFT JOIN MT_TeamUser ON MT_TeamUser.TeamId = MT_TeamTask.TeamId
         LEFT JOIN MT_UserComment UC ON UC.TaskId = MT_Task.Id
         WHERE MT_TeamUser.UserId = #{userId}

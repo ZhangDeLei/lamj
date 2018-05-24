@@ -63,6 +63,11 @@ public class TaskServiceImpl implements ITaskService {
     }
 
     @Override
+    public int getSucTask(int TaskId) {
+        return taskMapper.selectSucTask(TaskId);
+    }
+
+    @Override
     public Result insert(TaskInfo info) {
         DictionaryEntity dict = dictionaryService.DictInfo("Staged", "0001");
         info.setCreateDate(TimeUtils.getCurrentDate());
@@ -85,6 +90,11 @@ public class TaskServiceImpl implements ITaskService {
         } else {
             return Result.error();
         }
+    }
+
+    @Override
+    public int update(TaskEntity entity) {
+        return taskMapper.update(entity);
     }
 
     @Override
